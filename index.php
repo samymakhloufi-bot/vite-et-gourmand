@@ -3,10 +3,10 @@
 
 <html lang="fr">
     
-        <?php include __DIR__.'/index/head.php';?>
+        <?php include __DIR__.'/includes/head.php';?>
     
     <body>
-        <?php include __DIR__.'/index/header.php';?>
+        <?php include __DIR__.'/includes/header.php';?>
         
         <img src="./Images/baniere_pano.png" class="hero-banner" alt="épice">
 
@@ -128,7 +128,7 @@
 
         </main>
     
-        <?php include __DIR__.'/index/footer.php' ; ?>
+        <?php include __DIR__.'/includes/footer.php' ; ?>
 
     </body>
 </html>

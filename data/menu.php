@@ -1,16 +1,15 @@
-<?php ini_set('display_errors', 1); error_reporting(E_ALL);?>
 <?php $activePage = 'menus'; ?>
 <!DOCTYPE html >
 <html lang="fr">
     
-        <?php include __DIR__.'/../index/head.php';?>
+        <?php include __DIR__.'/../includes/head.php';?>
     
     <body>
-        <?php include __DIR__.'/../index/header.php';?>
+        <?php include __DIR__.'/../includes/header.php';?>
 
         <main>
             <?php 
-            require __DIR__.'/../index/Constants_menus.php';
+            require __DIR__.'/../includes/Constants_menus.php';
             $id = $_GET['id'];
             $menu_actif = null;
             foreach ($Menus as $menu){
@@ -23,8 +22,8 @@
             <article class="menu-detail">
 
                 <picture>
-                    <source media="(min-width:750px)" srcset=".//vite-gourmand/Images/<?php echo $menu_actif['img_desktop'];?>.png">
-                    <img src=".//vite-gourmand/Images/<?php echo $menu_actif['img_mobile'];?>.png" alt="image du menu Amour Éternel" class="menu-detail-img">        
+                    <source media="(min-width:750px)" srcset="../Images/<?php echo $menu_actif['img_desktop'];?>.png">
+                    <img src="../Images/<?php echo $menu_actif['img_mobile'];?>.png" alt="image du menu Amour Éternel" class="menu-detail-img">        
                     </picture>
             
                 <h2><?php echo $menu_actif['name'];?></h2>
@@ -64,7 +63,7 @@
             </article>
         </main>
 
-        <?php include __DIR__.'/../index/footer.php' ;?>
+        <?php include __DIR__.'/../includes/footer.php' ;?>
 
     </body>
 </html>

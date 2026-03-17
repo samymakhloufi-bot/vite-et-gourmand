@@ -1,7 +1,7 @@
         <footer>
             <div> 
                 <div class="footer-logo-group">
-                    <img src="/vite-gourmand/Images/Logo_beige_final_v2.svg" class="footer-logo" alt="Logo V&G"> 
+                    <img src="../Images/Logo_beige_final_v2.svg" class="footer-logo" alt="Logo V&G"> 
                     <div class="footer-logo-text">
                         <h3>V&G</h3>
                         <p>Vite & Gourmand</p>

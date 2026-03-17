@@ -2,10 +2,10 @@
 <!DOCTYPE html >
 <html lang="fr">
     
-        <?php include __DIR__.'/index/head.php';?>
+        <?php include __DIR__.'/includes/head.php';?>
     
     <body>
-        <?php include __DIR__.'/index/header.php';?>
+        <?php include __DIR__.'/includes/header.php';?>
 
 
         <div class="page-menu-wrapper">
@@ -39,7 +39,7 @@
 
                 <label for="select-prix">PRIX MAXIMUM</label>
                 <select name="prix-max" id="select-prix">
-                    <option value="">--Sélectionnez le prix de personne--</option>
+                    <option value="">--Sélectionnez le prix par personne--</option>
                     <option value="20-30">20 - 30</option>
                     <option value="30-40">30 - 40</option>
                     <option value="40-50">40 - 50</option>
@@ -49,7 +49,7 @@
             </section>
 
             <section class="menu-grid">
-                <?php require './index/Constants_menus.php';?>
+                <?php require './includes/Constants_menus.php';?>
                     <?php foreach ($Menus as $menu) {
                         $title = $menu['name'];
                         $link = $menu['link'];
@@ -74,7 +74,7 @@
                     
                     <div class="menu-card-footer">
                         <span>MIN : <?php echo $min_pers;?>. PERS. - <?php echo $price;?>.€ /PERS.</span>
-                        <a href="./Menus/menu.php" class="btn-details">Détails du Menu</a>
+                        <a href="./data/menu.php?id=<?php echo $link;?>" class="btn-details">Détails du Menu</a>
                     </div>
 
                 </article>
@@ -85,7 +85,7 @@
 
         </div>
 
-        <?php include __DIR__.'/index/footer.php' ; ?>
+        <?php include __DIR__.'/includes/footer.php' ; ?>
 
     </body>
 </html>

@@ -2,10 +2,10 @@
 <!DOCTYPE html >
 <html lang="fr">
     
-        <?php include './index/head.php';?>
+        <?php include './includes/head.php';?>
     
     <body>
-        <?php include './index/header.php';?>
+        <?php include './includes/header.php';?>
 
 
         <main>
@@ -102,7 +102,7 @@
             </div>
         </main>
 
-        <?php include './index/footer.php' ;?>
+        <?php include './includes/footer.php' ;?>
 
     </body>
 </html>
