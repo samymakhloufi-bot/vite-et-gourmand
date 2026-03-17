@@ -20,40 +20,46 @@
             } ?>
 
             <article class="menu-detail">
-
-                <picture>
-                    <source media="(min-width:750px)" srcset="../Images/<?php echo $menu_actif['img_desktop'];?>.png">
-                    <img src="../Images/<?php echo $menu_actif['img_mobile'];?>.png" alt="image du menu Amour Éternel" class="menu-detail-img">        
+                <div class="menu-detail-header">
+                    <picture>
+                        <source media="(min-width:750px)" srcset="../Images/<?php echo $menu_actif['img_desktop'];?>.png">
+                        <img src="../Images/<?php echo $menu_actif['img_mobile'];?>.png" alt="image du menu Amour Éternel" class="menu-detail-img">        
                     </picture>
-            
-                <h2><?php echo $menu_actif['name'];?></h2>
-                <p class="menu-chef-note"><em>Note du Chef :</em> <?php echo $menu_actif['description'];?></p>
+                    <div class="menu-detail-headline">
+                        <h2><?php echo $menu_actif['name'];?></h2>
+                        <p class="menu-chef-note"><em>Note du Chef :</em> 
+                        <?php echo $menu_actif['description'];?></p>
+                    </div>
+                </div>
 
                 <h3>Entrée : <?php echo $menu_actif['entree'];?></h3>
                 <ul><?php foreach ($menu_actif['entree_description'] as $ligne):?>
-                <li><?php echo $ligne; ?></li><?php endforeach;?>
+                
+                    <li><?php echo $ligne; ?></li>
+                    <?php endforeach;?>
                 </ul>
 
                 <h3>Plat : <?php echo $menu_actif['plat'];?></h3>
                 <ul><?php foreach ($menu_actif['plat_description'] as $ligne):?>
-                <li><?php echo $ligne; ?></li><?php endforeach;?>
+                    <li><?php echo $ligne; ?></li>
+                    <?php endforeach;?>
                 </ul>
 
-                <h3> Boisson : </h3>
-                <ul>
-                <?php foreach($menu_actif['boisson'] as $ligne):;?>
-                <li><?php echo $ligne; ?></li>
-                <?php endforeach;?>
+                <h3>Boisson :</h3>
+                <ul><?php foreach($menu_actif['boisson'] as $ligne):?>
+                    <li><?php echo $ligne; ?></li>
+                    <?php endforeach;?>
                 </ul>
 
                 <h3>Dessert : <?php echo $menu_actif['dessert'];?></h3>
                 <ul><?php foreach ($menu_actif['dessert_description'] as $ligne):?>
-                <li><?php echo $ligne;?></li><?php endforeach;?>
+                    <li><?php echo $ligne;?></li>
+                    <?php endforeach;?>
                 </ul>
 
-                <h3>Informations complémentaires :</h3>
+                <h3>Allergènes :</h3>
                 <ul>
-                    <li><strong>Allergènes :</strong> <?php implode(', ',$menu_actif['allergene']);?></li>
+                <li><?php echo implode(', ',$menu_actif['allergene']);?></li>
                 </ul>
 
                 <div class="menu-detail-footer">

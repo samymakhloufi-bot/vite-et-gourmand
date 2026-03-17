@@ -46,7 +46,7 @@
                     <h3>Menus Éclats de Fêtes (classique):</h3>
                     <p>Le prestige des grands classiques de Noël sublimé par la truffe et le foie gras.</p>
                     <span> À PARTIR DE 45,90€/ PERSONNE</span>
-                    <a href="menu.php">Détails du Menu Eclat</a>
+                    <a href="./data/menu.php?id=EclatF">Détails du Menu Eclat</a>
                 </article>
 
                 <article class="menu-card menu-card--dark"> 
@@ -57,7 +57,7 @@
                     <h3>Menus Renouveau (classique):</h3>
                     <p>La tradition pascale célébrée à travers la tendreté d'un agneau de sept heures.</p>
                     <span> À PARTIR DE 45,90€/ PERSONNE</span>
-                    <a href="menu.php">Détails du Menu Renouveau</a>
+                    <a href="./data/menu.php?id=Renouveau">Détails du Menu Renouveau</a>
                 </article>
 
                 <article class="menu-card menu-card--light"> 
@@ -68,7 +68,7 @@
                     <h3>Menus Amour Éternel (Vegan):</h3>
                     <p>Une célébration haute en couleurs et en saveurs pour un mariage éthique et chic.</p>
                     <span> À PARTIR DE 45,90€/ PERSONNE</span>
-                    <a href="menu.php">Détails du Menu Amour</a>
+                    <a href="./data/menu.php?id=AmourE">Détails du Menu Amour</a>
                 </article>
 
             </section>
