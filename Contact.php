@@ -24,6 +24,7 @@
                                 </ul>    
                             </div>
                         </fieldset>
+                        
                         <fieldset>
                             <div class="personal-info">
                                 <div>

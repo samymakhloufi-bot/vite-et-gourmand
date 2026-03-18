@@ -9,7 +9,7 @@
 
 
         <main>
-            <div class="auth-wrapper">
+            <section class="auth-wrapper">
 
                 <div class="auth-form"> 
                     <form action="./login.php" method="post" id="form-login">
@@ -37,12 +37,13 @@
                                 <label for="password-registration">Mot de passe</label>
                                 <input type="password" id="password-registration" maxlength="16" name="password-registration" placeholder="Saisissez votre mot de passe">
                             </div>
-                            <button type="submit" class="btn-submit" name="inscription">S'inscrire</button>
+                            <a href="./inscription.php" id="btn-vers-submit">S'inscrire</a>
+                            
                         </fieldset>
                     </form>
                 </div>
 
-            </div>
+            </section>
         </main>
 
         <?php include './includes/footer.php' ;?>

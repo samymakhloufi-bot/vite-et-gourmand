@@ -5,6 +5,11 @@
     box-sizing: border-box;
 }
 
+html, body{
+    
+    width: 100%;
+}
+
 /*----------------------
         VARIABLES
 -----------------------*/
@@ -170,7 +175,7 @@ button >*{
     background-color: var(--beige);
     border: 1px solid var(--beige-dark);
     border-radius: var(--radius);
-    min-width: 0.5rem 0;
+    min-width: 10rem;
     z-index: 200;
 }
 
@@ -324,6 +329,10 @@ button >*{
     display: flex;
     flex-direction: column;
     align-items: stretch;
+}
+
+.menu-card-footer{
+    margin-top: auto;
 }
 
 /*animation au survol*/
@@ -624,7 +633,8 @@ button >*{
 /*---------------------
         CONTACT
 ---------------------*/
-.contact-form, .auth-wrapper, .orders-wrapper, .client-wrapper {
+.contact-form, .auth-wrapper, .client-wrapper, .sub-wrapper,
+.connect, .detail-facturation, .livraison, .detail-commande, .demande-command{
     display: grid;
     grid-template-columns: 1fr;
     background-color: var(--white);
@@ -635,7 +645,7 @@ button >*{
 }
 
 .contact-form legend, .contact-form label, .auth-wrapper legend, .auth-wrapper label,
-.orders-wrapper th, .client-wrapper label{
+.client-wrapper label, .sub-wrapper label, .detail-facturation label,.livraison label, .btn-order{
     color: var(--bordeaux);
     text-transform: uppercase;
     font-family: var(--font-body);
@@ -644,22 +654,31 @@ button >*{
 
 }
 
+fieldset{
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+}
+
 .contact-form legend, .contact-form label, .contact-form input,
 .contact-form textarea, .contact-form button, .auth-wrapper legend,
 .auth-wrapper label, .auth-wrapper input, .auth-wrapper button, .client-wrapper input,
-.client-type label{
+.client-type label, .sub-wrapper label, .sub-form button, .btn-reset,
+.demande-command label{
     margin: 0.5rem;
 
 }
 
-.contact-form h3, .auth-form h3, .client-wrapper h3{
+.contact-form h3, .auth-form h3, .client-wrapper h3, .sub-wrapper h3, .form-commande h3{
     background-color: var(--bordeaux);
     color: var(--beige);
     text-transform: uppercase;
     padding: 0.75rem;
 }
 
-.client-type {
+.client-type, .demande-command {
     display : grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
@@ -670,7 +689,7 @@ button >*{
 }
 
 
-.personal-info input, textarea, .auth-fields input, .client-wrapper input{
+.personal-info input, textarea, .auth-fields input, .client-wrapper input, .sub-wrapper input{
     background-color:  #d9d9d9;
     width: calc(100% - 1rem);
     border: none;
@@ -682,12 +701,24 @@ textarea{
     
 }
 
-.contact-form button, .auth-wrapper button, .account-form button, .orders-wrapper a, .btn-order{
+.contact-form button, .auth-wrapper button, .account-form button,
+.btn-order, .btn-details, .sub-form button, .sub-wrapper button, .detail-facturation button,
+#btn-reset, #btn-vers-submit{
     background-color: var(--bordeaux);
     color: var(--beige);
-    border-radius: 1rem;
-    padding: 0.35rem;
+    border-radius: 0.5rem;
+    padding: 0.6rem;
 } 
+
+#btn-vers-submit{
+    display: inline-block;
+    padding: 0.375rem 0.875rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin: 0.5rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
 
 
 .contact-card img{
@@ -743,6 +774,7 @@ textarea{
     border-radius: var(--radius);
     background-color: var(--white);
 }
+
 
 /*------------------------
         Connexion
@@ -816,7 +848,122 @@ textarea{
     justify-self: center;
 }
 
+/*----------------------
+        Espace Client
+-----------------------*/
+.espace-client-wrapper{
+    display: flex;
+    flex-direction: column;
+}
 
+.sidebar-espace-client{
+    display: flex;
+    flex-direction: column;
+    height : 8rem;
+    border-top: 1px solid black;
+}
+
+.sidebar-espace-client button{
+    background-color: white;
+    flex: 1;
+    width: 100%; 
+    border-top: none;
+    font-size: 1.25rem;
+    font-weight: 900;
+    font-style: var(--font-display);
+}
+
+#orders-wrapper{
+    display: none;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    background-color: var(--white);
+    border : 1.5px solid var(--bordeaux);
+    box-shadow: 0.75rem 0.5rem 0.25rem rgba(44, 26, 18, 0.5);
+    box-sizing: border-box;
+    overflow-x: auto;
+    border-end-end-radius: 2rem ;
+}
+
+
+#orders-wrapper .orders-table th, #orders-wrapper .orders-table td {
+    border: 1px solid var(--bordeaux);
+    padding: 0.75rem;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.sidebar-espace-client button:hover{
+    background-color: var(--bordeaux);
+    color: var(--white);
+    transition: background 0.5s, color 0.2s;
+}
+
+
+#orders-wrapper .orders-table th[scope="col"] {
+    background-color: var(--bordeaux);
+    color: white;
+    font-size: 1.15rem;
+    border-right: 1px solid white;
+}
+
+#sub-form h3{
+    background-color: var(--bordeaux);
+    color: var(--beige);
+    text-transform: uppercase;
+    padding: 0.75rem;
+}
+
+#sub-form{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white);
+    padding-left: 0.15rem;
+    box-shadow: 0.75rem 0.5rem 0.25rem rgba(44, 26, 18, 0.5); 
+    border: 1px solid var(--bordeaux);  
+    border-end-end-radius: 2rem;
+    width: calc(100%);
+}
+#sub-form button{
+    background-color: var(--bordeaux);
+    color: var(--beige);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    align-self: flex-start;
+    margin: 0.75rem 0.15rem;
+}
+
+/*----------------------
+        Inscription
+-----------------------*/
+.sub-wrapper{
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--bordeaux);
+}
+
+/*----------------------
+        Commande
+-----------------------*/
+
+
+.connect{
+    margin: 2rem auto;}
+
+.detail-facturation{
+    margin: 2rem auto;
+}
+
+.livraison{
+    margin: 2rem auto;
+}
+
+.demande-command{
+    margin: 2rem auto;
+    list-style: none;
+}
 
 /*--------------------
         Footer
@@ -1046,6 +1193,51 @@ footer > *:not(:last-child) {
     font-size: 1.25rem;
 }
 
+/*----------------------
+        Espace Client
+-----------------------*/
+.espace-client-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-espace-client{
+    height : 100%;
+    border-top: none;
+    border-right: 1px solid var(--bordeaux);
+    position: sticky;
+    flex-direction: column;
+}
+
+.main-espace-client{
+    display: flex;
+    flex:1;
+    flex-direction: column;
+}
+.espace-client-wrapper{
+    flex : 1;
+}
+
+.orders-wrapper{
+    margin: 0;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+
+.espace-client-wrapper{
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    align-items: start;
+}
+
+.orders-wrapper{
+    max-width: 60rem;
+    margin-left: auto;
+}
+
+}
 
 @media (min-width : 869px){
 /*--------------------------
@@ -1145,7 +1337,7 @@ footer > *:last-child{
     padding : 2rem 3rem;
 }
 
-.contact-form, .auth-wrapper{
+.contact-form, .auth-wrapper, .form-commande{
     max-width: 100%;
 }
 
@@ -1202,8 +1394,6 @@ footer > *:last-child{
     display: flex;
     flex-direction: column;
     align-items: center;
-
-
 }
 
 

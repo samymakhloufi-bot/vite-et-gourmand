@@ -2,7 +2,7 @@
             <div class="nav-bar">
             
                 <div id="logo">
-                <a href="/vite-et-gourmand/index.php"> <img src='../Images/Logo_bordeaux.svg' class="logo-img" alt='Logo V&G'>
+                <a href="../index.php"> <img src='../Images/Logo_bordeaux.svg' class="logo-img" alt='Logo V&G'>
                 <h1> V&G </h1></a>
                 </div>
                 

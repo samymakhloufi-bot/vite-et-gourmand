@@ -2,24 +2,30 @@
 <!DOCTYPE html >
 <html lang="fr">
     
-        <?php include __DIR__.'/index/head.php';?>
+        <?php include __DIR__.'/includes/head.php';?>
     
     <body>
-        <?php include __DIR__.'/index/header.php';?>
+        <?php include __DIR__.'/includes/header.php';?>
 
         <main>
-            <section class="auth-form">
-                <form action="./account.php" method="post" class="reset-password-form">
-                    <p>Mot de passe perdu ? Veuillez saisir votre adresse e-mail. Vous recevrez un lien par e-mail pour créer un nouveau mot de passe.</p>
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="Veuillez saisir votre adresse mail">
-                    <button type="submit" id="btn-reset-password" name="reset-password">Réinitialiser le mot de passe</button>
-                </form>
-                <a href="/vite-gourmand/Connexion.php">Retour à la page de Connexion</a>
+            <section class="auth-wrapper">
+                <div class="auth-form">
+                    <form action="./account.php" method="post" class="reset-password-form">
+                        <fieldset>
+                            <h3>Mot de passe perdu ? Veuillez saisir votre adresse e-mail. Vous recevrez un lien par e-mail pour créer un nouveau mot de passe.</h3>
+                            <div class="auth-fields">
+                                <label for="email">E-mail :</label>
+                                <input type="email" id="email" name="email" placeholder="Veuillez saisir mail">
+                            </div>                
+                            <button type="submit" id="btn-reset" name="reset-password">Réinitialiser le mot de passe</button>
+                            <a href="./Connexion.php">Retour à la Connexion</a>
+                        </fieldset>
+                    </form>
+                </div>
             </section>
         </main>
 
-        <?php include __DIR__.'/index/footer.php' ;?>
+        <?php include __DIR__.'/includes/footer.php' ;?>
 
     </body>
 </html>
