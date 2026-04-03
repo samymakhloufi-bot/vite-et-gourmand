@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-$Menus = [
+    $Menus = [
     
 
     [
@@ -12,36 +12,36 @@ $Menus = [
 
         'img_desktop' => 'EclatF-max',
     
-        'regime'=>'non-Vegan',
+        'regime'=>'non-vegan',
     
-        'theme' => 'Noël',
+        'theme' => 'noel',
 
-        'description_info' => 'Plongez dans l\'excellence avec un foie gras onctueux et son chutney acidulé, suivi d\'un chapon fondant accompagné d\'un gratin généreusement truffé. 
+        'description_info' =>'Plongez dans l\'excellence avec un foie gras onctueux et son chutney acidulé, suivi d\'un chapon fondant accompagné d\'un gratin généreusement truffé. 
             Pour conclure, succombez à notre bûche signature, un écrin de chocolat intense et de noisettes croquantes.',
     
-        'description' => " Ce menu est un hommage à la gastronomie bourgeoise de Noël. J'ai souhaité marier la noblesse du chapon et du foie gras à la puissance de la truffe noire pour créer un moment de partage solennel et hautement savoureux.",
+        'description' => "Ce menu est un hommage à la gastronomie bourgeoise de Noël. J'ai souhaité marier la noblesse du chapon et du foie gras à la puissance de la truffe noire pour créer un moment de partage solennel et hautement savoureux.",
     
         'entree'=> 'Le Foie Gras de Canard Entier.',
 
-        'entree_description'=> ['Médaillon de foie gras de canard du Sud-Ouest, mi-cuit maison au torchon.',
+        'entree_description'=>['Médaillon de foie gras de canard du Sud-Ouest, mi-cuit maison au torchon.',
             'Chutney de figues violettes aux éclats de noix, pain brioché artisanal toasté au beurre demi-sel.'],
 
         'plat'=> 'Le Chapon de Ferme & sa Garniture Truffée',
 
         'plat_description' =>['Suprême de chapon fermier rôti lentement dans son jus de cuisson réduit.','Gratin de pommes de terre façon "Dauphinois" à la truffe noire de pays, marrons entiers confits au bouillon et pointes d\'asperges grillées.'],
 
-        'boisson' => ['Verre de Bourgogne Pinot Noir','Coupe de Champagne Brut Réserve','Jus de poire artisanal'],
+        'boisson' =>['Verre de Bourgogne Pinot Noir','Coupe de Champagne Brut Réserve','Jus de poire artisanal'],
 
-        'dessert' => 'La Bûche Signature Pralinée',
+        'dessert' =>'La Bûche Signature Pralinée',
 
         'dessert_description' => ['Biscuit génoise moelleux, mousse légère au praliné à l\'ancienne et cœur fondant aux éclats de noisettes torréfiées.',
             'Glaçage miroir au chocolat noir 70% et billes de chocolat croquantes.'],
                 
-        'allergene' => ['Gluten', 'Œufs', 'Lait', 'Fruits à coque'],
+        'allergene' =>['Gluten', 'Œufs', 'Lait', 'Fruits à coque'],
 
-        'price'=> 45.90,
+        'price'=>45.90,
 
-        'min_pers' => 5,
+        'nb_pers' =>[5, 30],
 
     ] ,
 
@@ -54,9 +54,9 @@ $Menus = [
 
         'img_desktop' => 'ForêtH-max',
 
-        'regime'=>'Vegan',
+        'regime'=>'vegan',
         
-        'theme' => 'Noël',
+        'theme' => 'noel',
 
         'description_info' => 'Découvrez la magie d\'un velouté de châtaignes onctueux parfumé à la truffe, suivi d\'un feuilleté Wellington doré au cœur fondant de potimarron. 
                     En apothéose, savourez une bûche aérienne mêlant l\'intensité du chocolat noir à la fraîcheur d\'une poire rôtie.',
@@ -84,7 +84,7 @@ $Menus = [
 
         'price'=> 39.90,
 
-        'min_pers' => 5,
+        'nb_pers' => [5, 30],
 
     ],
     [
@@ -96,9 +96,9 @@ $Menus = [
 
         'img_desktop' => 'UnionS-max',
         
-        'regime'=>'non-Vegan',
+        'regime'=>'non-vegan',
         
-        'theme' => 'Mariage',
+        'theme' => 'mariage',
 
         'description_info' => 'Démarrez les festivités avec la finesse des Saint-Jacques au safran, suivies d\'un filet de bœuf Rossini d\'une tendreté royale. Clôturez ce moment inoubliable avec une pièce montée artisanale ou une Pavlova aérienne aux fruits de saison.',
         
@@ -123,7 +123,7 @@ $Menus = [
 
         'price'=> 65.00,
 
-        'min_pers' => 20,
+        'nb_pers' => [20, 70],
 
     ],
     [
@@ -135,9 +135,9 @@ $Menus = [
 
         'img_desktop' => 'AmourE-max',
 
-        'regime'=>'Vegan',
+        'regime'=>'vegan',
 
-        'theme' => 'Mariage',
+        'theme' => 'mariage',
 
         'description_info' => 'Célébrez votre union avec un tartare de mangue et avocat exotique, suivi d\'un steak de chou-fleur rôti aux épices chimichurri pour une explosion de saveurs. 
                     En dessert, un dôme framboise et pistache apportera une touche finale raffinée et colorée.',
@@ -164,7 +164,7 @@ $Menus = [
 
         'price'=> 55.00,
         
-        'min_pers' => 20,
+        'nb_pers' => [20, 70],
     ],
     [
         'name' => 'Renouveau',
@@ -175,9 +175,9 @@ $Menus = [
 
         'img_desktop' => 'Renouveau-max',
 
-        'regime'=>'non-Vegan',
+        'regime'=>'non-vegan',
         
-        'theme' => 'Pâques',
+        'theme' => 'paque',
 
         'description_info' => 'Laissez-vous séduire par la fraîcheur des asperges croquantes et leur œuf mollet, avant de savourer une souris d\'agneau confite pendant sept heures à la tendreté absolue. 
                     Terminez sur une note de pur plaisir avec un entremets chocolaté au praliné croustillant.',
@@ -204,7 +204,7 @@ $Menus = [
 
         'price'=> 38.50,
 
-        'min_pers' => 5,
+        'nb_pers' => [5, 30],
 
     ],
     [
@@ -216,9 +216,9 @@ $Menus = [
 
         'img_desktop' => 'PrintempsBio-max',
 
-        'regime'=>'Vegan',
+        'regime'=>'vegan',
         
-        'theme' => 'Pâques',
+        'theme' => 'paque',
 
         'description_info' => 'Éveillez vos papilles avec un carpaccio de radis noir aux agrumes pétillants, suivi d\'un risotto onctueux aux morilles sauvages, véritable trésor de saison. 
                     En conclusion, dégustez une tartelette aux fraises printanières sur une crème de coco veloutée.',
@@ -244,7 +244,7 @@ $Menus = [
 
         'price'=> 45.50,
 
-        'min_pers' => 5,
+        'nb_pers' => [5, 30],
 
     ],
     [
@@ -256,9 +256,9 @@ $Menus = [
 
         'img_desktop' => 'SignatureT-max',
 
-        'regime'=>'non-Vegan',
+        'regime'=>'non-vegan',
         
-        'theme' => 'Réunion',
+        'theme' => 'seminaire',
 
         'description_info' => 'Redécouvrez l\'authenticité du terroir avec une poêlée de Saint-Jacques délicate, suivie d\'un filet de canette rôti aux saveurs forestières. 
             Pour finir, laissez-vous surprendre par une tarte Tatin déstructurée, mariage parfait du chaud et du froid.',
@@ -284,7 +284,7 @@ $Menus = [
 
         'price'=> 29.90,
 
-        'min_pers' => 5,
+        'nb_pers' => [5, 40],
 
         ]
         ,[
@@ -296,9 +296,9 @@ $Menus = [
         
         'img_desktop' => 'VegetalC-max',
 
-        'regime'=>'Vegan',
+        'regime'=>'vegan',
 
-        'theme' => 'Réunion',
+        'theme' => 'seminaire',
 
         'description_info' =>'Voyagez au cœur des saveurs végétales avec un quinoa aux herbes fraîches et croquantes, suivi d\'un curry de pois chiches onctueux aux parfums d\'Orient. 
                     Terminez en douceur avec un carpaccio d\'ananas rafraîchissant infusé à la coriandre.',
@@ -326,7 +326,7 @@ $Menus = [
 
         'price'=> 24.50,
 
-        'min_pers' => 5,
+        'nb_pers' => [5, 40],
 
         ]
 

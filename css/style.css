@@ -1,4 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+/*------------------------------------------------------------
+        Table des matières
+        __________________
+1. Reset des globales
+2. Variables
+3. Style global
+4. Header
+5. Hero-banner
+6. Box Goût + Passion
+7. Menu Index
+8. Savoir-faire
+9. Avis Client
+10. Contact
+11. Nos Menus
+12. Connexion
+13. Menu detail
+14. Espace Client
+15. Inscription
+16.Commande
+17. Footer
+18. Responsive 750px pour tablet
+19. Responsive 869
+20. Responsive Avis 700 to 832
+21. Responsive Desktop 1024
+------------------------------------------------------------*/
+/*----------------------
+    1.   Reset des globales  
+-----------------------*/
+
+
+
 *{
     margin: 0;
     padding: 0;
@@ -10,19 +41,24 @@ html, body{
     width: 100%;
 }
 
+
 /*----------------------
-        VARIABLES
+    2.   VARIABLES
 -----------------------*/
 
 :root {
-    --bordeaux:   #6d0505;
-    --bordeaux-dark: #5A1222;
+    --bordeaux:   #7D241A;
+    --bordeaux-dark: #6d0505;
+    --bordeaux-dark-light : #4a0303;
+    --bordeaux-dark-dark: #2C1A12;
     --creme:      #F5F0E8;
     --beige:      #FFFEE8;
     --beige-dark: rgb(255,254,232,0.93);
     --text:       #2C1A12;
     --text-light: #6B5244;
     --white:      #FEFCF2;
+    --input :     #d9d9d9;
+    --input-light : #EDEDED;
 
 
     --font-display: 'Playfair Display', Georgia, serif;
@@ -31,11 +67,10 @@ html, body{
     --radius: 0.625rem;
     --shadow: 0 0.25rem 1.25rem rgba(44, 26, 18, 0.10);
     --shadow-card: 0 1.25rem 0.75rem rgba(44, 26, 18, 0.12);
+    --shadow-box: 0.5rem 0.5rem 0.2rem rgba(0, 0, 0, 0.375);
 }
-
-
 /*------------------
-        STYLE
+    3.    STYLE
 --------------------*/
 /*Trait bordeaux*/
 main h2::after{
@@ -82,9 +117,18 @@ a{
 ul{
     list-style: none;
 }
-/*--------------------
-        Typographie
----------------------*/
+
+.toggle-chevron{
+    display: inline-block;
+    transform: rotate(90deg);
+    font-size: 1.5rem;
+    line-height: 1px;
+    vertical-align: middle;
+    margin-left: 0.3rem;
+    transition: transform 0.2s ease;
+}
+
+
 
 h2{ 
     font-family: var(--font-display) ;
@@ -105,18 +149,20 @@ h3{
     line-height: 1.3;
 }
 
-p{}
+
 
 /*-----------------
-        HEADER
+    4.    HEADER
 ------------------*/ 
-
+.long-logo{
+    display: none;
+}
 
 header{
     background-color: var(--beige);
     position: sticky;
     top: 0;
-    z-index: 100;/*ordre de priorité avec le position */
+    z-index: 100;
 }
 
 .nav-bar{
@@ -130,9 +176,9 @@ header{
 
 
 .logo-img{
-    width: 2.375rem;
-    height: 2.375rem;
-    object-fit: contain;/*ajuste l'image à sa boite en gardant ses dimensions*/
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
 }
 
 #logo h1{
@@ -146,6 +192,7 @@ header{
     display: flex;
     flex-direction: row;
     gap :0.5rem;
+    cursor: pointer;
 }
 .nav-menu{
     position: relative;
@@ -161,22 +208,35 @@ button >*{
 }
 
 .burger-btn{
-    width : 1.635rem;
-    height: 1.635rem;
-    object-fit: contain;
+
+    border: 1px solid var(--bordeaux);
+    padding: 0.375rem;
+    font-size: 1.25rem;
+    min-width: 2rem;
+}
+
+.burger-btn:hover{
+    background-color: var(--bordeaux);
+    color: var(--white);
+    transition: background 0.2s, color 0.2s;
 }
 
 
 .nav-list{
     display: none;
     position: absolute;
-    top: calc(100% + 0.5rem);
-    right: 0;
     background-color: var(--beige);
-    border: 1px solid var(--beige-dark);
-    border-radius: var(--radius);
-    min-width: 10rem;
-    z-index: 200;
+    border: 1px solid var(--bordeaux);
+    width: auto;
+    left : auto;
+    right: 0;
+    top : 3.3rem;
+    z-index: 200;    
+}
+
+.nav-list.nav-open{
+    display: grid;
+    width: calc(100vw - 3rem);
 }
 
 .nav-list li a {
@@ -186,6 +246,14 @@ button >*{
     font-weight: 700;
     text-transform: uppercase;
     transition: background 0.2s, color 0.2s;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+#login {
+    background-color: var(--bordeaux);
+    color: var(--beige-dark);
 }
 
 /*survole de la liste menu*/
@@ -194,8 +262,25 @@ button >*{
     color: var(--beige-dark);
 }
 
+.nav-list li a::after{
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+    height: 2px;
+    width : 0;
+    background: var(--creme);
+    transform: translate(-50%);
+    transition: width 0.4s ease;
+}
+
+.nav-list li a:hover::after, .nav-list li a.nav-active::after{
+    width: 50%;
+}
+
+
 /*----------------------
-        Hero-banner
+    5.    Hero-banner
 -----------------------*/ 
 
 .hero-banner{
@@ -212,13 +297,8 @@ button >*{
     object-position: center;
 }
 
-
-
-
-
-
 /*-----------------------
-    Box Goût + Passion
+    6. Box Goût + Passion
 -------------------------*/
 .history-box{
     display: flex;
@@ -309,9 +389,9 @@ button >*{
 } 
 
 /*----------------------
-        Nos menus
+    7.    Menus Index
 ------------------------*/
-.menu-grid{
+.menu-grid-index, .menu-grid{
     display: flex;
     flex-direction: column;
     gap:1.25rem;
@@ -323,13 +403,13 @@ button >*{
 .menu-card{
     background-color: var(--white);
     border: 1px solid var(--beige-dark);
-    border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow-card);
     display: flex;
     flex-direction: column;
     align-items: stretch;
 }
+
 
 .menu-card-footer{
     margin-top: auto;
@@ -354,6 +434,7 @@ button >*{
     color: var(--text-light);
     padding: 0 0.75rem 0.375rem;
     line-height: 1.45;
+    text-transform:  uppercase;
 }
 
 .menu-card span{
@@ -390,7 +471,6 @@ button >*{
 .menu-card--dark{
     background-color: var(--bordeaux);
     border: 1px solid var(--beige-dark);
-    border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow-card);
     display: flex;
@@ -454,7 +534,7 @@ button >*{
 .menu-card--light{
     background-color: var(--white);
     border: 1px solid var(--beige-dark);
-    border-radius: var(--radius);
+    border-radius: 0.25rem;
     overflow: hidden;
     box-shadow: var(--shadow-card);
     display: flex;
@@ -515,10 +595,37 @@ button >*{
     transform: translateY(-1px);
 }
 
+.div-index-to-menu{
+    display: flex;
+    justify-content: center;
+}
+.index-to-menus{
+    display: flex;
+    margin: 0.25rem 0.75rem 0.75rem;
+    padding: 0.375rem 0.875rem; 
+    background-color: var(--bordeaux);
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 0.75rem;
+    text-transform: uppercase;
+    max-width: 12rem;
+    justify-content: center;
+    box-shadow: var(--shadow-box);
+}
+
+.index-to-menus:hover{
+    text-decoration: underline;
+    background-color: var(--creme);
+    color: var(--bordeaux-dark);
+    transition: background 0.5s;
+    transform: translateY(-1px);
+}
 
 
 /*---------------------
-        Savoir-faire
+    8.    Savoir-faire
 ----------------------*/
 
 .skills-section{
@@ -567,7 +674,7 @@ button >*{
 }
 
 /*--------------------
-        Avis Client
+    9.    Avis Client
 ----------------------*/
 
 .reviews-section{
@@ -631,17 +738,17 @@ button >*{
 }
 
 /*---------------------
-        CONTACT
+    10.   CONTACT
 ---------------------*/
-.contact-form, .auth-wrapper, .client-wrapper, .sub-wrapper,
-.connect, .detail-facturation, .livraison, .detail-commande, .demande-command{
+.client-wrapper, .sub-wrapper,.livraison{
     display: grid;
-    grid-template-columns: 1fr;
     background-color: var(--white);
     margin: 0 auto;
     width: 100%;
     max-width: 20rem;
     box-shadow: 0.5rem 0.5rem 0.2rem rgba(0, 0, 0, 0.375);
+    border: 1px solid var(--bordeaux);
+
 }
 
 .contact-form legend, .contact-form label, .auth-wrapper legend, .auth-wrapper label,
@@ -651,7 +758,7 @@ button >*{
     font-family: var(--font-body);
     font-size: 0.875rem;
     font-weight: 800;
-
+    padding-left: 0.5rem;
 }
 
 fieldset{
@@ -665,10 +772,9 @@ fieldset{
 .contact-form legend, .contact-form label, .contact-form input,
 .contact-form textarea, .contact-form button, .auth-wrapper legend,
 .auth-wrapper label, .auth-wrapper input, .auth-wrapper button, .client-wrapper input,
-.client-type label, .sub-wrapper label, .sub-form button, .btn-reset,
-.demande-command label{
+.client-type label, .sub-wrapper label,  .btn-reset, #sub-form input,
+.livraison textarea, .detail-facturation button{
     margin: 0.5rem;
-
 }
 
 .contact-form h3, .auth-form h3, .client-wrapper h3, .sub-wrapper h3, .form-commande h3{
@@ -676,9 +782,10 @@ fieldset{
     color: var(--beige);
     text-transform: uppercase;
     padding: 0.75rem;
+    font-family: var(--font-body);
 }
 
-.client-type, .demande-command {
+.client-type {
     display : grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
@@ -688,17 +795,20 @@ fieldset{
     padding-left: 0.5rem;
 }
 
-
-.personal-info input, textarea, .auth-fields input, .client-wrapper input, .sub-wrapper input{
-    background-color:  #d9d9d9;
+textarea{
+    background-color:  var(--input);
     width: calc(100% - 1rem);
     border: none;
+    border-radius: 0.3rem;
+    height: 10rem;
 }
 
-textarea{
-    width: calc(100% -1rem);
-    height: 10rem;
-    
+.auth-fields input, .client-wrapper input, .sub-wrapper input{
+    background-color:  var(--input);
+    width: calc(100% - 1rem);
+    border: none;
+    border-radius: 0.3rem;
+    height: 2rem;
 }
 
 .contact-form button, .auth-wrapper button, .account-form button,
@@ -760,24 +870,325 @@ textarea{
     color: var(--beige);
 }
 
+.contact-form{
+    background-color: var(--white);
+    box-shadow: var(--shadow-box);
+}
+
 /*-----------------------
-        Nos Menus
+    11.    Nos Menus
 ------------------------*/
+
+.sidebar-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+    background-color: var(--creme);
+}
+
+.filter-name{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--bordeaux);
+    letter-spacing: 0.5px;
+    padding: 0.25rem 0.75rem;
+    text-transform: uppercase;
+    border: 0.5px solid var(--bordeaux-dark-dark);
+}
+
+.filter-reset{
+    background: none;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--bordeaux);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.filter-reset::after{
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+    height: 2px;
+    width : 0;
+    background: var(--creme);
+    transform: translate(-50%);
+    transition: width 0.4s ease;
+}
+
+.filter-reset:hover::after{
+    width: 50%;
+}
+
+.filter{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border: 0.5px solid var(--bordeaux-dark-dark);
+    border-top: none;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0.5rem;
+}
+
+.filter label{
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--bordeaux);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.filter select{
+    border-radius:  0.3rem;
+    padding: 0.35rem;
+    background-color: var(--white);
+}
+
+#tags-regime {
+    display: inline-block
+}
+
+.tag {
+    background-color: var(--white);
+    color: var(--bordeaux);
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    border : 1px solid var(--bordeaux-dark-dark);
+    padding: 0.25rem;
+    cursor: pointer;
+    margin: 0.25rem;
+}
+
+.tag:hover{
+    background-color: var(--bordeaux);
+    color: var(--beige);
+    transition: background 0.2s, color 0.2s;
+}
+
+.tag.on{
+    background-color: var(--bordeaux-dark);
+    color: var(--beige);
+}
+
+.filter input{
+    background-color: var(--bordeaux-dark-dark);
+    color: var(--beige);
+    border-radius: 0.2rem;
+    height: 1.75rem;
+    padding: 0.35rem;
+    
+}
+
 
 .filters-sidebar {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 1rem;
-    margin: 1rem;
-    border: 1px solid var(--bordeaux);
-    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    border-top: 3px solid var(--bordeaux);
     background-color: var(--white);
+}
+
+.filters-sidebar.filters-open {
+    display: flex;
+}
+
+.filter-toggle {
+    display: flex;
+    justify-content: center;
+    background-color: var(--white);
+    gap : 0.3rem;
+    width :100%;
+    border: 1px solid var(--bordeaux);
+    color: var(--white);
+    background-color: var(--bordeaux);
+    font-weight: 650;
+    font-family: var(--font-display);
+    cursor: pointer;
+    pointer-events: auto;
+    margin-top: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.sidebar-wrapper {
+    display: none;
+}
+
+.sidebar-wrapper.sidebar-open {
+    display: grid;
+}
+
+.nos-menus-banner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--bordeaux);
+    height: 7rem;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    justify-content: flex-start;
+    z-index: 2;
+    gap : 0.25rem;
+}
+
+.nos-menus-banner_diag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 55%;
+    height: 100%;
+    background: var(--bordeaux-dark);
+    clip-path: polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.nos-menus-banner_dark_diag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 38%;
+    background-color: var(--bordeaux-dark-light);
+    clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.nos-menus-banner_text {
+    position: relative; z-index: 1;
+}
+
+.nos-menus-banner h2 {
+    font-family: var(--font-display);
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--creme);
+    line-height: 1;
+    text-align: left;
+    margin: 0;
+}
+
+.page-banner h2::after { display: none; }
+
+.page-banner h2 em {
+    font-style: italic;
+    color: rgba(255, 254, 232, 0.6);
+    font-size: 1.45rem;
+}
+
+.menu-grid{
+    display : grid;
+    align-items: center;
+    justify-content: center;
+}
+
+#menu-card-menu{
+    display: grid;
+    width : 15rem;
+    border: 1px solid var(--bordeaux-dark-dark);
+}
+
+#menu-card-menu img{
+        height: 15rem;
+        width : 100%;
+}
+
+.info-menu{
+    display: grid;
+    background-color: var(--input-light);
+    height: 5rem;
+}
+
+.nb-person{
+    display: flex;
+    border: 1px solid var(--bordeaux-dark-dark);
+    border-left: none;
+    border-right: none;
+    align-items: center;
+    width: 100%;
+}
+
+.nb-person input{
+    height : 1.75rem;
+    width : 4rem;
+    background-color: var(--bordeaux);
+    font-size: 1.25rem;
+    text-align: right;
+    color: var(--beige);
+    margin: 0.2rem;
+    cursor:text;
+}
+
+.counter-btn{
+    height: 1.5rem;
+    width : 1.5rem;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+input[type="number"].counter-val::-webkit-inner-spin-button, 
+input[type="number"].counter-val::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    margin: 0.5rem;
+}
+
+.btn-footer-card-menu {
+    display: flex;
+    justify-content: space-between;
+    height: 2rem;
+    background-color: var(--input-light);
+}
+
+.btn-footer-card-menu button{
+    width: 50%;
+    border: none;
+    border-right: 1px solid var(--bordeaux);
+    cursor: pointer;
+    
+}
+
+.btn-footer-card-menu button:hover{
+    background-color: var(--bordeaux);
+    color: var(--creme);
+}
+
+.btn-footer-card-menu a{
+    all: unset;
+    display: flex;
+    align-items: center;
+    background-color: var(--input-light);
+    color: var(--bordeaux);
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+    width : 30%;
+    cursor: pointer;
+}
+
+.btn-footer-card-menu a:hover{
+    all: unset;
+    display: flex;
+    align-items: center;
+    background-color: var(--input-light);
+    color: var(--bordeaux);
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+    width : 30%;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 
 /*------------------------
-        Connexion
+    12.    Connexion
 -------------------------*/
 
 .auth-wrapper{
@@ -790,11 +1201,11 @@ textarea{
     margin : 1rem ;
     gap: 1rem;
     background-color: var(--white);
-    box-shadow: 0.5rem 0.5rem 0.2rem rgba(0, 0, 0, 0.375);
+    box-shadow: var(--shadow-box);
 }
 
 /*----------------------
-    Menu detail
+    13.Menu detail
 -----------------------*/
 
 .menu-detail{
@@ -818,7 +1229,7 @@ textarea{
 
 .menu-detail p, .menu-detail ul{
     font-size: 0.95rem;
-    color: black;
+    color: var(--text-dark);
     font-weight: 500;
     line-height: 1.5;
     width: 100%;
@@ -849,7 +1260,7 @@ textarea{
 }
 
 /*----------------------
-        Espace Client
+    14.   Espace Client
 -----------------------*/
 .espace-client-wrapper{
     display: flex;
@@ -859,114 +1270,466 @@ textarea{
 .sidebar-espace-client{
     display: flex;
     flex-direction: column;
-    height : 8rem;
+    background-color: var(--creme);
     border-top: 1px solid black;
 }
 
 .sidebar-espace-client button{
-    background-color: white;
-    flex: 1;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--bordeaux-dark);
+    border-left: 3px solid transparent;
+    padding: 1rem 1.25rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 800;
+    color : var(--text-light);
+    cursor : pointer;
+    text-align: left;
+    letter-spacing: 0.04rem;
+    transition : all 0.2s;
     width: 100%; 
     border-top: none;
-    font-size: 1.25rem;
-    font-weight: 900;
-    font-style: var(--font-display);
-}
-
-#orders-wrapper{
-    display: none;
-    flex-direction: column;
-    gap: 1.25rem;
-
-    background-color: var(--white);
-    border : 1.5px solid var(--bordeaux);
-    box-shadow: 0.75rem 0.5rem 0.25rem rgba(44, 26, 18, 0.5);
-    box-sizing: border-box;
-    overflow-x: auto;
-    border-end-end-radius: 2rem ;
-}
-
-
-#orders-wrapper .orders-table th, #orders-wrapper .orders-table td {
-    border: 1px solid var(--bordeaux);
-    padding: 0.75rem;
-    text-align: left;
-    white-space: nowrap;
 }
 
 .sidebar-espace-client button:hover{
-    background-color: var(--bordeaux);
-    color: var(--white);
-    transition: background 0.5s, color 0.2s;
+    border-left: 4px solid var(--bordeaux);
+    background : var(--white);
+    color: var(--bordeaux);
 }
 
-
-#orders-wrapper .orders-table th[scope="col"] {
-    background-color: var(--bordeaux);
-    color: white;
-    font-size: 1.15rem;
-    border-right: 1px solid white;
-}
-
-#sub-form h3{
-    background-color: var(--bordeaux);
-    color: var(--beige);
-    text-transform: uppercase;
-    padding: 0.75rem;
-}
-
-#sub-form{
+#orders-wrapper {
     display: flex;
     flex-direction: column;
-    background-color: var(--white);
-    padding-left: 0.15rem;
-    box-shadow: 0.75rem 0.5rem 0.25rem rgba(44, 26, 18, 0.5); 
-    border: 1px solid var(--bordeaux);  
-    border-end-end-radius: 2rem;
-    width: calc(100%);
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: auto;
 }
-#sub-form button{
-    background-color: var(--bordeaux);
-    color: var(--beige);
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    align-self: flex-start;
-    margin: 0.75rem 0.15rem;
+
+#sub-form {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+#sub-form.active {
+    display: flex;
+}
+
+#orders-wrapper.active {
+    display: flex;
+}
+
+/* Le fieldset ne doit pas interférer */
+#form-update-account fieldset {
+    border: none;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    min-width: 500px;
+}
+
+.orders-table thead tr {
+    background: var(--bordeaux);
+}
+
+.orders-table thead th[scope="col"] {
+    color: var(--creme);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--bordeaux);
+}
+
+.orders-table thead th[scope="col"]:last-child {
+    border-right: none;
+}
+
+.orders-table tbody tr {
+    border-bottom: 1px solid var(--beige);
+    transition: background 0.15s;
+}
+
+.orders-table tbody tr:nth-child(even) {
+    background: var(--beige);
+}
+
+.orders-table tbody tr:hover {
+    background: var(--creme);
+}
+
+.orders-table tbody th[scope="row"] {
+    padding: 0.75rem 1rem;
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    border: none;
+    white-space: nowrap;
+}
+
+.orders-table tbody td {
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-weight: 400;
+    border: none;
+    white-space: nowrap;
+}
+
+.order-status {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.order-status--pending {
+    background: #FFF7E6;
+    color: #8a6000;
+    border: 1px solid #e6c86a;
+}
+
+.order-status--accepted {
+    background: #EAF3DE;
+    color: #3B6D11;
+    border: 1px solid #97C459;
+}
+
+.order-status--done {
+    background: #c75146;
+    color: #EA8C55;
+    border: 1px solid #AD2E24;
+}
+
+.order-status--cancelled {
+    background: #FCEBEB;
+    color: #A32D2D;
+    border: 1px solid #F09595;
+}
+
+.btn-details {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--bordeaux);
+    color: var(--bordeaux);
+    background: transparent;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-details:hover {
+    background: var(--bordeaux);
+    color: var(--creme);
+}
+
+#form-update-account h3 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    background: transparent;
+    text-transform: none;
+    padding: 0;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#form-update-account h3::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--beige-dark);
+}
+
+.personal-info {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: 0;
+    width: 100%;
+}
+
+.personal-info label {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bordeaux);
+    padding: 0.65rem 1rem 0.65rem 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--beige);
+}
+
+.personal-info input {
+    background: var(--input);
+    border: none;
+    border-bottom: 1px solid var(--beige);
+    padding: 0.65rem 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text);
+    width: calc(100% - 3rem);
+    transition: background 0.2s, border-color 0.2s;
+    border-radius: 0.3rem;
+}
+
+.personal-info input:focus {
+    outline: none;
+    background: var(--beige);
+    border-bottom: 1px solid var(--bordeaux);
+}
+
+#form-update-account .btn-edit,
+#form-update-account .btn-submit {
+    margin-top: 1.25rem;
+    margin-right: 0.75rem;
+    padding: 0.55rem 1.25rem;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border-radius: 0.3rem;
+    transition: background 0.2s, color 0.2s;
+    width: fit-content;
+}
+
+#form-update-account .btn-edit {
+    background: transparent;
+    border: 1px solid var(--bordeaux);
+    color: var(--bordeaux);
+}
+
+#form-update-account .btn-edit:hover {
+    background: var(--bordeaux);
+    color: var(--creme);
+}
+
+#form-update-account .btn-submit {
+    background: var(--bordeaux);
+    border: none;
+    color: var(--creme);
+}
+
+#form-update-account .btn-submit:hover {
+    background: var(--bordeaux-dark);
 }
 
 /*----------------------
-        Inscription
+    15.    Inscription
 -----------------------*/
 .sub-wrapper{
     margin: auto;
     margin-top: 2rem;
     margin-bottom: 2rem;
     border: 1px solid var(--bordeaux);
+    padding-top: 0;
 }
 
 /*----------------------
-        Commande
+    16.    Commande
 -----------------------*/
 
 
 .connect{
-    margin: 2rem auto;}
-
-.detail-facturation{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: var(--white);
     margin: 2rem auto;
+    border-left: 5px solid var(--bordeaux);
+    border-top : 0.5px solid var(--bordeaux-dark-light);
+    border-bottom : 0.5px solid var(--bordeaux-dark-light);
+    border-right : 0.5px solid var(--bordeaux-dark-light);
+    color: var(--bordeaux);
+    width: 100%;
 }
 
-.livraison{
+.connect h3{
+    background-color: var(--white)  !important;
+    color: var(--bordeaux);
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.05rem;
+}
+
+.connect a {
+    text-decoration: underline;
+    text-decoration-color: var(--bordeaux);
+    background-color: var(--white);
+    font-size: 1.2rem;
+    line-height: 1.25rem;
+    margin : 0.5rem 0.75rem 0.5rem 0;
+}
+
+.personal-info{
+    display : grid;
+    grid-template-columns: 1fr;
+    margin-left: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.detail-facturation {
+    background-color: var(--white);
+    box-shadow: var(--shadow-box);
+    overflow: hidden;
+    border: 1px solid var(--bordeaux);
+}
+
+.connect, .livraison, .detail-commande, .demande-command, .detail-facturation{
     margin: 2rem auto;
+    max-width: 28rem;
+}
+
+.livraison input{
+    display: grid;
+    width : calc(100% - 2rem);
+    color: var(--bordeaux-dark);
+    background-color: var(--input);
+    height : 1.8rem;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    text-transform: uppercase;
 }
 
 .demande-command{
-    margin: 2rem auto;
+    box-shadow: var(--shadow-box);
+    height: 7.75rem;
+}
+
+
+.radio{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     list-style: none;
+    background-color: var(--creme);
+    border: 0.1px solid var(--bordeaux-dark);
+}
+
+.radio-div{
+    display: grid;
+    padding: 0.5rem;
+    border : 0.25px solid var(--bordeaux-dark);
+    line-height: 1.25rem;
+}
+
+.radio-dot {
+    border: 1px solid var(--bordeaux);
+    border-radius: 100%;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    margin-bottom: 0.5rem;
+}
+
+.radio-bot:nth-child(1){
+    border-right: none;
+}
+
+.radio-div.selected .radio-dot{
+    background-color: var(--bordeaux);
+}
+
+.radio-div.selected{
+    background-color: var(--white);
+    border-bottom: 5px solid var(--bordeaux-dark);
+}
+
+.radio-div label {
+    font-size: 0.85rem;
+}
+
+.radio-div p{
+    font-weight: 300;
+    color: var(--bordeaux-dark-light);
+    font-size: 0.75rem;
+}
+
+.form-commande {
+    display: grid;
+}
+
+.form-commande a, .livraison input{
+    margin-left: 0.5rem;
+}
+
+.detail-commande{
+    border: 1px solid var(--bordeaux-dark-dark);
+    font-family: var(--font-body);
+}
+
+
+
+.detail-commande table{
+    background-color: var(--white);
+    font-weight: 300;
+    width : 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.detail-commande th, .detail-commande td{
+    border-bottom: 2px solid #EDE8DC;
+}
+
+.detail-commande thead, .detail-commande tfoot{
+    background-color: var(--creme);
+    color: var(--bordeaux);
+}
+
+.detail-commande td, .detail-commande th{
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+.detail-commande button{
+    width: 100%;
+    background-color: var(--input);
+    color : var(--bordeaux-dark);
+    border: none;
+}
+
+.detail-commande button:hover{
+    background-color: var(--bordeaux);
+    color: var(--beige);
+    cursor: pointer;
 }
 
 /*--------------------
-        Footer
+    17.    Footer
 ----------------------*/
 
 footer{
@@ -1047,20 +1810,16 @@ footer > *:not(:last-child) {
     border-bottom: 1px solid var(--creme);
 }
 
-/*responsive for Tablet*/
+/*-------------------------------
+    18.    responsive for Tablet
+---------------------------------*/
 
 @media (min-width: 750px){
 
-.nav-bar{
-        padding : 0.75rem 2rem;
-}
-
-/*button disapear*/
 .nav-menu button{
         display:none;
 }
 
-/*menu apear*/
 .nav-list{
     display:flex;
     position: static;
@@ -1069,20 +1828,28 @@ footer > *:not(:last-child) {
     padding:0;
     gap: 0.5rem;
     min-width: auto;
+    justify-content: center;
 }
 
 .nav-list li a{
     padding: 0.5rem 0.875rem;
     border-radius: 1.25rem;
     font-size: 0.85rem;
-
+    justify-content: center;
 }
 
+.nav-list li a.nav-active{
+    box-shadow: 0 0.2rem 0rem var(--bordeaux-dark);
+}
+#login.nav-active{
+    box-shadow: none;
+}
 
 /*-----------------------
     Histoire / History
 -------------------------*/
-.history-box {
+
+.history-box{
 
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1096,13 +1863,18 @@ footer > *:not(:last-child) {
         Nos Menus 
 ------------------------*/
 
-.menu-grid{
+.menu-grid, .menu-grid-index{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr ;
     gap: 1.25rem;
-    padding: 0  2rem 2.5rem;
     margin: 1.875rem;
 }
+
+.menu-grid{
+
+}
+
+
 
 /*----------------------
         Savoir-faire
@@ -1146,7 +1918,7 @@ footer > *:not(:last-child) {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 2rem;
-        align-items: center;  /* ← chaque colonne garde sa hauteur naturelle */
+        align-items: center;
         padding: 1rem 2rem;
     }
 
@@ -1225,7 +1997,6 @@ footer > *:not(:last-child) {
     box-sizing: border-box;
 }
 
-
 .espace-client-wrapper{
     display: grid;
     grid-template-columns: 12rem 1fr;
@@ -1239,7 +2010,11 @@ footer > *:not(:last-child) {
 
 }
 
+/*----------------------
+    19.    Responsive 869
+-----------------------*/
 @media (min-width : 869px){
+
 /*--------------------------
         Footer en colonne
 ----------------------------*/
@@ -1254,7 +2029,6 @@ footer{
     padding-right: 3rem;
 }
 
-
 footer >*:not(:last-child){
     padding-bottom: 0px !important;
     border-bottom: none !important;
@@ -1267,12 +2041,11 @@ footer > *:last-child{
     border-right: none;
     padding-right: 0;
 }
-
-
 }
 
 /*-------------------------
---------MEDIA AVIS--------*/
+    20.    MEDIA AVIS
+--------------------------*/
 @media (min-width : 700px) and (max-width : 832px){
 
 /*----------------------
@@ -1296,16 +2069,35 @@ footer > *:last-child{
     margin: 0.5rem;
     transition: all 0.5s ease;
 }
-
 }
 
+@media (min-width : 950px) {
+    #orders-wrapper {
+        width: 100%
+    }
 
+.menu-grid{
+    grid-template-columns: 1fr 1fr 1fr ;
+}
+}
 
-
-
-
-/*Responsive for Desktop*/
+/*----------------------------------
+    21.    Responsive for Desktop
+------------------------------------*/
 @media (min-width: 1024px){
+
+/*----------------------
+        Header / logo
+-----------------------*/
+
+.long-logo{
+    display: inline-block;
+    line-height: 1.5rem;
+    width: 5rem;
+}
+.short-logo{
+    display: none;
+}
 
 /*----------------------
         AVIS 
@@ -1362,7 +2154,9 @@ footer > *:last-child{
     height: 3.5rem;
 }
 
-
+/*----------------------
+        Nos Menus
+-----------------------*/
 
 .page-menu-wrapper{
     display: grid;
@@ -1372,12 +2166,35 @@ footer > *:last-child{
     padding: 1rem 2rem;
 }
 .filters-sidebar {
+    display: grid;
+    grid-template-columns: 1fr;
     max-width: 20rem;
     margin: 0 auto;
     position: sticky;
     top : 5rem;
 
 }
+
+.filter-toggle{
+    display: none;
+}
+
+.sidebar-wrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.menu-grid-index{
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.menu-grid{
+    margin: 0 auto;
+}
+
+/*----------------------
+        Connexion 
+-----------------------*/
 
 .auth-wrapper {
     display: flex;
@@ -1387,7 +2204,6 @@ footer > *:last-child{
     padding: 2rem;
 }
 
-
 .auth-form{
     width: 100%;
     max-width: 23.5rem;
@@ -1396,5 +2212,72 @@ footer > *:last-child{
     align-items: center;
 }
 
+/*----------------------
+        Espace Client
+-----------------------*/  
 
+#sub-form{
+    width: 100%;
+    height: auto;
+}
+
+/*----------------------
+        Commande
+-----------------------*/   
+
+#form-commande  {
+    display : contents;
+}
+
+.form-commande{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 2rem;
+}
+
+.detail-facturation, .facturation,.livraison, .detail-commande, .demande-command{
+    width: 50rem ;
+}
+
+.detail-facturation, .livraison{
+    grid-column: 1;
+}
+
+.detail-commande {
+    position: sticky;
+    margin: 0 auto;
+    bottom : 28.5rem;
+    grid-column: 2;
+}
+.demande-command{
+    margin: 0 auto;
+    bottom : 5rem;
+    grid-column: 1;
+    gap :0;
+}
+}
+
+@media (min-width : 1024px) and (max-width: 1105px){
+.menu-grid{
+    grid-template-columns: 1fr 1fr  ;
+}
+}
+
+@media (min-width : 1110px){
+.menu-grid{
+    grid-template-columns: 1fr 1fr  1fr;
+}
+}
+@media (min-width: 1400px){
+
+/*----------------------
+        Espace Client
+-----------------------*/   
+#sub-form{
+    width: calc(100% - 30rem);
+}
+
+    .menu-grid{
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
 }

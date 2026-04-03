@@ -7,7 +7,12 @@
     <body>
         <?php include './includes/header.php';?>
 
-        <img src="./Images/baniere_pano.png" class="hero-banner" alt="épice">
+        <div class="nos-menus-banner">
+            <div class="nos-menus-banner_diag"></div>
+            <div class="nos-menus-banner_dark_diag"></div>
+            <div class="nos-menus-banner_text">
+            <h2>Rejoignez-nous  <em> & créez votre compte </em></h2></div>
+        </div>
 
         <main>
             
@@ -28,6 +33,11 @@
                                 <input type="text" id="firstname" name="firstname" required>
                             </div>
 
+                            <div>
+                                <label for="password">Téléphone :</label>
+                                <input type="tel" id="password" name="password" required>
+                            </div>
+                            
                             <div>
                                 <label for="address">Adresse :</label>
                                 <input type="text" id="address" name="address" required>
@@ -52,6 +62,8 @@
                                 <label for="password">Mot de passe :</label>
                                 <input type="password" id="password" name="password" required>
                             </div>
+
+                            
 
                             <button type="submit" class="btn-submit" name="inscription">S'inscrire</button>
                         </fieldset>

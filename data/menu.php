@@ -64,7 +64,7 @@
 
                 <div class="menu-detail-footer">
                     <em class="menu-price">Prix : <?php echo $menu_actif['price'];?> €/ personne - Min : <?php echo $menu_actif['min_pers'];?> Personnes</em>
-                    <a href="/vite-gourmand/commande.php" class="btn-order">Commander</a>
+                    <a href="../commande.php" class="btn-order">Commander</a>
                 </div>
             </article>
         </main>

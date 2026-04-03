@@ -7,7 +7,12 @@
     <body>
         <?php include './includes/header.php';?>
 
-        <img src="./Images/baniere_pano.png" class="hero-banner" alt="épice">
+        <div class="nos-menus-banner">
+            <div class="nos-menus-banner_diag"></div>
+            <div class="nos-menus-banner_dark_diag"></div>
+            <div class="nos-menus-banner_text">
+            <h2>Mon espace <em> & commandes </em></h2></div>
+        </div>
 
         <main class="main-espace-client">
             <div class="espace-client-wrapper">
@@ -35,8 +40,16 @@
                                 <td>Menu de Noël</td>
                                 <td>20/12/2024</td>
                                 <td>280.00€</td>
-                                <td><span class="order-status order-status--done">TERMINÉE</span></td>
+                                <td><span class="order-status order-status--waiting">EN ATTENTE</span></td>
                                     <td><a href="" class="btn-details">DÉTAILS</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">#0001</th>
+                                <td>Menu de Noël</td>
+                                <td>20/12/2024</td>
+                                <td>280.00€</td>
+                                <td><span class="order-status order-status--accepted">ACCEPTÉ</span></td>
+                                <td><a href="" class="btn-details">DÉTAILS</a></td>
                             </tr>
                             <tr>
                                 <th scope="row">#0001</th>
@@ -51,7 +64,7 @@
                                 <td>Menu de Noël</td>
                                 <td>20/12/2024</td>
                                 <td>280.00€</td>
-                                <td><span class="order-status order-status--done">TERMINÉE</span></td>
+                                <td><span class="order-status order-status--cancelled">ANNULÉ</span></td>
                                 <td><a href="" class="btn-details">DÉTAILS</a></td>
                             </tr>
                         </tbody>
@@ -103,6 +116,6 @@
         </main>
 
         <?php include './includes/footer.php' ;?>
-
+        <script src="./js/espaceclient.js"></script>
     </body>
 </html>

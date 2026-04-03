@@ -6,7 +6,14 @@
     
     <body>
         <?php include __DIR__.'/includes/header.php';?>
-
+        
+        <div class="nos-menus-banner">
+            <div class="nos-menus-banner_diag"></div>
+            <div class="nos-menus-banner_dark_diag"></div>
+            <div class="nos-menus-banner_text">
+            <h2>Réinitialisation de votre <em> mot de passe </em></h2></div>
+        </div>
+        
         <main>
             <section class="auth-wrapper">
                 <div class="auth-form">

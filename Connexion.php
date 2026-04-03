@@ -7,6 +7,12 @@
     <body>
         <?php include './includes/header.php';?>
 
+        <div class="nos-menus-banner">
+            <div class="nos-menus-banner_diag"></div>
+            <div class="nos-menus-banner_dark_diag"></div>
+            <div class="nos-menus-banner_text">
+            <h2>Bon retour  <em> & connexion </em></h2></div>
+        </div>
 
         <main>
             <section class="auth-wrapper">
@@ -19,28 +25,13 @@
                                 <label for="email-login">E-mail</label>
                                 <input type="email" id="email-login" name="email-login" maxlength="30" placeholder="Saisissez votre e-mail" autocomplete="on">
                                 <label for="password-login">Mot de passe</label>
-                                <input type="password" id="password-login" name="password-login" maxlength="50" placeholder="Saisissez votre mot de passe">
+                                <input type="password" id="password-login" name="password-login" maxlength="50" placeholder="Saisissez votre mdp" autocomplete="current-password">
                             </div>
                             <button type="submit" class="btn-submit" name="se-connecter">Se Connecter</button>
                             <a href="./reinitialisation-mdp.php">Mot de passe oublié ?</a>
                         </fieldset>
                     </form>
-                </div>
-
-                <div class="auth-form"> 
-                    <form action="./account.php" method="post" id="form-inscription">
-                        <fieldset>
-                            <h3>S'inscrire</h3>
-                            <div class="auth-fields">    
-                                <label for="email-registration">E-mail</label>
-                                <input type="email" id="email-registration" maxlength="30" name="email-registration" placeholder="Saisissez votre e-mail">
-                                <label for="password-registration">Mot de passe</label>
-                                <input type="password" id="password-registration" maxlength="16" name="password-registration" placeholder="Saisissez votre mot de passe">
-                            </div>
-                            <a href="./inscription.php" id="btn-vers-submit">S'inscrire</a>
-                            
-                        </fieldset>
-                    </form>
+                
                 </div>
 
             </section>

@@ -7,9 +7,14 @@
     <body>
         <?php include './includes/header.php';?>
 
+        <div class="nos-menus-banner">
+            <div class="nos-menus-banner_diag"></div>
+            <div class="nos-menus-banner_dark_diag"></div>
+            <div class="nos-menus-banner_text">
+            <h2>Parlons de <em> votre événement </em></h2></div>
+        </div>
 
         <main>
-            <h2>Nous Contacter !</h2>
             <div class="contact-wrapper">
 
                 <section class="contact-form">
@@ -65,7 +70,9 @@
                                 <label for="demande">Votre demande :</label>
                                 <textarea id="demande" rows="50" name="demande"></textarea>
                             </div>
+
                             <button class="btn-submit" name="submit-contact">Envoyer</button>
+                            
                         </fieldset>
                     </form>
                 </section>
@@ -94,7 +101,7 @@
                     </address>
 
                     <div class="contact-card">
-                        <img src="./Images/email (1).png" alt="icône email">
+                        <img src="./Images/email_beige.png" alt="icône email">
                         <h3>E-MAIL</h3>
                         <a href="mailto:contact@vite-et-gourmand-traiteur.fr" title="notre e-mail">contact@vite-et-gourmand-traiteur.fr</a>
                     </div>

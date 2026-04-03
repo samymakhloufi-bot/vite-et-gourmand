@@ -36,9 +36,9 @@
 
             <h2> Nos Menus</h2>
         
-            <section class="menu-grid">
+            <section class="menu-grid-index">
             
-                <article class="menu-card"> 
+                <article class="menu-card--light"> 
                     <picture>
                         <source media="(min-width:750px)" srcset="./Images/EclatF-max.png">
                         <img src="Images/EclatF-min.png" alt="Image du Menu Éclats de Fêtes">
@@ -46,10 +46,10 @@
                     <h3>Menus Éclats de Fêtes (classique):</h3>
                     <p>Le prestige des grands classiques de Noël sublimé par la truffe et le foie gras.</p>
                     <span> À PARTIR DE 45,90€/ PERSONNE</span>
-                    <a href="./data/menu.php?id=EclatF">Détails du Menu Eclat</a>
+                    <a href="./data/menu.php?id=EclatF">Détails du Menu</a>
                 </article>
 
-                <article class="menu-card menu-card--dark"> 
+                <article class="menu-card--dark"> 
                     <picture>
                         <source media="(min-width:750px)" srcset="./Images/Renouveau-max.png">
                         <img src="Images/Renouveau-min.png" alt="Image du Menu Renouveau"> 
@@ -57,10 +57,10 @@
                     <h3>Menus Renouveau (classique):</h3>
                     <p>La tradition pascale célébrée à travers la tendreté d'un agneau de sept heures.</p>
                     <span> À PARTIR DE 45,90€/ PERSONNE</span>
-                    <a href="./data/menu.php?id=Renouveau">Détails du Menu Renouveau</a>
+                    <a href="./data/menu.php?id=Renouveau">Détails du Menu</a>
                 </article>
 
-                <article class="menu-card menu-card--light"> 
+                <article class="menu-card--light"> 
                     <picture>
                         <source media="(min-width:750px)" srcset="./Images/AmourE-max.png">
                         <img src="Images/AmourE-min.png" alt="Image du Menu Amour Éternel"> 
@@ -68,12 +68,15 @@
                     <h3>Menus Amour Éternel (Vegan):</h3>
                     <p>Une célébration haute en couleurs et en saveurs pour un mariage éthique et chic.</p>
                     <span> À PARTIR DE 45,90€/ PERSONNE</span>
-                    <a href="./data/menu.php?id=AmourE">Détails du Menu Amour</a>
+                    <a href="./data/menu.php?id=AmourE">Détails du Menu</a>
                 </article>
 
             </section>
 
+            <div class="div-index-to-menu"><a href="./Nosmenus.php"  class="index-to-menus">Tous nos menus</a></div>
+
             <h2>Notre savoir-faire</h2>
+
             <section class="skills-section"> 
 
                 <article class="skill-card"> 
