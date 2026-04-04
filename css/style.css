@@ -76,12 +76,18 @@ html, body{
 main h2::after{
     content: '';
     display: block;
-    width : 3.125rem;
+    width : 0rem;
     height: 3px;
     background: var(--bordeaux);
     margin: 0.625rem auto 0;
     border-radius:  2px;
+    transition: width 1.25s ease 0.3s;
 }
+
+main h2.visible::after {
+    width: 3.125rem;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -303,90 +309,159 @@ button >*{
 .history-box{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap:1rem;
-    margin: 2rem 0;
+    border: none;
 }
 
 .card-gout,.card-passion {
+    display: flex;
+    flex-direction: column;
     position: relative;
     overflow: hidden;
+    height : 32rem;
 }
 
-.card-gout {
-    background-color: var(--bordeaux);
-    border: 1px solid var(--beige-dark);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
+.card-img {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     margin: 0 auto;
     width: 100%;
-    max-width: 25rem;
     height: 20rem;
-    line-height: 3;
+    line-height: 1;
 }
-.card-passion{
-    background-color: var(--bordeaux);
-    border: 1px solid var(--beige-dark);
-    border-radius: var(--radius);
-    overflow: hidden;
+.card-text{
+    background-color: var(--white);
     box-shadow: var(--shadow-card);
-    display: flex;
-    flex-direction: column;
     align-items: stretch;
     margin: 0 auto;
     width: 100%;
-    max-width: 23rem;
-    height: 20.5rem;
     line-height: 3;
 }
 
 .card-gout picture, .card-passion picture{
     display: block;
-    width: 100%;
-    max-height: 15.625rem;
+    max-height: 20rem;
     overflow: hidden;
+    width: 100%;
 }
 
-.card-gout picture img,
-.card-gout picture img{
-
-    height: 15rem;
-
+.card-gout img{
+    object-position: 30%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.card-gout h2, .card-passion h2{
+.card-overlay-bottom{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 90%, var(--beige) 95%, var(--beige) 100%, transparent 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.card-overlay-top{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, transparent 93%, var(--beige) 98%, var(--beige) 100%, transparent 96%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.card-text span{
+    display: flex;
+    align-items: center;
+    gap : 0.5rem;
+    position: absolute;
+    bottom: 7rem;
+    text-align: left;
+    font-family: var(--font-body);
+    color: var(--bordeaux);
+    font-size: 0.9rem;
+    margin-left: 1rem;
+    line-height: 5;
+    font-weight: 400;
+    margin-left: 1rem;
+}
+
+.card-text span::before{
+    content: '';
+    display: inline-block;
+    width : 3rem;
+    height: 3px;
+    background: var(--bordeaux);
+    border-radius:  2px;
+    transition: width 1.5s ease 0.3s;
+}
+
+.history-box h2::after{
+    content: none;
+}
+
+.history-box em {
+    color: var(--bordeaux);
+    display:inline;
+    margin: 0;
+    line-height: 1;
+    margin : 0.5rem;
+}
+
+.history-box h2{
     position: absolute;
     bottom: 3rem;
     left: 0;
     right: 0;
-    margin: 0;
-    padding :0.5rem 1rem;
+    margin-left: 1rem;
     font-family: var(--font-display);
-    font-size: 1.3rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    color: var(--beige);
-    text-shadow: 1px 2px 10px rgba(0,0,0,0.55);
+    color: var(--bordeaux-dark-dark);
     text-align: left;
-
+    line-height: 1.1;
 }
 
 
-.card-gout p, .card-passion p{
+.history-box p{
     position: absolute;
     bottom: 0;
     left:0;
     right:0;
     margin:0;
     padding: 0 0.25rem 1rem 0.5rem;
-    font-size: 0.82rem;
-    color: var(--beige);
-    background: linear-gradient(transparent, rgba(44,26,18,0.75));
-    line-height: 1.5;
+    font-size: 0.9rem;
+    color: var(--bordeaux-dark-dark);
+    line-height: 1.1;
 } 
+
+.card-img{
+    opacity: 0;
+    transform : translateY(10rem);
+    transition: opacity 2s ease, transform 1.5s ease;
+}
+
+.card-gout.visible .card-img, .card-passion.visible .card-img{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card-gout.visible .card-text span::before,
+.card-passion.visible .card-text span::before {
+    width: 2rem;
+}
+
+
+.history-box em{
+    background-size: 0% 2px;
+    background-image: linear-gradient(var(--bordeaux), var(--bordeaux-dark-light));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.8s ease 0.4s;
+}
+
+.card-gout.visible em, .card-passion.visible em{
+    background-size: 100% 2px;
+}
 
 /*----------------------
     7.    Menus Index
@@ -1845,18 +1920,6 @@ footer > *:not(:last-child) {
     box-shadow: none;
 }
 
-/*-----------------------
-    Histoire / History
--------------------------*/
-
-.history-box{
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    margin: 1.875rem;
-}
-
 
 
 /*-----------------------
@@ -1869,12 +1932,6 @@ footer > *:not(:last-child) {
     gap: 1.25rem;
     margin: 1.875rem;
 }
-
-.menu-grid{
-
-}
-
-
 
 /*----------------------
         Savoir-faire
@@ -2072,12 +2129,19 @@ footer > *:last-child{
 }
 
 @media (min-width : 950px) {
-    #orders-wrapper {
+#orders-wrapper {
         width: 100%
     }
 
 .menu-grid{
     grid-template-columns: 1fr 1fr 1fr ;
+}
+}
+
+@media (min-width: 700px) and (max-width : 1024px ){
+
+.card-passion .card-img img {
+    object-position: 0 -10rem;
 }
 }
 
@@ -2255,6 +2319,107 @@ footer > *:last-child{
     grid-column: 1;
     gap :0;
 }
+
+
+/*-----------------------
+    Box Goût + Passion
+-------------------------*/
+
+.history-box{
+    display: flex;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+}
+
+.card-gout, .card-passion{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 40rem;
+}
+
+.card-passion .card-img{
+    order: 2;
+}
+
+.card-passion .card-text{
+    order: 1;
+    text-align: left;
+}
+
+.card-text {
+    background-color: var(--beige);
+    line-height: 1.5;
+}
+
+.card-gout picture, .card-passion picture{
+    max-height: 40rem;
+    overflow:visible;
+}
+
+.card-img{
+    height: 100%;
+}
+
+.card-gout img, .card-passion img{
+    width : 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.history-box h2{
+    position: relative;
+    font-size: 3rem;
+}
+
+.history-box p{
+    position: static;
+
+    font-size: 1.5rem;
+}
+
+.history-box span{
+    position: static;
+    top:auto;
+    bottom: auto;
+    right: auto;
+    left: auto;
+    font-size: 1rem;
+}
+
+
+
+.card-passion{
+    margin-top: 0;
+}
+
+.card-gout{
+    margin-bottom: 0;
+}
+
+.card-gout .card-overlay-bottom {
+    background: linear-gradient(to bottom, transparent 60%, var(--beige) 90%, var(--beige) 100%, transparent 85%);
+}
+
+.card-passion .card-overlay-bottom {
+    background: linear-gradient(to bottom, transparent 85%, var(--beige) 90%, var(--beige) 100%, transparent 85%);
+}
+
+.card-gout .card-overlay-right{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 93%, var(--beige) 95%, var(--beige) 100%, transparent 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.card-passion .card-overlay-right{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to left, transparent 93%, var(--beige) 95%, var(--beige) 100%, transparent 100%);
+    z-index: 1;
+    pointer-events: none;
+}
 }
 
 @media (min-width : 1024px) and (max-width: 1105px){
@@ -2268,6 +2433,7 @@ footer > *:last-child{
     grid-template-columns: 1fr 1fr  1fr;
 }
 }
+
 @media (min-width: 1400px){
 
 /*----------------------
@@ -2281,3 +2447,5 @@ footer > *:last-child{
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 }
+
+

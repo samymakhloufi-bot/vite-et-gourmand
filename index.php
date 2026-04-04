@@ -15,21 +15,39 @@
             <section class="history-box">
         
                 <div class="card-gout"> 
-                    <picture class="img-gout">
-                        <source media="(min-width:1200px)" srcset="./Images/Goût.png">
-                        <img src='Images/gout-min.png' alt=''>
-                    </picture>
-                    <h2> Le Goût de l'excellence</h2>
-                    <p> Nous travaillons exclusivement avec des producteurs locaux de Nouvelle-Aquitaine, Produits frais, circuits courts et menus faits maison, chaque jour.</p>
+                    <div class="card-img">
+                        <div class="card-overlay-top"></div>
+                        <div class="card-overlay-bottom"></div>
+                        <div class="card-overlay-right"></div>
+                        <picture class="img-gout">
+                            <source media="(min-width:600px)" srcset="./Images/Goût.png">
+                            <img src='Images/Goût.png' alt='image d\'un steak'>
+                        </picture>
+                    </div>
+        
+                    <div class="card-text">
+                        <span>NOTRE ENGAGEMENT</span>
+                        <h2> Le Goût de <em>l'excellence</em></h2>
+                        <p> Nous travaillons exclusivement avec des producteurs locaux de Nouvelle-Aquitaine, Produits frais, circuits courts et menus faits maison, chaque jour.</p>
+                    </div>
                 </div>
             
-                <div class="card-passion"> 
-                    <picture class="img-passion">
-                        <source media="(min-width:1200px)" srcset="./Images/Passion.png">
-                        <img src='./Images/passion-min.png' alt=''>
-                    </picture>
-                    <h2> 25 ans de Passion</h2>
-                    <p> Fondé en 2011 par Julie et José, notre service traiteur cultive l'art de la réception à la bordelaise. Une histoire de famille dédiée au goût.</p>
+                <div class="card-passion">
+                    <div class="card-img"> 
+                        <div class="card-overlay-top"></div>
+                        <div class="card-overlay-bottom"></div>
+                        <div class="card-overlay-right"></div>
+                        <picture class="img-passion">
+                            <source media="(min-width:600px)" srcset="./Images/Passion.png">
+                            <img src='./Images/passion-min.png' alt='image des fondateurs'>
+                        </picture>
+                    </div>
+
+                    <div class="card-text">
+                        <span>NOTRE HISTOIRE</span>
+                        <h2> 25 ans de<em>passion</em></h2>
+                        <p> Fondé en 2011 par Julie et José, notre service traiteur cultive l'art de la réception à la bordelaise. Une histoire de famille dédiée au goût.</p>
+                    </div>
                 </div>
 
             </section>
@@ -132,6 +150,7 @@
         </main>
     
         <?php include __DIR__.'/includes/footer.php' ; ?>
+        <script src="./js/animation.js"></script>
 
     </body>
 </html>
