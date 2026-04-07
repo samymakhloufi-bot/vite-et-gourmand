@@ -58,7 +58,7 @@ html, body{
     --text-light: #6B5244;
     --white:      #FEFCF2;
     --input :     #d9d9d9;
-    --input-light : #EDEDED;
+    --input-light : #F2CCD8;
 
 
     --font-display: 'Playfair Display', Georgia, serif;
@@ -434,15 +434,21 @@ button >*{
     line-height: 1.1;
 } 
 
-.card-img{
+.card-gout .card-img{
     opacity: 0;
-    transform : translateY(10rem);
+    transform : translateX(-20rem);
     transition: opacity 2s ease, transform 1.5s ease;
+}
+
+.card-passion .card-img{
+    opacity : 0;
+    transform : translateX(20rem);
+    transition : opacity 2s ease, transform 1.5s ease;
 }
 
 .card-gout.visible .card-img, .card-passion.visible .card-img{
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
 }
 
 .card-gout.visible .card-text span::before,
@@ -490,7 +496,6 @@ button >*{
     margin-top: auto;
 }
 
-/*animation au survol*/
 .menu-card:hover{
     box-shadow: 0 0.375rem 1.5rem rgba(123,26,46,0.3);
     transform: translateY(-2px);
@@ -1170,6 +1175,7 @@ textarea{
     display: grid;
     width : 15rem;
     border: 1px solid var(--bordeaux-dark-dark);
+    border-radius: 1rem;
 }
 
 #menu-card-menu img{
@@ -1179,7 +1185,7 @@ textarea{
 
 .info-menu{
     display: grid;
-    background-color: var(--input-light);
+    background-color: var(--white);
     height: 5rem;
 }
 

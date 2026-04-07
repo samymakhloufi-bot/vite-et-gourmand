@@ -107,7 +107,7 @@
                             <input type="hidden"name="menu_name" value="<?php echo $menu['name']?>">
                             <input type="hidden"name="menu_prix" value="<?php echo $menu['price']?>">
             
-                            <div class="menu-card-footer" id="card-footer-nosmenus">
+                            <div class="menu-card-footer">
                         
                                 <div class="nb-person">
                                     <span for="nbr-commande">NB. <br>PERSONNES</span>
