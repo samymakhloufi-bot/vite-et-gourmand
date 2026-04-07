@@ -1,4 +1,4 @@
-<?php $activePage = 'accueil'; ?>
+<?php $activePage = 'Accueil'; ?>
 <!DOCTYPE html >
 
 <html lang="fr">

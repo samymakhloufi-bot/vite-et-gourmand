@@ -1,4 +1,4 @@
-<?php $activePage = 'connexion'; ?>
+<?php $activePage = 'Connexion'; ?>
 <!DOCTYPE html >
 <html lang="fr">
     

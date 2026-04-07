@@ -1,4 +1,4 @@
-<?php $activePage = 'nos menus'; ?>
+<?php $activePage = 'Nos Menus'; ?>
 <!DOCTYPE html >
 <html lang="fr">
     

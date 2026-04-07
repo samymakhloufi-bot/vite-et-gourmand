@@ -14,17 +14,17 @@
             <address>
                 <h3> CONTACT </h3>
                 <ul>
-                    <li> <?php echo $adress_title ?? '42 Rue du Pas-Saint-Georges, 33000 Bordeaux' ; ?></li>
-                    <li><?php echo $phone_title ?? '05 56 44 12 89' ; ?></li>
-                    <li><a href="mailto:contact@vite-et-gourmand-traiteur.fr"><?php echo $mail_title ?? 'contact@vite-et-gourmand-traiteur.fr' ; ?></a></li>
-                    <li> <?php echo $horaire_title ?? 'Lun - Dim : 9h00 - 19h00'; ?></li>
+                    <li> <?php echo $adressTitle ?? '42 Rue du Pas-Saint-Georges, 33000 Bordeaux' ; ?></li>
+                    <li><?php echo $phoneTitle ?? '05 56 44 12 89' ; ?></li>
+                    <li><a href="mailto:contact@vite-et-gourmand-traiteur.fr"><?php echo $mailTitle ?? 'contact@vite-et-gourmand-traiteur.fr' ; ?></a></li>
+                    <li> <?php echo $horaireTitle ?? 'Lun - Dim : 9h00 - 19h00'; ?></li>
                 </ul>
             </address>
 
             <div> 
                 <h3>INFORMATIONS</h3>
-                <a href="Mentions.html"> Mentions Légales </a>
+                <a href="Mentions.php"> Mentions Légales </a>
                 <br>
-                <a href="CGV.html"> Conditions Générales de Ventes </a>
+                <a href="CGV.php"> Conditions Générales de Ventes </a>
             </div>
         </footer>

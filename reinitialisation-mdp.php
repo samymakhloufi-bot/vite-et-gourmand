@@ -1,4 +1,4 @@
-<?php $activePage = 'réinitialisation mot de passe'; ?>
+<?php $activePage = 'Réinitialisation de votre Mot de Passe'; ?>
 <!DOCTYPE html >
 <html lang="fr">
     

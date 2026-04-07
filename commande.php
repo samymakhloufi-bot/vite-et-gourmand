@@ -1,4 +1,4 @@
-<?php $activePage = 'espace client'; ?>
+<?php $activePage = 'Votre Espace Client'; ?>
 <!DOCTYPE html >
 <html lang="fr">
     
