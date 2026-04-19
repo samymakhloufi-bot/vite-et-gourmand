@@ -1,4 +1,17 @@
-<?php $activePage = 'espace client'; ?>
+<?php $activePage = 'espace client'; 
+session_start();
+
+require_once './login.php';
+if(!isset($_SESSION['user_id'])) {
+    header('Location: ./index.php');
+    exit();
+}
+
+$stmts = $pdo -> prepare("SELECT * FROM users WHERE id_user = ?");
+$stmts -> execute([$_SESSION['user_id']]);
+$user = $stmts -> fetch(PDO::FETCH_ASSOC);
+
+?>
 <!DOCTYPE html >
 <html lang="fr">
     

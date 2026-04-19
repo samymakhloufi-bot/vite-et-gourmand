@@ -1,4 +1,8 @@
-<?php $activePage = 'Votre Espace Client'; ?>
+<?php $activePage = 'Votre Espace Client'; 
+session_start();
+include './includes/login.php';
+
+?>
 <!DOCTYPE html >
 <html lang="fr">
     

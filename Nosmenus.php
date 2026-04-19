@@ -1,4 +1,8 @@
-<?php $activePage = 'Nos Menus'; ?>
+<?php $activePage = 'Nos Menus'; 
+
+session_start();
+include './includes/login.php';
+?>
 <!DOCTYPE html >
 <html lang="fr">
     

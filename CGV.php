@@ -1,4 +1,6 @@
-<?php $activePage= 'Conditions Générales de Vente'; ?>
+<?php $activePage= 'Conditions Générales de Vente'; 
+session_start();
+?>
 <!DOCTYPE html>
 
 <html lang="fr">

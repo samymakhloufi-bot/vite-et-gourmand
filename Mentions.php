@@ -1,4 +1,8 @@
-<?php $activePage= 'Mentions Légales'; ?>
+<?php $activePage= 'Mentions Légales'; 
+
+session_start();
+
+?>
 <!DOCTYPE html>
 
 <html lang="fr">

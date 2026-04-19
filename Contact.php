@@ -1,4 +1,57 @@
-<?php $activePage = 'contact'; ?>
+<?php $activePage = 'contact'; 
+session_start();
+require_once './vendor/autoload.php';
+
+$message = '';
+$message_type = '';
+
+if(isset($_POST['submit-contact'])) {
+    $email = trim($_POST['email']);
+    $nom = trim($_POST['nom']);
+    $prenom = trim($_POST['prenom']);
+    $telephone = trim($_POST['telephone']);
+    $contenu = trim($_POST['demande']);
+    $ville = trim($_POST['ville']);
+    $adresse = trim($_POST['adresse']);
+    $complement_adresse = trim($_POST['complement-adresse']);
+    $code_postal = trim($_POST['code-postal']);
+    $type = $_POST['type-client'] ?? 'non spécifié';
+
+
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host  ='smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'samymakhloufi@gmail.com';
+            $mail->Password = 'hocmmjyvvvnuovkd';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+            $mail->CharSet = 'UTF-8';
+
+            $mail->setFrom($email);
+            $mail->addAddress('samymakhloufi@gmail.com', 'Vite et Gourmand');
+            $mail->Subject = 'Réinitialisation de votre mot de passe';
+            $mail->isHTML(true);
+            $mail->Body ="De : $nom $prenom <br>
+                        Email : $email <br>
+                        Téléphone : $telephone <br>
+                        Type de client : $type <br>
+                        Adresse : $adresse, $complement_adresse, $code_postal, $ville <br><br>
+                        Message : <br> $contenu";
+
+            $mail->send();
+            $message = "Votre message a été envoyé avec succès.";
+            $message_type = 'success';
+            header('Location: contactSucess.php');
+            exit();
+        } catch (Exception $e) {
+            $message = "Erreur lors de l'envoi de l'email : ";
+            $message_type = 'erreur';
+        } 
+    }
+?>
+
 <!DOCTYPE html >
 <html lang="fr">
     
@@ -71,7 +124,7 @@
                                 <textarea id="demande" rows="50" name="demande"></textarea>
                             </div>
 
-                            <button class="btn-submit" name="submit-contact">Envoyer</button>
+                            <button type="submit" class="btn-submit" name="submit-contact">Envoyer</button>
                             
                         </fieldset>
                     </form>

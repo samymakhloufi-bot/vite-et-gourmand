@@ -1,4 +1,38 @@
-<?php $activePage = 'Inscription'; ?>
+<?php require_once './login.php';
+session_start();
+$message = "";
+$activePage = 'Inscription'; 
+
+        // validation des données d'inscription
+        if (isset($_POST['inscription'])) {
+            $name = trim($_POST['name']);
+            $firstname = trim($_POST['firstname']);
+            $phone = trim($_POST['tel']);
+            $address = trim($_POST['address']);
+            $city = trim($_POST['city']);
+            $postal_code = trim($_POST['postal_code']);
+            $email = trim($_POST['email']);
+            $password = trim($_POST['password']);
+
+
+            // Vérification de l'email
+            $check = $pdo -> prepare("SELECT id_user FROM users WHERE email = ?");
+            $check -> execute([$email]);
+            if($check->fetch()){
+                $message = "Cet email est déjà utilisé. Veuillez en choisir un autre.";
+            } else {
+        
+
+            // Hashage du mot de passe
+            $mdp_hashed = password_hash($password, PASSWORD_DEFAULT);
+
+            // Insertion des données dans la base de données
+            $stmt = $pdo -> prepare ("INSERT INTO users (nom, prenom, tel , adresse, ville, code_postal, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt -> execute([$name, $firstname, $phone, $address, $city, $postal_code, $email, $mdp_hashed]);
+            header('Location: inscriptionSucces.php');
+            exit();
+            }};?>
+
 <!DOCTYPE html >
 <html lang="fr">
     
@@ -20,7 +54,7 @@
                 
                 <section class="contact-form">
                     
-                    <form action="submit" method="post">
+                    <form action="" method="post">
                         <fieldset>
                             <h3>Inscription</h3>
                             <div>
@@ -34,8 +68,8 @@
                             </div>
 
                             <div>
-                                <label for="password">Téléphone :</label>
-                                <input type="tel" id="password" name="password" required>
+                                <label for="tel">Téléphone :</label>
+                                <input type="tel" id="tel" name="tel" required>
                             </div>
                             
                             <div>
@@ -51,6 +85,9 @@
                             <div>
                                 <label for="postal_code">Code Postal :</label>
                                 <input type="text" id="postal_code" name="postal_code" required>
+                                <?php if ($message) : ?>
+                                <p class="message-erreur"><?php echo htmlspecialchars($message); ?></p>
+                                <?php endif; ?>
                             </div>
                         
                             <div>
@@ -60,12 +97,12 @@
         
                             <div>
                                 <label for="password">Mot de passe :</label>
-                                <input type="password" id="password" name="password" required>
+                                <input type="password" id="password" name="password" minlength="8" required>
                             </div>
 
                             
 
-                            <button type="submit" class="btn-submit" name="inscription">S'inscrire</button>
+                            <button type="submit" class="btn-submit" name="inscription" >S'inscrire</button>
                         </fieldset>
                     </form>
 

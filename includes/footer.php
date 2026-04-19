@@ -1,9 +1,9 @@
         <footer>
             <div> 
                 <div class="footer-logo-group">
-                    <img src="../Images/Logo_beige_final_v2.svg" class="footer-logo" alt="Logo V&G"> 
+                    <img src="/VG/Images/Logo_beige_final_v2.svg" class="footer-logo" alt="Logo VG"> 
                     <div class="footer-logo-text">
-                        <h3>V&G</h3>
+                        <h3>VG</h3>
                         <p>Vite & Gourmand</p>
                     </div>
                 </div>

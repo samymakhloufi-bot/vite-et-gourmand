@@ -1,4 +1,10 @@
-<?php $activePage = 'Accueil'; ?>
+<?php $activePage = 'Accueil'; 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+session_start();
+?>
 <!DOCTYPE html >
 
 <html lang="fr">
@@ -21,7 +27,7 @@
                         <div class="card-overlay-right"></div>
                         <picture class="img-gout">
                             <source media="(min-width:600px)" srcset="./Images/Goût.png">
-                            <img src='Images/Goût.png' alt='image d\'un steak'>
+                            <img src='Images/Goût.png' alt="image d'un steak">
                         </picture>
                     </div>
         
@@ -150,7 +156,7 @@
         </main>
     
         <?php include __DIR__.'/includes/footer.php' ; ?>
-        <script src="./js/animation.js"></script>
+        <script src="/VG/js/animation.js"></script>
 
     </body>
 </html>
