@@ -28,7 +28,7 @@ if(isset($_POST['nouveau-mdp']) && $token_valide) {
         $mdp_hashed = password_hash($mdp, PASSWORD_DEFAULT);
         $stmt = $pdo -> prepare("UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE reset_token = ?");
         $stmt -> execute([$mdp_hashed, $token]);
-        header('Location: Connexion.php?status=mdp-modifie');
+        header('Location: connexion.php?status=mdp-modifie');
         exit();
     }
 }

@@ -1,9 +1,5 @@
 <?php $activePage = 'Accueil'; 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-session_start();
+include './login.php';
 ?>
 <!DOCTYPE html >
 
@@ -97,7 +93,7 @@ session_start();
 
             </section>
 
-            <div class="div-index-to-menu"><a href="./Nosmenus.php"  class="index-to-menus">Tous nos menus</a></div>
+            <div class="div-index-to-menu"><a href="./nosmenus.php"  class="index-to-menus">Tous nos menus</a></div>
 
             <h2>Notre savoir-faire</h2>
 

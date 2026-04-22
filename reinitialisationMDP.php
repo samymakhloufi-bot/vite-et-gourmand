@@ -79,10 +79,10 @@ if(isset($_POST['reset-password'])) {
                             <h3>Mot de passe perdu ? Veuillez saisir votre adresse e-mail. Vous recevrez un lien par e-mail pour créer un nouveau mot de passe.</h3>
                             <div class="auth-fields">
                                 <label for="email">E-mail :</label>
-                                <input type="email" id="email" name="email" placeholder="Veuillez saisir mail">
+                                <input type="email" id="email" name="email" placeholder="Veuillez saisir votre mail">
                             </div>                
                             <button type="submit" id="btn-reset" name="reset-password">Réinitialiser le mot de passe</button>
-                            <a href="./Connexion.php" id="return" >Retour à la Connexion</a>
+                            <a href="./connexion.php" id="return" >Retour à la Connexion</a>
                         </fieldset>
                     </form>
                 </div>

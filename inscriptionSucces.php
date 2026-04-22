@@ -57,7 +57,7 @@
 
             if (tempsRestant <= 0) {
                 clearInterval(interval);
-                window.location.href = './Connexion.php';
+                window.location.href = './connexion.php';
             }
         },1000);
     </script>

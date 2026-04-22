@@ -1,5 +1,5 @@
 <?php require_once './login.php';
-session_start();
+
 $message = "";
 $activePage = 'Inscription'; 
 

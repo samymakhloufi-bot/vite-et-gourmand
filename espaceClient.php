@@ -1,5 +1,4 @@
 <?php $activePage = 'espace client'; 
-session_start();
 
 require_once './login.php';
 if(!isset($_SESSION['user_id'])) {

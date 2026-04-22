@@ -23,7 +23,7 @@
 
             <div> 
                 <h3>INFORMATIONS</h3>
-                <a href="Mentions.php"> Mentions Légales </a>
+                <a href="mention.php"> Mentions Légales </a>
                 <br>
                 <a href="CGV.php"> Conditions Générales de Ventes </a>
             </div>

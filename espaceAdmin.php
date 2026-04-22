@@ -1,6 +1,5 @@
-<?php $activePage = 'espace client'; 
+<?php $activePage = 'espace admin'; 
 
-session_start();
 require_once './login.php';
 if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin'])) {
     header('Location: ./index.php');

@@ -263,7 +263,6 @@ button >*{
     color: var(--beige-dark);
 }
 
-/*survole de la liste menu*/
 .nav-list li a:hover{
     background-color: var(--bordeaux);
     color: var(--beige-dark);
@@ -1287,13 +1286,47 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 }
 
 #btn-reset:hover{
-    transform: translateY(-0.25rem);
-    box-shadow: var(--shadow-box);
+    cursor: pointer;
 }
 
 #return:hover{
     text-decoration: underline ;
     color: var(--bordeaux-dark);
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.btn-eye {
+    position: absolute;
+    background-color: none !important;
+    background: none;
+    right : 0px;
+    border: none;
+    cursor: pointer;
+    color: var(--creme);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    height: 2rem;
+}
+
+.btn-eye:hover {
+    color: #7D241A;
+    background-color: var(--input-light);
+}
+
+.btn-eye.active{
+    color: #7D241A;
+    background-color: var(--input-light);
 }
 
 /*----------------------
@@ -1955,6 +1988,12 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 
 .btn-submit:hover{
     text-decoration: underline;
+    cursor: pointer;
+}
+
+.btn-forget:hover{
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 
