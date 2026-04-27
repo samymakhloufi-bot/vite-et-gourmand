@@ -22,7 +22,7 @@ if (!$menu_actif) {
     <article class="menu-detail">
         <div class="menu-detail-header">
             <picture>
-                <source media="(min-width:750px)" srcset="../Images/<?= $menu_actif['img_desktop'] ?>.png">
+                <source media="(min-width:750px)" srcset="../Images/<?= $menu_actif['img_desktop'] ?>">
                 <img src="../Images/<?= $menu_actif['img_mobile'] ?>.png" alt="<?= htmlspecialchars($menu_actif['menu_nom']) ?>" class="menu-detail-img">
             </picture>
             <div class="menu-detail-headline">

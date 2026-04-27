@@ -10,7 +10,12 @@ $section = $_GET['section'] ?? 'commandes';
 
 
 if($section ==='commandes') {
-        $stmt = $pdo -> query("SELECT c.Id_commande, u.nom, m.menu_nom, c.date_commande, c.statut FROM commande c JOIN users u ON c.Id_user = u.Id_user JOIN menu m ON c.Id_menu = m.Id_menu ORDER BY date_commande DESC");
+        $stmt = $pdo -> query("SELECT c.Id_commande, u.nom, m.menu_nom, c.date_commande, c.statut
+        FROM commande c 
+        JOIN users u ON c.Id_user = u.Id_user 
+        JOIN commande_detail cd ON c.Id_commande = cd.Id_commande
+        JOIN menu m ON cd.Id_menu = m.Id_menu 
+        ORDER BY date_commande DESC");
         $commandes = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
     } elseif($section === 'menus-plat') {
@@ -18,7 +23,11 @@ if($section ==='commandes') {
         $menus = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
     } else if($section === 'moderation-avis') {
-        $stmt = $pdo->query("SELECT a.*, u.nom, u.prenom FROM avis a JOIN users u ON a.Id_user = u.Id_user WHERE a.statut = 'en_attente' ORDER BY a.created_at DESC");
+        $stmt = $pdo->query("SELECT a.*, u.nom, u.prenom 
+        FROM avis a 
+        JOIN users u ON a.Id_user = u.Id_user 
+        WHERE a.statut = 'en_attente' 
+        ORDER BY a.created_at DESC");
         $avis = $stmt -> fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -110,8 +119,14 @@ if($section ==='commandes') {
                         <thead>
                             <tr>
                                 <th>Menu</th>
-                                <th>Prix</th>
-                                <th>Description</th>
+                                <th>Thème</th>
+                                <th>Régime</th>
+                                <th>Prix/pers</th>
+                                <th>Entrée</th>
+                                <th>Plat</th>
+                                <th>Dessert</th>
+                                <th>Boisson</th>
+                                <th>Allergènes</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -123,16 +138,34 @@ if($section ==='commandes') {
 
                                 <?php foreach($menus as $menu): ?>
                                     <tr>
-                                        <td><?= htmlspecialchars($menu['menu_name']) ?></td>
-                                        <td><?= htmlspecialchars($menu['prix']) ?>€</td>
-                                        <td><?= htmlspecialchars($menu['description']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu']?>" data-fields="menu_nom" class="editable"><?= htmlspecialchars($menu['menu_nom']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="theme" class="editable"><?= htmlspecialchars($menu['theme']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="regime" class="editable"><?= htmlspecialchars($menu['regime']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="prix" class="editable"><?= htmlspecialchars($menu['prix']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="entree" class="editable"><?= htmlspecialchars($menu['entree']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="plat" class="editable"><?= htmlspecialchars($menu['plat']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="dessert" class="editable"><?= htmlspecialchars($menu['dessert']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="boisson" class="editable"><?= htmlspecialchars($menu['boisson']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="allergene" class="editable"><?= htmlspecialchars($menu['allergene']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="description" class="editable"><?= htmlspecialchars($menu['description']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="entree_description" class="editable"><?= htmlspecialchars($menu['entree_description']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="plat_description" class="editable"><?= htmlspecialchars($menu['plat_description']) ?></td>
+                                        <td contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="dessert_description" class="editable"><?= htmlspecialchars($menu['dessert_description']) ?></td>
+                                        <td> <img src="/VG/Images/<?= htmlspecialchars($menu['img_desktop']) ?>" alt="<?= htmlspecialchars($menu['menu_nom']) ?>" style="width:60px; height:40px;object-fit:cover;border-radius:4px;">
+                                        <form action="/VG/traitement/upload-img-menu.php" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="menu_id" value="<?= $menu['Id_menu'] ?>">
+                                            <input type="file" name="img_menu" accept=".png" style="display:none" id="upload-<?= $menu['Id_menu'] ?>">
+                                            <label for="upload-<?= $menu['Id_menu'] ?>" class="btn-sm" style="cursor:pointer;">Changer</label>
+                                            <button type="submit">Uploader</button>
+                                        </form>
+                                    </td>
+
                                     </tr>
-                            <?php endforeach; ?>
-                            <?php endif; ?>
+                                <?php endforeach; ?>
                         </tbody>
                     </table>
                 </section>
-
+                <?php endif; ?>
                 <section id="">
 
                 </section>

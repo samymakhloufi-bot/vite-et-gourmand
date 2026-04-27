@@ -1529,7 +1529,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     border-radius: 20px;
 }
 
-.order-status--pending {
+.order-status--waiting {
     background: #FFF7E6;
     color: #8a6000;
     border: 1px solid #e6c86a;
