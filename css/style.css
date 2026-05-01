@@ -17,6 +17,8 @@
 12. Connexion
 13. Menu detail
 14. Espace Client
+    Espace Employé
+    Espace Admin
 15. Inscription
 16.Commande
 17. Footer
@@ -1309,14 +1311,15 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     position: absolute;
     background-color: none !important;
     background: none;
-    right : 0px;
+    right : 0.65px;
     border: none;
     cursor: pointer;
     color: var(--creme);
     padding: 0;
     display: flex;
     align-items: center;
-    height: 2rem;
+    height: 1.9rem;
+    border-radius: 0.3rem !important;
 }
 
 .btn-eye:hover {
@@ -1387,19 +1390,17 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 /*----------------------
     14.   Espace Client
 -----------------------*/
-.espace-client-wrapper{
-    display: flex;
-    flex-direction: column;
-}
+.espace-wrapper{
+    display: flex;}
 
-.sidebar-espace-client{
+.sidebar-espace{
     display: flex;
     flex-direction: column;
     background-color: var(--creme);
     border-top: 1px solid black;
 }
 
-.sidebar-espace-client button{
+.sidebar-espace button{
     background-color: transparent;
     border: none;
     border-bottom: 1px solid var(--bordeaux-dark);
@@ -1417,14 +1418,14 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     border-top: none;
 }
 
-.sidebar-espace-client button:hover{
+.sidebar-espace button:hover{
     border-left: 4px solid var(--bordeaux);
     background : var(--white);
     color: var(--bordeaux);
 }
-
-#orders-wrapper {
-    display: flex;
+/* Mes commandes */
+#my-orders-wrapper {
+    display: none;
     flex-direction: column;
     width: 100%;
     padding: 1.5rem;
@@ -1434,6 +1435,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     overflow-x: auto;
 }
 
+/*Infos compte*/
 #sub-form {
     display: none;
     flex-direction: column;
@@ -1443,13 +1445,15 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     box-shadow: none;
 }
 
+/*Activation des sections*/
 #sub-form.active {
     display: flex;
 }
 
-#orders-wrapper.active {
+#my-orders-wrapper.active {
     display: flex;
 }
+
 
 /* Le fieldset ne doit pas interférer */
 #form-update-account fieldset {
@@ -1519,35 +1523,59 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     white-space: nowrap;
 }
 
-.order-status {
+.order-statut {
     display: inline-block;
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.08em;
-    text-transform: uppercase;
+    text-transform: capitalize;
     padding: 3px 10px;
     border-radius: 20px;
 }
 
-.order-status--waiting {
+.order-statut--en_preparation{
+    background: #F0F5FF;
+    color: #1D39C4;
+    border: 1px solid #ADC6FF;
+}
+
+.order-statut--en_cours_de_livraison{
+    background: #FFF7E6;
+    color: #D46B08;
+    border: 1px solid #FFD591;
+}
+
+.order-statut--livre{
+    background: #F6FFED;
+    color: #389E0D;
+    border: 1px solid #B7EB8F;
+}
+
+.order-statut--en_attente_retour_materiel{
+    background: #FFF0F6;
+    color: #C41D7F;
+    border: 1px solid #FFADD2;
+}
+
+.order-statut--en_attente {
     background: #FFF7E6;
     color: #8a6000;
     border: 1px solid #e6c86a;
 }
 
-.order-status--accepted {
+.order-statut--accepte {
     background: #EAF3DE;
     color: #3B6D11;
     border: 1px solid #97C459;
 }
 
-.order-status--done {
+.order-statut--terminee {
     background: #c75146;
     color: #EA8C55;
     border: 1px solid #AD2E24;
 }
 
-.order-status--cancelled {
+.order-statut--annulee {
     background: #FCEBEB;
     color: #A32D2D;
     border: 1px solid #F09595;
@@ -1670,6 +1698,315 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 
 #form-update-account .btn-submit:hover {
     background: var(--bordeaux-dark);
+}
+
+/* ---------------------------------
+    ESPACE EMPLOYÉ — MENUS
+------------------------------------*/
+
+.menu-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+}
+
+.toolbar-title, .toolbar-title-cmd {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--bordeaux);
+}
+
+.search-menu, .search-client, #search-statut {
+    font-size: 13px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 0.5px solid #d4c9b0;
+    background: #fff;
+    width: 220px;
+}
+
+.search-menu:focus, .search-client:focus, #search-statut:focus {
+    outline: 2px solid #7D241A;
+    border-color: transparent;
+}
+
+/* Carte menu&client */
+.menu-card, .client-card{
+    background: #fff;
+    border: 0.5px solid #d4c9b0;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.menu-card-header, .client-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.menu-card-header:hover , .client-card-header:hover{
+    background: #f9f6f0;
+}
+
+.menu-thumb {
+    width: 52px;
+    height: 38px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #e8dfd0;
+}
+
+.menu-name, .client-name, .client-menu {
+    font-size: 14px;
+    font-weight: 500;
+    color: #3d1a10;
+    flex: 1;
+}
+
+.menu-prix, .client-date  {
+    font-size: 13px;
+    font-weight: 500;
+    color: #7D241A;
+    white-space: nowrap;
+}
+
+.chevron {
+    font-size: 16px;
+    color: #9a8a78;
+    transition: transform .2s;
+    flex-shrink: 0;
+}
+
+.chevron.open {
+    transform: rotate(90deg);
+}
+
+/* Badges thème / régime */
+.badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.badge-noel      { background: #FAEEDA; color: #633806; }
+.badge-mariage   { background: #FBEAF0; color: #72243E; }
+.badge-paque     { background: #E1F5EE; color: #085041; }
+.badge-seminaire { background: #E6F1FB; color: #0C447C; }
+.badge-vegan     { background: #EAF3DE; color: #27500A; }
+.badge-non-vegan { background: #FAECE7; color: #712B13; }
+
+/* Corps de la carte */
+.menu-body, .client-body{
+    padding: 16px;
+    border-top: 0.5px solid #e8dfd0;
+    background: #faf8f4;
+}
+
+.menu-body.hidden, .client-body.hidden{
+    display: none;
+}
+
+.fields-grid, .cmd-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.field, .info-row{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.field.full, .info-row.full{
+    grid-column: 1 / -1;
+}
+
+.field label, .info-row label, .statut-row label {
+    font-size: 1rem;
+    color: #9a8a78;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.annul-title label{
+    font-size: 1rem;
+    color : var(--bordeaux-dark);
+    font-weight: 750;
+}
+
+.annul-section{
+    display: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+
+
+.annul-section input, .annul-section select, .statut-row select{
+    color: var(--bordeaux);
+    background-color: var(--input);
+    height : 1.2rem;
+    border-radius: 0.2rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.val {
+    font-size: 13px;
+    color: #3d1a10;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 0.5px solid #d4c9b0;
+    background: #fff;
+    min-height: 34px;
+    line-height: 1.5;
+}
+
+.val[contenteditable=true]:focus {
+    outline: 2px solid #7D241A;
+    background: #fff;
+}
+
+/* Ligne image */
+.img-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 14px;
+    border-top: 0.5px solid #e8dfd0;
+}
+
+.img-preview {
+    width: 80px;
+    height: 54px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #e8dfd0;
+}
+
+.btn-sm {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 0.5px solid #d4c9b0;
+    background: #fff;
+    color: #3d1a10;
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.btn-sm:hover {
+    background: #f0ebe3;
+}
+
+.btn-save {
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 8px;
+    border: none;
+    background: #7D241A;
+    color: #F5F0E8;
+    cursor: pointer;
+    transition: background .15s;
+    margin-left: auto;
+}
+
+.btn-save:hover {
+    background: #9a2d21;
+}
+
+.saved-toast {
+    font-size: 12px;
+    color: #1D9E75;
+    font-style: italic;
+}
+
+
+/*Commandes*/
+#commandes-wrapper {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: auto;
+}
+
+#commandes-wrapper.active {
+    display: flex;
+}
+
+/*Menus & Plat*/
+#menus-plat {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: auto;
+}
+
+.menus-toolbar{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+
+}
+
+#menus-plat.active {
+    display: flex;
+}
+
+/*Avis*/
+#moderation-avis {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: auto;
+}
+
+#moderation-avis.active {
+    display: flex;
+}
+
+/*Horaires*/
+#horaires {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: auto;
+}
+
+#horaires.active {
+    display: flex;
 }
 
 /*----------------------
@@ -2235,12 +2572,8 @@ footer > *:not(:last-child) {
 /*----------------------
         Espace Client
 -----------------------*/
-.espace-client-wrapper{
-    display: flex;
-    flex-direction: column;
-}
 
-.sidebar-espace-client{
+.sidebar-espace{
     height : 100%;
     border-top: none;
     border-right: 1px solid var(--bordeaux);
@@ -2248,33 +2581,27 @@ footer > *:not(:last-child) {
     flex-direction: column;
 }
 
-.main-espace-client{
+.main-espace{
     display: flex;
-    flex:1;
+    flex: 1;
     flex-direction: column;
 }
-.espace-client-wrapper{
-    flex : 1;
-}
 
-.orders-wrapper{
+#my-orders-wrapper{
     margin: 0;
     width: 100%;
     padding: 1rem;
     box-sizing: border-box;
-}
-
-.espace-client-wrapper{
-    display: grid;
-    grid-template-columns: 12rem 1fr;
-    align-items: start;
-}
-
-.orders-wrapper{
     max-width: 60rem;
     margin-left: auto;
 }
 
+.espace-wrapper{
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    align-items: start;
+    flex : 1;
+}
 }
 
 /*----------------------
@@ -2339,9 +2666,10 @@ footer > *:last-child{
 }
 
 @media (min-width : 950px) {
-#orders-wrapper {
-        width: 100%
-    }
+#my-orders-wrapper {
+    width: 100%
+
+}
 
 .menu-grid{
     grid-template-columns: 1fr 1fr 1fr ;

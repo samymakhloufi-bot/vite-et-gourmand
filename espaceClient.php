@@ -45,15 +45,15 @@ if(isset($_POST['update-account'])) {
             <h2>Mon espace <em> & commandes </em></h2></div>
         </div>
 
-        <main class="main-espace-client">
-            <div class="espace-client-wrapper">
-                <div class="sidebar-espace-client">
-                    <button type="button" class="btn-commande" data-target="mes-commandes">Mes Commandes</button>
-                    <button type="button" class="btn-infos" data-target="mes-informations">Mes Informations</button>
+        <main class="main-espace">
+            <div class="espace-wrapper">
+                <div class="sidebar-espace">
+                    <button type="button" class="btn-mes-commande" data-target="my-orders-wrapper" aria-selected="Mes Commandes">Mes Commandes</button>
+                    <button type="button" class="btn-infos" data-target="sub-form" aria-selected="Mes Informations" >Mes Informations</button>
                 </div>
 
 
-                <section id="orders-wrapper" class="account-panel" >
+                <section id="my-orders-wrapper" class="account-panel" >
                     <table class="orders-table">
                         <thead>
                             <tr>
@@ -74,10 +74,10 @@ if(isset($_POST['update-account'])) {
                                 <?php foreach($commandes as $commande): ?>
                             <tr>
                                 <th scope="row">#<?= $commande['Id_commande'] ?></th>
-                                <td><?= htmlspecialchars($menu['menu_nom']) ?></td>
-                                <td><?= date('d/m/Y', strtotime(htmlspecialchars($menu['date_livraison']))) ?>€</td>
-                                <td><?= htmlspecialchars($menu['prix']) ?></td>
-                                <td><span class="order-status order-status--waiting">EN ATTENTE</span></td>
+                                <td><?= htmlspecialchars($commande['menu_nom']) ?></td>
+                                <td><?= date('d/m/Y', strtotime(htmlspecialchars($commande['date_livraison']))) ?>€</td>
+                                <td><?= htmlspecialchars($commande['prix']) ?></td>
+                                <td><span class="order-statut order-statut--waiting">EN ATTENTE</span></td>
                                     <td><a href="" class="btn-details">DÉTAILS</a></td>
                             </tr>
                                 <?php endforeach; ?>
@@ -87,7 +87,7 @@ if(isset($_POST['update-account'])) {
                                 <td>Menu de Noël</td>
                                 <td>20/12/2024</td>
                                 <td>280.00€</td>
-                                <td><span class="order-status order-status--waiting">EN ATTENTE</span></td>
+                                <td><span class="order-statut order-statut--waiting">EN ATTENTE</span></td>
                                 <td><a href="" class="btn-details">DÉTAILS</a></td>
                             </tr>
                             <tr>
@@ -95,7 +95,7 @@ if(isset($_POST['update-account'])) {
                                 <td>Menu de Noël</td>
                                 <td>20/12/2024</td>
                                 <td>280.00€</td>
-                                <td><span class="order-status order-status--accepted">ACCEPTÉ</span></td>
+                                <td><span class="order-statut order-statut--accepted">ACCEPTÉ</span></td>
                                 <td><a href="" class="btn-details">DÉTAILS</a></td>
                             </tr>
                             <tr>
@@ -103,7 +103,7 @@ if(isset($_POST['update-account'])) {
                                 <td>Menu de Noël</td>
                                 <td>20/12/2024</td>
                                 <td>280.00€</td>
-                                <td><span class="order-status order-status--done">TERMINÉE</span></td>
+                                <td><span class="order-statut order-statut--done">TERMINÉE</span></td>
                                 <td><a href="" class="btn-details">DÉTAILS</a></td>
                             </tr>
                             <tr>
@@ -111,7 +111,7 @@ if(isset($_POST['update-account'])) {
                                 <td>Menu de Noël</td>
                                 <td>20/12/2024</td>
                                 <td>280.00€</td>
-                                <td><span class="order-status order-status--cancelled">ANNULÉ</span></td>
+                                <td><span class="order-statut order-statut--cancelled">ANNULÉ</span></td>
                                 <td><a href="" class="btn-details">DÉTAILS</a></td>
                             </tr>
                         </tbody>

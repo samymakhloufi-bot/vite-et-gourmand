@@ -1,21 +1,29 @@
 <?php 
+
+
+
 require_once '../login.php';
 
-if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'] , ['employe', 'admin'])) {
-    header('Location: ../index.php');
-    exit();
-}
-
-$data = json_decode(file_get_contents('php://input'), true);
-$id_commande = (int) $data['id_commande'];
-$statut = $data['statut'];
-
-$statuts_valides = ['waiting', 'accepted', 'done', 'cancelled', 'return-material', 'preparation', 'delivery'];
-
-if (!in_array($statut, $statuts_valides)) {
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['employe', 'admin'])) {
     echo json_encode(['success' => false]);
-    exit();
+    exit;
 }
 
-$stmt = $pdo->prepare("UPDATE commande SET status = :status WHERE id_commande = :id_commande");
-$stmt->execute ([$statut, $id_commande]);
+$data        = json_decode(file_get_contents('php://input'), true);
+$id_commande = (int) $data['id_commande'];
+$statut      = $data['statut'];
+
+$statuts_autorises = [
+    'en_attente', 'accepte', 'en_preparation', 'en_cours_de_livraison',
+    'livre', 'en_attente_retour_materiel', 'terminee', 'annulee'
+];
+
+if (!in_array($statut, $statuts_autorises)) {
+    echo json_encode(['success' => false]);
+    exit;
+}
+
+$stmt = $pdo->prepare("UPDATE commande SET statut = ? WHERE Id_commande = ?");
+$stmt->execute([$statut, $id_commande]);
+
+echo json_encode(['success' => true]);

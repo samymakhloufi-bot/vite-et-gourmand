@@ -1,28 +1,36 @@
-<?php 
+<?php
 require_once '../login.php';
 
-if(!isset($_SESSION['role']) || !in_array($_SESSION['role'] , ['employe', 'admin'])) {
-    header('Location: ../index.php');
-    exit();
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['employe', 'admin'])) {
+    echo json_encode(['success' => false]);
+    exit;
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
-$id = (int) $data['id'];
-$field = $data['field'];
-$value = trim($data['value']);
+$id   = (int) $data['id'];
 
-$champ_autorises = ['menu_nom', 'theme', 'regime', 'prix', 'entree', 'plat', 'dessert', 'boisson', 'allergene', 'description', 'entree_description', 'plat_description', 'dessert_description'];
-if (!in_array($data['field'], $champ_autorises)) {
-    echo json_encode(['success' => false, 'message' => 'Champ non autorisé']);
-    exit();
+$champs_autorises = [
+    'menu_nom', 'theme', 'regime', 'prix', 'nb_perso_min', 'nb_perso_max',
+    'entree', 'plat', 'dessert', 'boisson', 'allergene', 'description'
+];
+
+$sets   = [];
+$values = [];
+
+foreach ($champs_autorises as $champ) {
+    if (isset($data[$champ])) {
+        $sets[]   = "$champ = ?";
+        $values[] = trim($data[$champ]);
+    }
 }
 
-$field = $data['field'];
-$stmt = $pdo->prepare("UPDATE menu SET $field = ? WHERE Id_menu = ?");
-$result = $stmt->execute([$value, $id]);
+if (empty($sets)) {
+    echo json_encode(['success' => false]);
+    exit;
+}
 
-if ($result) {
-    echo json_encode(['success' => true, 'message' => 'Menu mis à jour avec succès']);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Erreur lors de la mise à jour du menu']);
-};
+$values[] = $id;
+$stmt = $pdo->prepare("UPDATE menu SET " . implode(', ', $sets) . " WHERE Id_menu = ?");
+$stmt->execute($values);
+
+echo json_encode(['success' => true]);
