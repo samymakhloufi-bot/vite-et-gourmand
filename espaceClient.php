@@ -50,6 +50,7 @@ if(isset($_POST['update-account'])) {
                 <div class="sidebar-espace">
                     <button type="button" class="btn-mes-commande" data-target="my-orders-wrapper" aria-selected="Mes Commandes">Mes Commandes</button>
                     <button type="button" class="btn-infos" data-target="sub-form" aria-selected="Mes Informations" >Mes Informations</button>
+                    <button type="button" class="btn-avis-form" data-target="avis-form" aria-selected="Donner mon avis">Donner mon avis</button>
                 </div>
 
 
@@ -156,6 +157,13 @@ if(isset($_POST['update-account'])) {
                             <button type="button" class="btn-edit">Modifier</button>
                             <button type="submit" class="btn-submit" name="update-account">Mettre à jour</button>
                         </fieldset>
+                    </form>
+                </section>
+
+                <section id="avis-form" class="account-panel">
+                    <form action="./traitement/submit-avis.php" method="post">
+                        <textarea name="contenu" placeholder="Donner votre avis ...." required></textarea>
+                        <button type="submit" name="submit-avis">Envoyer mon avis</button>
                     </form>
                 </section>
             </div>

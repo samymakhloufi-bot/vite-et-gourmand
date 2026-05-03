@@ -1,3 +1,27 @@
+// Menu toggle
+function toggleMenu(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.chevron');
+    const isOpen = !body.classList.contains('hidden');
+    document.querySelectorAll('.menu-body').forEach(b => b.classList.add('hidden'));
+    document.querySelectorAll('.chevron').forEach(c => c.classList.remove('open'));
+    if (!isOpen) {
+        body.classList.remove('hidden');
+        chevron.classList.add('open');
+    }
+}
+//Commande toggle
+function toggleCmd(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.chevron');
+    const isOpen = !body.classList.contains('hidden');
+    document.querySelectorAll('.client-body').forEach(b => b.classList.add('hidden'));
+    document.querySelectorAll('.client-card-header .chevron').forEach(c => c.classList.remove('open'));
+    if (!isOpen) {
+        body.classList.remove('hidden');
+        chevron.classList.add('open');
+    }
+}
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('[data-target]');
     
@@ -48,30 +72,9 @@ document.querySelectorAll('.editable').forEach(cell => {
         });
     });
 });
-// Menu toggle
-function toggleMenu(header) {
-    const body = header.nextElementSibling;
-    const chevron = header.querySelector('.chevron');
-    const isOpen = !body.classList.contains('hidden');
-    document.querySelectorAll('.menu-body').forEach(b => b.classList.add('hidden'));
-    document.querySelectorAll('.chevron').forEach(c => c.classList.remove('open'));
-    if (!isOpen) {
-        body.classList.remove('hidden');
-        chevron.classList.add('open');
-    }
-}
-//Commande toggle
-function toggleCmd(header) {
-    const body = header.nextElementSibling;
-    const chevron = header.querySelector('.chevron');
-    const isOpen = !body.classList.contains('hidden');
-    document.querySelectorAll('.client-body').forEach(b => b.classList.add('hidden'));
-    document.querySelectorAll('.client-card-header .chevron').forEach(c => c.classList.remove('open'));
-    if (!isOpen) {
-        body.classList.remove('hidden');
-        chevron.classList.add('open');
-    }
-}
+
+
+
 //Enregistrement Menu
 function saveMenu(id, btn) {
     const fields = document.querySelectorAll(`.editable[data-id="${id}"]`);
@@ -214,4 +217,35 @@ function filtrerCommandes() {
         const matchStatut = !statut || card.dataset.statut === statut;
         card.style.display = matchClient && matchStatut ? '' : 'none';
     });
+}
+
+//Modération avis -> Valider refuser via Fetch
+function actionAvis(id,action){
+    fetch('/VG/traitement/valider-avis.php', {
+        method: 'POST',
+        headers : {'Content-Type': 'application/json'},
+        body: JSON.stringify({id_avis:id, action: action})
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            const item = document.getElementById('avis-item-' + id);
+            item.style.opacity = '0';
+            item.style.transition ='opacity 0.3s';
+            setTimeout(() => item.remove(), 300);
+        }
+    });
+}
+
+//Toggle Horaires
+function toggleFerme(id, cb){
+    const row = document.getElementById('row-' +id);
+    ['open_am', 'fermeture_am', 'ouverture_apm', 'fermeture_apm'].forEach(p => {
+        const inp = row.querySelector('input[name="${p}_${id}"]');
+        if(inp) {
+            inp.disabled = cb.checked;
+            if(inp.checked) inp.value ='';
+        }
+    });
+    row.classList.toggle('ferme', cb.checked);
 }

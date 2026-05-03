@@ -1993,6 +1993,21 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     display: flex;
 }
 
+#avis-form{
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: auto;
+}
+
+#avis-form.active {
+    display: flex;
+}
+
 /*Horaires*/
 #horaires {
     display: none;
