@@ -5,54 +5,58 @@
 
     //verif session
     if(!isset($_SESSION['user_id'])) {
-        header('Location: /VG/connexion.php?redirect=commande.php');
+        header('Location: /VG/connexion.php?redirect=achat.php');
         exit();
     }
 
     //stockage données du menu commander
     if(isset($_POST['menu_id']) && !isset($_POST['commander'])){
         $_SESSION['menu_id'] = $_POST['menu_id'];
-        $_SESSION['menu_name'] = $_POST['menu_name'];
-        $_SESSION['menu_prix'] = $_POST['menu_prix'];
-        $_SESSION['nb_pers'] = $_POST['nbr-commande'];
+        $_SESSION['nb_pers'] = $_POST['nb_pers'];
     }
 
     // Récupération données menu depuis session
     $menu_id = $_SESSION['menu_id'] ?? null;
-    $menu_name = $_SESSION['menu_name'] ?? '';
-    $menu_prix = (int)($_SESSION['menu_prix'] ?? 0);
+    $menu_nom = $_SESSION['menu_nom'] ?? '';
     $nb_pers = ((int)$_SESSION['nb_pers'] ?? 1);
-    $total = $menu_prix * $nb_pers;
 
     // Récupération données utilisateur pré-remplissage formulaire
     $user_commande = $pdo->prepare("SELECT * FROM users WHERE id_user = ?");
     $user_commande->execute([$_SESSION['user_id']]);
     $user = $user_commande->fetch();
 
+        $stmtMenu = $pdo->prepare('SELECT menu_nom, prix FROM menu WHERE Id_menu = ?');
+    $stmtMenu->execute([$menu_id]);
+    $menu_infos = $stmtMenu ->fetch(PDO::FETCH_ASSOC);
+
+    $menu_nom = $menu_infos['menu_nom'] ?? 'Menu inconnu';
+    $menu_prix = (float)($menu_infos['prix'] ?? '');
+
     $message = '';
 
     //traitement formulaire commande
         if (isset($_POST['commander'])) {
-            $nom         = trim($_POST['name']);
-            $prenom      = trim($_POST['firstname']);
+            $nom         = trim($_POST['nom']);
+            $prenom      = trim($_POST['prenom']);
             $adresse     = trim($_POST['address']) . ', ' . trim($_POST['postal_code']) . ' ' . trim($_POST['city']);
             $email       = trim($_POST['email']);
             $tel         = trim($_POST['tel']);
             $date        = $_POST['date'];
             $heure       = $_POST['time'];
             $complement = trim($_POST['comment']);
-            $paiement    = $_POST['paiement'];
+            $paiement    = $_POST['mode_paiement'];
             $menu_id     = $_POST['menu_id'];
-            $menu_name   = $_POST['menu_name'];
-            $menu_prix   = $_POST['menu_prix'];
-            $nb_pers     = $_POST['nb_pers'];
-            $total       = $menu_prix * $nb_pers;
-            $mode_paiement = $_POST['paiement'] === 'devis' ? 'devis' : 'carte_bancaire';
+            $menu_nom = $menu_infos['menu_nom'] ?? 'Menu inconnu';
+            $menu_prix = (float)($menu_infos['prix'] ?? '');
 
-            if(!empty($_POST['date'] && $_POST['heure'])) {
+            $nb_pers     = (int)$_POST['nb_pers'];
+            $total       = $menu_prix * $nb_pers;
+            $mode_paiement = $paiement === 'devis' ? 'devis' : 'carte_bancaire';
+
+            if(!empty($_POST['date']) && !empty($_POST['heure']) ) {
                 $datetime_final = $_POST['date'] . ' '. $_POST['heure'].':00';
-            }else{ 
-                header('Location : /VG/commande.php?error=champs_manquants');
+                }else{ 
+                header('Location: /VG/achat.php?error=champs_manquants');
                 exit();
             }
             //Vérif envois Transaction entière 
@@ -109,7 +113,7 @@
                                     <p><strong>Date :</strong> $date à $heure</p>
                                     <p><strong>Complément :</strong> $complement</p>                
                                     <h3>Commande</h3>
-                                    <p><strong>Menu :</strong> $menu_name</p>
+                                    <p><strong>Menu :</strong> $menu_nom</p>
                                     <p><strong>Nombre de personnes :</strong> $nb_pers</p>
                                     <p><strong>Prix/pers :</strong> $menu_prix €</p>
                                     <p><strong>Total estimé :</strong> $total €</p>
@@ -125,7 +129,7 @@
                                         <p>Votre demande de devis a bien été reçue. Notre équipe reviendra vers vous dans les plus brefs délais avec un devis personnalisé.</p>
     
                                         <h3>Récapitulatif</h3>
-                                        <p><strong>Menu :</strong> $menu_name</p>
+                                        <p><strong>Menu :</strong> $menu_nom</p>
                                         <p><strong>Nombre de personnes :</strong> $nb_pers</p>
                                         <p><strong>Date de livraison :</strong> $date à $heure</p>
                                         <p><strong>Adresse :</strong> $adresse</p>
@@ -178,24 +182,23 @@
     
                     <form action="" method="post" id="form-commande">
                         <input type="hidden" name="menu_id"    value="<?= $menu_id ?>">
-                        <input type="hidden" name="menu_name"  value="<?= htmlspecialchars($menu_name) ?>">
-                        <input type="hidden" name="menu_prix"  value="<?= $menu_prix ?>">
-                        <input type="hidden" name="nbr-commande" value="<?= $nb_pers ?>">
+                        <input type="hidden" name="menu_nom"  value="<?= htmlspecialchars($menu_nom) ?>">
+                        <input type="hidden" name="nb_pers" value="<?= $nb_pers ?>">
                         
                         <fieldset class="detail-facturation">
                             <h3>Détails de facturation</h3>
                             <div class="personal-info">
                                 <div>
-                                    <label for="name">Nom :</label>
-                                    <input type="text" id="name" name="name" required
+                                    <label for="nom">Nom :</label>
+                                    <input type="text" id="nom" name="nom" required
                                     value="<?php echo htmlspecialchars($user['nom'] ?? ''); ?>">
                                     
                                 </div>
                                 
 
                                 <div>
-                                    <label for="firstname">Prénom :</label>
-                                    <input type="text" id="firstname" name="firstname" required
+                                    <label for="prenom">Prénom :</label>
+                                    <input type="text" id="prenom" name="prenom" required
                                     value="<?php echo htmlspecialchars($user['prenom'] ?? ''); ?>">
                                 </div>
 
@@ -257,8 +260,8 @@
                             <h3>MODE DE RÉGLEMENT</h3>
             
                             <div class="radio">
-                                <input type="radio" name="paiement" id="radio-card" value="card" hidden>
-                                <input type="radio" name="paiement" id="radio-devis" value="devis" hidden checked>
+                                <input type="radio" name="mode_paiement" id="radio-card" value="card" hidden>
+                                <input type="radio" name="mode_paiement" id="radio-devis" value="devis" hidden checked>
                                     
                                 <div class="radio-div selected" data-target="radio-devis">
                                     <div class="radio-dot"></div>
@@ -278,13 +281,13 @@
                                 <h3>Détails de votre commande</h3>
                             <table>
                                 <thead>
-                                    <th scope="col">Produit</th>
+                                    <th scope="col">Menu</th>
                                     <th scope="col">Quantité</th>
-                                    <th scope="col">Prix</th>
+                                    <th scope="col">Prix /pers.</th>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row"><?= htmlspecialchars($menu_name) ?></th>
+                                        <th scope="row"><?= htmlspecialchars($menu_nom) ?></th>
                                         <td><?= $nb_pers ?></td>
                                         <td><?= $menu_prix ?> €</td>
                                     </tr>

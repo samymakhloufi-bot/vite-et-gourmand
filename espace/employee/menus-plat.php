@@ -12,6 +12,9 @@
             <span class="menu-name"><?= htmlspecialchars($menu['menu_nom']) ?></span>
             <span class="badge badge-<?= $menu['theme'] ?>"><?= $menu['theme'] ?></span>
             <span class="badge badge-<?= $menu['regime'] ?>"><?= $menu['regime'] ?></span>
+            <?php if (!$menu['actif']): ?>
+                <span class="badge badge-inactif"> Désactivé</span>
+            <?php endif; ?>
             <span class="menu-prix"><?= $menu['prix'] ?> €/pers</span>
             <span class="chevron">›</span>
         </div>
@@ -24,14 +27,20 @@
                         data-id="<?= $menu['Id_menu'] ?>" data-field="menu_nom"><?= $menu['menu_nom'] ?></div>
                 </div>
                 <div class="field">
+                    <label>Thème</label>
+                    <div class="val editable" contenteditable="true"
+                        data-id="<?= $menu['Id_menu'] ?>" data-field="theme"><?= htmlspecialchars($menu['theme']) ?></div>
+                </div>
+                <div class="field">
                     <label>Prix / pers (€)</label>
                     <div class="val editable" contenteditable="true" 
                         data-id="<?= $menu['Id_menu'] ?>" data-field="prix"><?= $menu['prix'] ?></div>
                 </div>
-                <div class="field">
-                    <label>Thème</label>
+                
+                <div class="field full">
+                    <label>Description chef</label>
                     <div class="val editable" contenteditable="true"
-                        data-id="<?= $menu['Id_menu'] ?>" data-field="theme"><?= htmlspecialchars($menu['theme']) ?></div>
+                        data-id="<?= $menu['Id_menu'] ?>" data-field="description"><?= htmlspecialchars($menu['description']) ?></div>
                 </div>
                 <div class="field">
                     <label>Régime</label>
@@ -68,23 +77,25 @@
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="allergene"><?= htmlspecialchars($menu['allergene']) ?></div>
                 </div>
-                <div class="field full">
-                    <label>Description chef</label>
-                    <div class="val editable" contenteditable="true"
-                        data-id="<?= $menu['Id_menu'] ?>" data-field="description"><?= htmlspecialchars($menu['description']) ?></div>
-                </div>
+                
             </div>
-    
-            <div class="img-row">
-                <img src="/VG/Images/<?= $src ?>" alt="" class="img-preview">
-                <form action="/VG/traitement/upload-img-menu.php" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="menu_id" value="<?= $menu['Id_menu'] ?>">
-                    <input type="file" name="img_menu" accept=".png" style="display:none" id="upload-<?= $menu['Id_menu'] ?>">
-                    <label for="upload-<?= $menu['Id_menu'] ?>" class="btn-sm">Changer l'image</label>
-                    <button type="submit" class="btn-sm">Uploader</button>
-                </form>
-                <button class="btn-save" onclick="saveMenu(<?= $menu['Id_menu'] ?>, this)">Enregistrer</button>
-                <span class="saved-toast" id="toast-<?= $menu['Id_menu'] ?>"></span>
+            <div class="card-footer-menus-plat">
+                <div class="img-row">
+                    <img src="/VG/Images/<?= $src ?>" alt="" class="img-preview">
+                    <form action="/VG/traitement/upload-img-menu.php" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="menu_id" value="<?= $menu['Id_menu'] ?>">
+                        <input type="file" name="img_menu" accept=".png" style="display:none" id="upload-<?= $menu['Id_menu'] ?>">
+                        <label for="upload-<?= $menu['Id_menu'] ?>" class="btn-sm">Changer l'image</label>
+                        <button type="submit" class="btn-sm">Uploader</button>
+                    </form>
+                </div>
+                <div class="btn-menus-plat">
+                    <button class="btn-save" onclick="saveMenu(<?= $menu['Id_menu'] ?>, this)">Enregistrer</button>
+                    <button class="btn-<?= $menu['actif'] ? 'desactivate' : 'reactivate' ?>" onclick="toggleActifMenu(<?= $menu['Id_menu'] ?>, <?= $menu['actif']?>,  this)"><?= $menu['actif'] ? 'Désactiver' : 'Réactiver'?></button>
+
+                    <span class="saved-toast" id="toast-<?= $menu['Id_menu'] ?>"></span>
+
+                </div>
             </div>
         </div>
     </div>

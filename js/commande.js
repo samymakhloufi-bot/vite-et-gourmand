@@ -15,5 +15,11 @@ radioDiv.forEach(Option => {
 function change(btn, dir){
     const input = btn.parentElement.querySelector('.counter-val');
     const val = parseInt(input.value) + dir;
-    if (val >= 1) input.value = val;
+    if (val >= 1 && val <= 999) input.value = val;
 }
+
+document.getElementById('form-commande').addEventListener('submit', function() {
+    const btn = this.querySelector('.btn-order');
+    btn.disabled = true;
+    btn.innerText = "Envoi en cours...";
+})

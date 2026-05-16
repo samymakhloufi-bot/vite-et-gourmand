@@ -5,7 +5,7 @@ if(!isset($_SESSION['user_id'])) {
     header('Location: ./index.php');
     exit();
 }
-
+//Voir Commande
 $stmts = $pdo -> prepare("SELECT * FROM users WHERE id_user = ?");
 $stmts -> execute([$_SESSION['user_id']]);
 $user = $stmts -> fetch(PDO::FETCH_ASSOC);
@@ -17,7 +17,7 @@ $stmt_commandes = $pdo -> prepare("SELECT c.Id_commande, m.menu_nom, c.date_livr
                             WHERE c.Id_user = ? ORDER BY date_commande DESC");
 $stmt_commandes -> execute([$_SESSION['user_id']]);
 $commandes = $stmt_commandes -> fetchAll(PDO::FETCH_ASSOC);
-
+//Info personnelle
 $message = '';
 if(isset($_POST['update-account'])) {
     $stmt_update = $pdo -> prepare("UPDATE users SET nom = ?, prenom = ?, email = ?, tel = ?, adresse = ?, ville = ?, complement_adresse = ?, code_postal = ? 
@@ -29,6 +29,10 @@ if(isset($_POST['update-account'])) {
     $stmts -> execute([$_SESSION['user_id']]);
         $user = $stmts -> fetch(PDO::FETCH_ASSOC);
     }
+
+
+
+    
 ?>
 <!DOCTYPE html >
 <html lang="fr">
@@ -83,38 +87,7 @@ if(isset($_POST['update-account'])) {
                             </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
-                            <tr>
-                                <th scope="row">#0001</th>
-                                <td>Menu de Noël</td>
-                                <td>20/12/2024</td>
-                                <td>280.00€</td>
-                                <td><span class="order-statut order-statut--waiting">EN ATTENTE</span></td>
-                                <td><a href="" class="btn-details">DÉTAILS</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">#0001</th>
-                                <td>Menu de Noël</td>
-                                <td>20/12/2024</td>
-                                <td>280.00€</td>
-                                <td><span class="order-statut order-statut--accepted">ACCEPTÉ</span></td>
-                                <td><a href="" class="btn-details">DÉTAILS</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">#0001</th>
-                                <td>Menu de Noël</td>
-                                <td>20/12/2024</td>
-                                <td>280.00€</td>
-                                <td><span class="order-statut order-statut--done">TERMINÉE</span></td>
-                                <td><a href="" class="btn-details">DÉTAILS</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">#0001</th>
-                                <td>Menu de Noël</td>
-                                <td>20/12/2024</td>
-                                <td>280.00€</td>
-                                <td><span class="order-statut order-statut--cancelled">ANNULÉ</span></td>
-                                <td><a href="" class="btn-details">DÉTAILS</a></td>
-                            </tr>
+                            
                         </tbody>
                         <tfoot></tfoot>
                     </table>
@@ -161,7 +134,7 @@ if(isset($_POST['update-account'])) {
                 </section>
 
                 <section id="avis-form" class="account-panel">
-                    <form action="./traitement/submit-avis.php" method="post">
+                    <form action="/VG/traitement/submit-avis.php" method="post" id="form-avis">
                         <textarea name="contenu" placeholder="Donner votre avis ...." required></textarea>
                         <button type="submit" name="submit-avis">Envoyer mon avis</button>
                     </form>

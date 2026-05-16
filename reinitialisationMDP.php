@@ -13,10 +13,8 @@ if(isset($_POST['reset-password'])) {
     
     if($user){
         $token = bin2hex(random_bytes(32));
-        $expiry = date('Y-m-d H:i:s', time() + 3600);
-
-        $stmt = $pdo -> prepare("UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE id_user = ?");
-        $stmt -> execute([$token, $expiry, $user['id_user']]);
+        $stmt = $pdo->prepare("UPDATE users SET reset_token = ?, reset_token_expiry = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE id_user = ?");
+        $stmt->execute([$token, $user['id_user']]);
 
         require_once './vendor/autoload.php';
 
@@ -34,7 +32,7 @@ if(isset($_POST['reset-password'])) {
             $mail->setFrom('samymakhloufi@gmail.com', 'Vite et Gourmand');
             $mail->addAddress($email);
             $mail->Subject = 'Réinitialisation de votre mot de passe';
-            $reset_link = "http://localhost/V%26G/modificationMDP.php?token=". $token;
+            $reset_link = "http://localhost/VG/modificationMDP.php?token=". $token;
             $mail->isHTML(true);
             $mail->Body ="
                 <p>Bonjour,</p>
@@ -76,7 +74,7 @@ if(isset($_POST['reset-password'])) {
                 <div class="auth-form">
                     <form action="./reinitialisationMDP.php" method="post" class="reset-password-form">
                         <fieldset>
-                            <h3>Mot de passe perdu ? Veuillez saisir votre adresse e-mail. Vous recevrez un lien par e-mail pour créer un nouveau mot de passe.</h3>
+                            <h3>Vous recevrez un lien par e-mail pour créer un nouveau mot de passe.</h3>
                             <div class="auth-fields">
                                 <label for="email">E-mail :</label>
                                 <input type="email" id="email" name="email" placeholder="Veuillez saisir votre mail">

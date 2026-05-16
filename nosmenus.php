@@ -1,7 +1,7 @@
 <?php 
 $activePage = 'Nos Menus';
 require_once __DIR__ . '/login.php';
-$stmt = $pdo->query("SELECT * FROM menu ORDER BY menu_nom ASC");
+$stmt = $pdo->query("SELECT * FROM menu WHERE actif = 1 ORDER BY menu_nom ASC");
 $menus = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
@@ -86,10 +86,9 @@ $menus = $stmt->fetchAll();
             </div>
 
             <div>
-                <form action="./commande.php" method="POST">
-                    <input type="hidden" name="menu_id"    value="<?= $menu_id ?>">
-                    <input type="hidden" name="menu_name"  value="<?= htmlspecialchars($menu_name) ?>">
-                    <input type="hidden" name="menu_prix"  value="<?= $menu_prix ?>">
+                <form action="./achat.php" method="POST">
+                    <input type="hidden" name="menu_id"    value="<?= $menu['Id_menu'] ?>">
+                    <input type="hidden" name="menu_nom"  value="<?= htmlspecialchars($menu['menu_nom']) ?>">
                     <input type="hidden" name="nb_pers" value="<?= $nb_pers ?>">
 
                     <div class="menu-card-footer">

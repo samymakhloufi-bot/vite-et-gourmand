@@ -31,7 +31,6 @@ $horaires = [];
         $stmt = $pdo->query("SELECT a.*, u.nom, u.prenom 
         FROM avis a 
         JOIN users u ON a.Id_user = u.Id_user 
-        WHERE a.statut = 'en_attente' 
         ORDER BY a.created_at DESC");
         $avis = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
@@ -58,10 +57,6 @@ $horaires = [];
                 
                 <div class="sidebar-espace">
 
-                    <button type="button" class="btn-commande" data-target="commandes-wrapper" aria-selected="commandes">Commandes</button>
-                    <button type="button" class="btn-menus" data-target="menus-plat" aria-selected="Menus et plats">Menus & Plats</button>
-                    <button type="button" class="btn-avis" data-target="moderation-avis" aria-selected="Modération Avis">Modération Avis</button>
-                    <button type="button" class="btn-horaires" data-target="horaires" aria-selected="Horaires">Horaires</button>
                     <button type="button" class="btn-dashboard" data-target="dashboard-wrapper" aria-selected="Tableau de Bord">Tableau de Bord</button>
                     <button type="button" class="btn-employee" data-target="employee-wrapper" aria-selected="Employés">Employés</button>
                     <button type="button" class="btn-turnover" data-target="turnover-view" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button>
@@ -82,18 +77,6 @@ $horaires = [];
                     <?php endif; ?>
                     
 
-                <section id="menus-plat" class="account-panel">
-                        <?php include './espace/employee/menus-plat.php' ?>
-                </section>
-
-                <section id="moderation-avis" class="account-panel">
-                        <?php include './espace/employee/avis.php' ?>
-                </section>
-                
-                <section id="horaires" class="account-panel">
-                    <?php include './espace/employee/horaires.php' ?>
-                </section>
-
                 <section id="dashboard-wrapper" class="account-panel">
                         <?php include './espace/admin/dashboard.php' ?>
                 </section>
@@ -110,5 +93,6 @@ $horaires = [];
 
         <?php include './includes/footer.php' ;?>
         <script src="./js/espaceclient.js"></script>
+        <script src="/VG/js/espaceAdmin.js"></script>
     </body>
 </html>

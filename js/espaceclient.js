@@ -1,28 +1,9 @@
-// Menu toggle
-function toggleMenu(header) {
-    const body = header.nextElementSibling;
-    const chevron = header.querySelector('.chevron');
-    const isOpen = !body.classList.contains('hidden');
-    document.querySelectorAll('.menu-body').forEach(b => b.classList.add('hidden'));
-    document.querySelectorAll('.chevron').forEach(c => c.classList.remove('open'));
-    if (!isOpen) {
-        body.classList.remove('hidden');
-        chevron.classList.add('open');
-    }
-}
-//Commande toggle
-function toggleCmd(header) {
-    const body = header.nextElementSibling;
-    const chevron = header.querySelector('.chevron');
-    const isOpen = !body.classList.contains('hidden');
-    document.querySelectorAll('.client-body').forEach(b => b.classList.add('hidden'));
-    document.querySelectorAll('.client-card-header .chevron').forEach(c => c.classList.remove('open'));
-    if (!isOpen) {
-        body.classList.remove('hidden');
-        chevron.classList.add('open');
-    }
-}
+
 document.addEventListener('DOMContentLoaded', () => {
+/*----------------  
+    SIDEBAR
+-----------------*/
+
     const buttons = document.querySelectorAll('[data-target]');
     
     if (buttons.length > 0) {
@@ -45,207 +26,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
-    }});
+    }
 
-//Modifier Menu / Espace Employé -Admin
-document.querySelectorAll('.editable').forEach(cell => {
-    cell.addEventListener('blur', () => {
-        const id = cell.dataset.id;
-        const field = cell.dataset.field;
-        const value = cell.innerText.trim();
+/*-------------------
+    Envois avis
+--------------------*/
 
-        fetch('/VG/traitement/update-menu.php', {
+    document.getElementById('form-avis')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const contenu = this.querySelector('textarea').value.trim();
+        if(!contenu) return;
+
+        fetch('/VG/traitement/submit-avis.php', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id, field, value })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contenu })
         })
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-            if (data.success) {
-                cell.style.outline = '2px solid green';
-                setTimeout(() => cell.style.outline = '', 2000);
-            } else {
-                cell.style.outline = '2px solid red';
-            }
+            const msg = document.getElementById('avis-message');
+            msg.textContent = data.success ? 'Avis envoyé, merci !' : "Erreur lors de l'envoi.";
+            msg.className = data.success ? 'message-succes' : 'message-erreur';
+            if (data.success) this.querySelector('textarea').value = '';
+            setTimeout(() => msg.textContent = '', 4000);
         });
     });
-});
 
 
 
-//Enregistrement Menu
-function saveMenu(id, btn) {
-    const fields = document.querySelectorAll(`.editable[data-id="${id}"]`);
-    const data = { id };
-    fields.forEach(f => { data[f.dataset.field] = f.innerText.trim(); });
+/*----------------
+    Menu card
+----------------*/
 
-    fetch('/VG/traitement/update-menu.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(result => {
-        const toast = document.getElementById('toast-' + id);
-        if (result.success) {
-            btn.style.background = '#1D9E75';
-            btn.textContent = 'Enregistré';
-            toast.textContent = 'Modifications sauvegardées';
-            toast.style.color = '#1D9E75';
-        } else {
-            btn.style.background = '#E24B4A';
-            btn.textContent = 'Erreur';
-        }
-        setTimeout(() => {
-            btn.style.background = '';
-            btn.textContent = 'Enregistrer';
-            toast.textContent = '';
-        }, 2000);
-    });
-}
-
-// Filtre menu
-document.getElementById('search-menu').addEventListener('input', function() {
-    const q = this.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
-    document.querySelectorAll('.menu-card').forEach(card => {
-
-        if(q === ""){ card.style.display = '';
-            return;
-        }
-
-        const fields = card.querySelectorAll('[data-field]');
-        let combinedText = "";
-        fields.forEach(f => { combinedText += " " + f.innerText.trim(); });
+    function toggleMenu(header) {
+        const card = header.closest('.menu-card');
+        const body = card.querySelector('.menu-body');
+        const chevron = header.querySelector('.chevron');
+        const isOpen = !body.classList.contains('hidden');
     
-        const searchTarget = combinedText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
-        let isMatch = searchTarget.includes(q);
-
-        //filtre vegan / non-vegan 
-        if(q === "vegan" && searchTarget.includes("non-vegan") && !searchTarget.match(/(^|\s)vegan(\s|$)/)) {
-            isMatch = false;}
-            
-        card.style.display = isMatch ? '' : 'none';
-        
-    });
-});
-
-// Commandes toggle
-function toggleCmd(header) {
-    const body = header.nextElementSibling;
-    const chevron = header.querySelector('.chevron');
-    const isOpen = !body.classList.contains('hidden');
-    document.querySelectorAll('.client-body').forEach(b => b.classList.add('hidden'));
-    document.querySelectorAll('.chevron').forEach(c => c.classList.remove('open'));
-    if (!isOpen) { body.classList.remove('hidden'); chevron.classList.add('open'); }
-}
-
-//Check Annulation
-function checkAnnul(idCommande){
-    const select = document.getElementById('sel-' + idCommande);
-    const annulSection = document.getElementById('annul-' + idCommande);
-
-    if(select && annulSection){
-        if (select.value ==='annulee'){
-            annulSection.style.display ='block';
-        } else {
-            annulSection.style.display = 'none';
+        document.querySelectorAll('.menu-body').forEach(b => b.classList.add('hidden'));
+        document.querySelectorAll('.menu-card-header .chevron').forEach(c => c.classList.remove('open'));
+        if (!isOpen) {
+            body.classList.remove('hidden');
+            chevron.classList.add('open');
         }
     }
-}
-
-function confirmerAnnulation(id){
-    const container = document.getElementById('annul-' + id);
-
-    const mode = container.querySelector('select[name="mode_contact]').value;
-    const contact = container.querySelector('input').value.trim();
-    const motif = container.querySelector('textarea').value.trim();
-
-    if(contact === "" || motif ===""){
-        alert("Attention : Le nom du contact ainsi que le motif du refus sont obligatoire.");
-        container.querySelectorAll('input, textarea').forEache(el =>{
-            if(el.value.trim() ==="") el.style.border = "1px solid red";
-            else el.style.border = "";
-        });
-        return;
-    }
     
-}
+}); 
 
-
-//Enregistrement Statut
-function saveStatut(id, btn) {
-    const statut = document.getElementById('sel-' + id).value;
-    const toast  = document.getElementById('toast-' + id);
-
-    fetch('/VG/traitement/updateStatus.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id_commande: id, statut: statut })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            btn.style.background = '#1D9E75';
-            btn.textContent = 'Enregistré';
-            toast.textContent = 'Statut mis à jour';
-        } else {
-            btn.style.background = '#E24B4A';
-            btn.textContent = 'Erreur';
-        }
-        setTimeout(() => {
-            btn.style.background = '';
-            btn.textContent = 'Enregistrer';
-            toast.textContent = '';
-        }, 2000);
-    });
-}
-
-
-// Filtre client + statut
-document.getElementById('search-client')?.addEventListener('input', filtrerCommandes);
-document.getElementById('search-status')?.addEventListener('change', filtrerCommandes);
-
-function filtrerCommandes() {
-    const client = document.getElementById('search-client').value.toLowerCase();
-    const statut = document.getElementById('search-status').value;
-    document.querySelectorAll('.client-card').forEach(card => {
-        const matchClient = card.dataset.nom.includes(client);
-        const matchStatut = !statut || card.dataset.statut === statut;
-        card.style.display = matchClient && matchStatut ? '' : 'none';
-    });
-}
-
-//Modération avis -> Valider refuser via Fetch
-function actionAvis(id,action){
-    fetch('/VG/traitement/valider-avis.php', {
-        method: 'POST',
-        headers : {'Content-Type': 'application/json'},
-        body: JSON.stringify({id_avis:id, action: action})
-    })
-    .then(res => res.json())
-    .then(data => {
-        if(data.success){
-            const item = document.getElementById('avis-item-' + id);
-            item.style.opacity = '0';
-            item.style.transition ='opacity 0.3s';
-            setTimeout(() => item.remove(), 300);
-        }
-    });
-}
-
-//Toggle Horaires
-function toggleFerme(id, cb){
-    const row = document.getElementById('row-' +id);
-    ['open_am', 'fermeture_am', 'ouverture_apm', 'fermeture_apm'].forEach(p => {
-        const inp = row.querySelector('input[name="${p}_${id}"]');
-        if(inp) {
-            inp.disabled = cb.checked;
-            if(inp.checked) inp.value ='';
-        }
-    });
-    row.classList.toggle('ferme', cb.checked);
-}

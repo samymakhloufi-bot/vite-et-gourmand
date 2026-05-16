@@ -8,7 +8,8 @@ $token = $_GET['token'] ?? '';
 if($token) {
     $stmt = $pdo -> prepare("SELECT id_user FROM users WHERE reset_token = ? AND reset_token_expiry > NOW()");
     $stmt ->execute([$token]);
-    $stmt-> $check->fetch();
+    $check = $stmt-> fetch();
+
     if($check){
         $token_valide = true;
     };
@@ -16,7 +17,7 @@ if($token) {
 
 if(isset($_POST['nouveau-mdp']) && $token_valide) {
     $mdp = $_POST['password'];
-    $mdp_confirm = $_PPOST['password-confirm'];
+    $mdp_confirm = $_POST['password-confirm'];
 
     if(strlen($mdp) < 8){
         $message = "Le mot de passe doit contenir au moins 8 caractères.";
@@ -41,22 +42,31 @@ $activePage = 'Changement de mot de passe';
     <body>
         <?php include './includes/header.php';?>
         <main>
+            <div class="nos-menus-banner">
+            <div class="nos-menus-banner_diag"></div>
+            <div class="nos-menus-banner_dark_diag"></div>
+            <div class="nos-menus-banner_text">
+            <h2>Nouveau <em>Mot de Passe </em></h2></div>
+        </div>
             <section class="auth-wrapper">
-                <div class="auth-form">
+                <div class="msg-password">
                     <?php if(!$token_valide):?>
-                        <p class="message-erreur">Ce lien est invalide ou expiré. <a href="reinitialisation.php">Demander un nouveau lien</a></p>
-                    <?php else:?>
+                        <p class="message-erreur">Ce lien est invalide ou expiré : </br> <a href="reinitialisationMDP.php" class="new_link"> Demander un nouveau lien.</a></p>
+                        <?php else:?>
                         <form action="./modificationMDP.php?token=<?php echo htmlspecialchars($token); ?>" method="post">
                             <fieldset>
-                                <h3>Nouveau Mot de Passe</h3>
                                 <?php if ($message) : ?>
                                     <p class="message-<?= $message_type?>"><?= htmlspecialchars($message); ?></p>
                                 <?php endif; ?>
-                                <div class="auth-fields"></div>
-                                    <label for="password">Nouveau mot de passe</label>
-                                    <input type="password" id="password" name="password" minlenght="8" required>
-                                    <label for="password-confirm">Confirmez le mot de passe</label>
-                                    <input type="password" id="password-confirm" name="password-confirm" minlenght="8" required>
+                                <div class="reset-password-field"></div>
+                                    <div class="first-password">
+                                        <label for="password">Nouveau mot de passe</label>
+                                        <input type="password" id="password" name="password" minlenght="8" required>
+                                    </div>
+                                        <div class="recall-password">
+                                        <label for="password-confirm">Confirmez mot de passe</label>
+                                        <input type="password" id="password-confirm" name="password-confirm" minlenght="8" required>
+                                    </div>
                                 </div>
                                 
                                 <button type="submit" name="nouveau-mdp">Modifier le mot de passe</button>

@@ -3,7 +3,7 @@ require_once __DIR__ . '/../login.php';
 $activePage = 'menus';
 
 $id = $_GET['id'] ?? null;
-$stmt = $pdo->prepare("SELECT * FROM menu WHERE link = ?");
+$stmt = $pdo->prepare("SELECT * FROM menu WHERE link = ? AND actif = 1 ");
 $stmt->execute([$id]);
 $menu_actif = $stmt->fetch();
 
@@ -15,6 +15,7 @@ if (!$menu_actif) {
 <!DOCTYPE html>
 <html lang="fr">
 <?php include __DIR__ . '/../includes/head.php'; ?>
+    <script src="/VG/js/commande.js"></script>
 <body>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 
@@ -67,8 +68,27 @@ if (!$menu_actif) {
         </ul>
 
         <div class="menu-detail-footer">
-            <em class="menu-price">Prix : <?= $menu_actif['prix'] ?> €/personne — Min : <?= $menu_actif['nb_perso_min'] ?> personnes</em>
-            <a href="../commande.php" class="btn-order">Commander</a>
+            
+            <em class="menu-price">Prix : <?= $menu_actif['prix'] ?> €/personne / Min : <?= $menu_actif['nb_perso_min'] ?> personnes</em>
+            <form action="../achat.php" method="POST">
+                <input type="hidden" name="menu_nom" value="<?= htmlspecialchars($menu_actif['menu_nom'])?>">
+                <input type="hidden" name="nb_pers" value="<?= $nb_pers?>">
+                <input type="hidden" name="menu_id" value="<?= $menu_actif['Id_menu']?>">
+
+                <div class="nb-person-menu">
+                    <span>NB.<br>PERSONNES</span>
+                    <div class="btn-counter-nb">
+                            <button type="button" class="counter-btn" onclick="change(this, -1)">-</button>
+                            <input type="number" class="counter-val" name="nb_pers" value="1" min="1">
+                            <button type="button" class="counter-btn" onclick="change(this, 1)">+</button>
+                        </div>
+                </div>
+
+                <div class="order-menu-btn">
+                    <button type="submit" class="btn-menu-order">Commander</button>
+                </div>
+
+            </form>
         </div>
     </article>
 </main>

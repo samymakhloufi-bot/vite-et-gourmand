@@ -32,7 +32,7 @@ if(isset($_POST['submit-contact'])) {
 
             $mail->setFrom($email);
             $mail->addAddress('samymakhloufi@gmail.com', 'Vite et Gourmand');
-            $mail->Subject = 'Réinitialisation de votre mot de passe';
+            $mail->Subject = 'Demande de contact';
             $mail->isHTML(true);
             $mail->Body ="De : $nom $prenom <br>
                         Email : $email <br>
