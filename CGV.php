@@ -5,10 +5,10 @@ session_start();
 
 <html lang="fr">
 
-    <?php include __DIR__.'./includes/head.php';?>
-
+        <?php include './includes/head.php';?>
+    
     <body>
-        <?php include __DIR__.'./includes/header.php';?>
+        <?php include './includes/header.php';?>
 
         <main>
 
@@ -20,57 +20,139 @@ session_start();
             </div>
 
             <div class="information-wrapper">
-                <p class="update">Dernière mise à jour : avril 2026</p>
+                <p class="update">Dernière mise à jour : Mai 2026</p>
                 <div class="information">
-                    <h3>Objet</h3>
+                    <h3>1. Objet</h3>
                     <p>
                         Les présentes conditions générales de vente régissent les relations contractuelles entre Vite & 
-                        Gourmand et tout client passant commande via le site internet ou directement auprès de nos services.
+                        Gourmand(ci-après "le Traiteur") et tout client(ci-après "le Client") passant commande via le site internet, par téléphone ou directement auprès de nos services.
                     </p>
                 </div>
 
                 <div class="information">
-                    <h3>Commandes</h3>
-                    <span>PROCESSUS DE COMMANDE </span>
-                    <p>
-                        Toute commande est confirmée uniquement après réception du bon de commande signé et du versement d'un acompte 
-                        de 30% du montant total. Le solde est dû au plus tard 48h avant la date de livraison.
-                    </p>
-
-                    <span>DÉLAI DE COMMANDE</span>
-                    <p>
-                        Les commandes doivent être passées au minimum 72 heures avant la date de livraison souhaitée. Pour les événements 
-                        de plus de 100 personnes, un délai de 7 jours est requis.
-                    </p>
-                </div>
-
-                <div class="information">
-                    <h3>Tarifs & Paiement</h3>
-                    <p>
-                        Les prix indiqués sont en euros TTC. Vite & Gourmand se réserve le droit de modifier ses tarifs à tout moment. 
-                        Les paiements sont acceptés par virement bancaire ou carte bancaire via notre plateforme sécurisée.
-                    </p>
-
-                </div>
-
-                <div class="information">
-                    <h3>Annulation</h3>
-                    <p>
-                        Toute annulation doit être notifiée par écrit. En cas d'annulation :
-                    </p>
+                    <h3>2. Commandes</h3>
+                    <span>2.1 PROCESSUS DE COMMANDE </span>
                     <ul>
-                        <li>Plus de 7 jours avant : remboursement intégral de l'acompte.</li>
-                        <li>Entre 3 et 7 jours : retenue de 50% de l'acompte.</li>
-                        <li>Moins de 72h : acompte conservé intégralement</li>
+                        <li>Les demandes de commandes sont reçues via l'espace employé de Vite & Gourmand</li>
+                        <li>Vite & Gourmand se réserve le droit d'accepter ou de refuser toute commande.</li>
+                        <li>Une commande n'est confirmée que lorsque l'équipe l'a validée manuellement. La confirmation est alors visible
+                            dans l'espace client, via le statut de la commande (ex : "En attente", "Accepté", "Annulée").
+                        </li>
+                        <li>Le Client est informé de la décision par notification dans l'espace client et/ou par mail. </li>
+                    </ul>
+
+                    <span>2.2 DÉLAI DE COMMANDE</span>
+                    <ul>
+                        <li><b>Commande standard</b> </b>: Minimum 72h avant la livraison.</li>
+                        <li><b>Événements de plus de 50 personnes </b>: Minimum 10 jours ouvrés avant la livraison.</li>
+                        <li>Les délais sont indicatifs et peuvent varier selon la disponibilité des produits.</li>
+                    </ul>
+
+                </div>
+
+                <div class="information">
+                    <h3>3. Tarifs & Paiement</h3>
+                    <span>3.1 Tarifs</span>
+                    <ul>
+                        <li>Les prix sont indiqués en euros TTC et sont valables au moment de la commande.</li>
+                        <li>Aucune modification de tarif ne sera appliquée après confirmation de la commande, sauf accord exprès du Client.</li>
+                    </ul>
+                    <span>3.2 Modalités de paiement</span>
+                    <ul>
+                        <li>Le paiement intégral est dû lors de la prise de commande.</li>
+                        <li><b>Paiement accepté par </b>: 
+                            <ul>
+                            <li>Virement bancaire (RIB communiqué sur devis).</li>
+                            <li>Carte bancaire via plateforme sécurisée (Stripe/Paypal).</li>
+                        </ul></li>
+                    </ul>
+
+                    <span>3.3 Frais de livraison</span>
+                    <table>
+                        <thead>
+                            <th>Zone</th>
+                            <th>Tarif</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Bordeaux (intra-muros)</th>
+                                <td>Gratuit</td>
+                            </tr>
+                            <tr>
+                                <th>Hors Bordeaux</th>
+                                <td>5€ + 0,65€/km</td>
+                            </tr>
+                        </tbody>
+                        <ul>
+                            <li>Les frais sont calculés automatiquement lors de la commande et affichés avant validation.</li>
+                        </ul>
+                    </table>
+                </div>
+
+                <div class="information">
+                    <h3>4. Annulation</h3>
+                    <p>Toute annulation doit être notifiée (email ou téléphone). </p>
+                    <table>
+                        <thead>
+                            <th>Délai avant la livraison</th>
+                            <th>Conséquences</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Plus de 7 jours</th>
+                                <td>Remboursement itnégral sous 15 jours.</td>
+                            </tr>
+                            <tr>
+                                <th>Entre 72h et 7jours</th>
+                                <td>Retenue de 50% du montant total.</td>
+                            </tr>
+                            <tr>
+                                <th>Moins de 72h</th>
+                                <td>Montant total conservé.</td>
+                            </tr>
+                        </tbody>
+                        <ul>
+                            <li>Les frais sont calculés automatiquement lors de la commande et affichés avant validation.</li>
+                        </ul>
+                    </table>
+                </div>
+
+                <div class="information">
+                    <h3>5. Livraison</h3>
+
+                    <ul>
+                        <li><b>Lieu </b>: À l'adresse indiquée par le Client (Validée par Vite & Gourmand).</li>
+                        <li><b>Horaires </b>: Selon créneau convenu lors de la commande.</li>
+                        <li><b>Retard </b>: En cas de retard indépendant de notre volonté, le Client sera informé dans les plus brefs
+                            deélais. Aucun dédommagement ne sera dû pour un retard inférieur à 2h.y
+                        </li>
                     </ul>
                 </div>
 
                 <div class="information">
-                    <h3>Litiges</h3>
-                    <p>
-                        En cas de litige, une solution amiable sera recherchée en priorité. À défaut, les tribunaux compétents de Bordeaux 
-                        seront saisis, conformément au droit français.
-                    </p>
+                    <h3>6. Litiges</h3>    
+                    <ul>
+                        <li><b>Solution amiable</b> : En cas de litige, une solution sera recherchée en priorité par échange écrit.</li>
+                        <li><b>Médiation</b>: Le client peut saisir le médiateur de la consommation : Médiateur du Tourisme et des Voyages -<a href="www.mtv.travel">www.mtv.travel</a>.</li>
+                        <li><b>Tribunaux </b>compétents : À défaut de solution sous 30 jours, les tribunaux de Bordeaux seront saisis, conformément au droit français.</li>
+                    </ul>
+                </div>
+
+                <div class="information">
+                    <h3>7. Données personnelles </h3>
+                        <p>Les données collectées sont utilisées uniquement pour la gestion des commandes. Conformément au RGPD, le Client dispose d’un droit d’accès, 
+                            de rectification et de suppression de ses données (contact : vetg@traiteur.fr). </p>
+                    
+                </div>
+
+                <div class="information">
+                    <h3>8. Divers</h3>
+                    <ul>
+                        <li><b>Droit applicable</b> : Droit français</li>
+                        <li><b>Modification des CGV </b>: Vite & Gourmand se réserve le droit de modifier les présenter CGV.
+                            Les CGV applicables sont celles en vigueur au moment de la commande.
+                        </li>
+                    </ul>
                 </div>
             </div>
         </main>

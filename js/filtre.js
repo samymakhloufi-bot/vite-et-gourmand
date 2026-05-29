@@ -1,8 +1,12 @@
-//Récupérer les éléments
+/*--------------------------------------------
+    Récupérer les éléments
+--------------------------------------------*/
 const filtreBtn = document.getElementById('filter-toggle');
 const filtreMenu = document.querySelector('.sidebar-wrapper');
 
-//récupérer chevron 
+/*--------------------------------------------
+    récupérer chevron
+---------------------------------------------*/
 const chevron = document.querySelector('.toggle-chevron');
 
 //Afficher / Masquer le menu de filtre
@@ -15,8 +19,9 @@ filtreBtn.addEventListener('click', () => {
 
 });
 
-
-//filtre theme menu-card
+/*--------------------------------------------
+    filtre theme menu-card
+---------------------------------------------*/
 const selTheme    = document.getElementById('select-theme');
 const tagsRegime   = document.querySelectorAll('#tags-regime .tag');
 const selPriceFork = document.getElementById('select-price-fork');
@@ -58,7 +63,9 @@ function filtrer() {
     });
 }
 
-//Gestion des tags régime
+/*--------------------------------------------
+    Gestion des tags régime
+---------------------------------------------*/
 tagsRegime.forEach(tag => {
     tag.addEventListener('click', () => {
         tagsRegime.forEach(t => t.classList.remove('on'));
@@ -71,7 +78,9 @@ tagsRegime.forEach(tag => {
 [selTheme, selPriceFork].forEach(sel => {sel.addEventListener('change', filtrer);});
 [inputPersonnes, inputPrix].forEach(input => {input.addEventListener('input', filtrer);});
 
-//Bouton de réinitialisation
+/*--------------------------------------------
+    Bouton de réinitialisation
+---------------------------------------------*/
 const btnReset = document.querySelector('.filter-reset');
 btnReset.addEventListener('click', () => {
     //Réinitialiser les sélecteurs

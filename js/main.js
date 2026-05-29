@@ -1,14 +1,16 @@
 const btnBurger = document.querySelector('.burger-btn');
 const navList = document.querySelector('.nav-list');
 
-
-//Open Nav Menu
+/*--------------------------------------------
+    Ouvre Nav Menu
+---------------------------------------------*/
 btnBurger.addEventListener('click', () => {
     navList.classList.toggle('nav-open');
 });
 
-//Switch MENU / FERMER
-
+/*--------------------------------------------
+    Switch MENU / FERMER
+---------------------------------------------*/
 btnBurger.addEventListener('click', () => {
     if (navList.classList.contains('nav-open')) {
         btnBurger.textContent = '✕';
@@ -17,7 +19,9 @@ btnBurger.addEventListener('click', () => {
     }
 });
 
-//close burger menu when clicking outside
+/*--------------------------------------------
+    ferme menu burger click en dehors
+---------------------------------------------*/
 document.addEventListener('click', (event) => {
     if (!navList.contains(event.target) && !btnBurger.contains(event.target)) {
         navList.classList.remove('nav-open');

@@ -10,7 +10,7 @@ $stmts = $pdo -> prepare("SELECT * FROM users WHERE id_user = ?");
 $stmts -> execute([$_SESSION['user_id']]);
 $user = $stmts -> fetch(PDO::FETCH_ASSOC);
 
-$stmt_commandes = $pdo -> prepare("SELECT c.Id_commande, m.menu_nom, c.date_livraison, cd.prix, c.statut 
+$stmt_commandes = $pdo -> prepare("SELECT c.Id_commande, m.menu_nom, c.date_livraison, cd.prix, c.statut
                             FROM commande c 
                             JOIN commande_detail cd ON c.Id_commande = cd.Id_commande
                             JOIN menu m ON cd.Id_menu = m.Id_menu
@@ -80,8 +80,8 @@ if(isset($_POST['update-account'])) {
                             <tr>
                                 <th scope="row">#<?= $commande['Id_commande'] ?></th>
                                 <td><?= htmlspecialchars($commande['menu_nom']) ?></td>
-                                <td><?= date('d/m/Y', strtotime(htmlspecialchars($commande['date_livraison']))) ?>€</td>
-                                <td><?= htmlspecialchars($commande['prix']) ?></td>
+                                <td><?= date('d/m/Y', strtotime(htmlspecialchars($commande['date_livraison']))) ?></td>
+                                <td><?= htmlspecialchars($commande['prix']) ?>€</td>
                                 <td><span class="order-statut order-statut--waiting">EN ATTENTE</span></td>
                                     <td><a href="" class="btn-details">DÉTAILS</a></td>
                             </tr>
@@ -138,11 +138,21 @@ if(isset($_POST['update-account'])) {
                         <textarea name="contenu" placeholder="Donner votre avis ...." required></textarea>
                         <button type="submit" name="submit-avis">Envoyer mon avis</button>
                     </form>
+
+                    <div class="avis-succes" id="avis-succes" style="display:none">
+                        <div class="succes-icon">
+                            <svg viewBox="0 0 32 32" fill="none">
+                                <path d="M8 16 L13 21 L24 11" stroke="#F5F0E8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h2>Votre avis a été envoyée avec succès !</h2>
+                    </div>  
                 </section>
+
             </div>
         </main>
 
         <?php include './includes/footer.php' ;?>
-        <script src="./js/espaceclient.js"></script>
+        <script src="./js/espaceClient.js"></script>
     </body>
 </html>

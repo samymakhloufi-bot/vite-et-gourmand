@@ -5,7 +5,7 @@
 
     //verif session
     if(!isset($_SESSION['user_id'])) {
-        header('Location: /VG/connexion.php?redirect=achat.php');
+        header('Location: /VG/connexion.php?redirect=nosmenus.php');
         exit();
     }
 
@@ -38,7 +38,8 @@
         if (isset($_POST['commander'])) {
             $nom         = trim($_POST['nom']);
             $prenom      = trim($_POST['prenom']);
-            $adresse     = trim($_POST['address']) . ', ' . trim($_POST['postal_code']) . ' ' . trim($_POST['city']);
+            $adresse_de_livraison     = trim($_POST['address-livraison']);
+            $ville_de_livraison       = trim($_POST['ville-livraison']);
             $email       = trim($_POST['email']);
             $tel         = trim($_POST['tel']);
             $date        = $_POST['date'];
@@ -50,7 +51,7 @@
             $menu_prix = (float)($menu_infos['prix'] ?? '');
 
             $nb_pers     = (int)$_POST['nb_pers'];
-            $total       = $menu_prix * $nb_pers;
+            $prix_total       = $menu_prix * $nb_pers;
             $mode_paiement = $paiement === 'devis' ? 'devis' : 'carte_bancaire';
 
             if(!empty($_POST['date']) && !empty($_POST['heure']) ) {
@@ -65,9 +66,9 @@
     
                     // Insérer dans commande
                     $insert = $pdo->prepare("INSERT INTO commande 
-                        (Id_user, date_livraison, statut, mode_paiement, adresse_livraison, complement, date_commande) 
-                        VALUES (?, ?, ?, ?, ?, ?, NOW())");
-                    $insert->execute([$_SESSION['user_id'], $datetime_final,'en_attente', $mode_paiement, $adresse, $complement]);
+                        (Id_user, date_livraison, statut, mode_paiement, adresse_livraison, ville_livraison, complement, date_commande) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+                    $insert->execute([$_SESSION['user_id'], $datetime_final,'en_attente', $mode_paiement, $adresse_de_livraison, $ville_de_livraison, $complement]);
     
                     //Récup Id généré
                     $id_commande = $pdo->lastInsertId();
@@ -76,7 +77,7 @@
                     $detail = $pdo->prepare("INSERT INTO commande_detail 
                         (Id_commande, Id_menu, quantite, prix) 
                         VALUES (?, ?, ?, ?)");
-                    $detail->execute([$id_commande, $menu_id, $nb_pers, $total]);
+                    $detail->execute([$id_commande, $menu_id, $nb_pers, $prix_total]);
     
                     //enregistrement de la commande
                     $pdo ->commit();
@@ -116,7 +117,7 @@
                                     <p><strong>Menu :</strong> $menu_nom</p>
                                     <p><strong>Nombre de personnes :</strong> $nb_pers</p>
                                     <p><strong>Prix/pers :</strong> $menu_prix €</p>
-                                    <p><strong>Total estimé :</strong> $total €</p>
+                                    <p><strong>Total estimé :</strong> $prix_total €</p>
                                     ";
                                     $mail->send();
     
@@ -208,14 +209,14 @@
                                 </div>
 
                                 <div>
-                                    <label for="address">Adresse de livraison :</label>
+                                    <label for="address">Adresse :</label>
                                     <input type="text" id="address" name="address" required
                                     value="<?php echo htmlspecialchars($user['adresse'] ?? ''); ?>">
                                 </div>
     
                                 <div>
-                                    <label for="city">Ville :</label>
-                                    <input type="text" id="city" name="city" required
+                                    <label for="ville">Ville :</label>
+                                    <input type="text" id="ville" name="ville" required
                                     value="<?php echo htmlspecialchars($user['ville'] ?? ''); ?>">
                                 </div>
                 
@@ -245,11 +246,31 @@
                                 <label for="date">Date de livraison :</label>
                                 <input type="date" id="date" name="date" required>
                             </div>
+
                             <div>
                                 <label for="time">Heure de livraison :</label>
                                 <input type="time" id="time" name="time" required>
                             </div>
 
+                            <div>
+                                    <label for="ville-livraison">Ville de livraison:</label>
+                                    <select name="ville-livraison" id="ville-livraison" required>
+                                        <option value="bordeaux">Bordeaux</option>
+                                        <option value="autre">Autre (préciser)</option>
+                                    </select>
+                            </div>
+
+                            <div id="ville-livraison-autre-div" style="display: none;">
+                                <label for="ville-livraison">Précisez la ville : </label>
+                                <input type="text" id="ville-livraison" name="ville-livraison" placeholder="Bègles, Bruges, Talence,...">
+                            </div>
+
+                            <div>
+                                    <label for="address-livraison-autre">Adresse de livraison:</label>
+                                    <input type="text" id="address-livraison-autre" name="address-livraison-autre" required
+                                    value="<?php echo htmlspecialchars($user['adresse'] ?? ''); ?>">
+                            </div>
+                            
                             <div>
                                 <label for="comment">Commentaire :</label>
                                 <textarea type="text" id="comment" name="comment" placeholder="Complément d'adresse, instructions de livraison...."></textarea>
@@ -312,6 +333,7 @@
         </main>
 
         <script src="./js/commande.js"></script>
+        <script src="./js/achat.js"></script>
         <?php include './includes/footer.php' ;?>
 
     </body>

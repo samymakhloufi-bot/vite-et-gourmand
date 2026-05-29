@@ -1,6 +1,8 @@
 <?php $activePage = 'Connexion'; 
 require_once __DIR__.'/login.php';
 
+    $fromCommande = isset($_GET['redirect']) && $_GET['redirect'] == 'nosmenus.php';
+
 $message ='';
 
 if (isset($_POST['se-connecter'])) {
@@ -62,6 +64,13 @@ if (isset($_POST['se-connecter'])) {
         </div>
 
         <main>
+            <?php if ($fromCommande) :?>
+                <div class="alert-commande">
+                    Pour pouvoir commander, veuillez vous connecter ou<a href="/VG/inscription.php">créer un compte.</a>
+                </div>
+                
+            <?php endif;?>
+
             <section class="auth-wrapper">
 
                 <div class="auth-form"> 

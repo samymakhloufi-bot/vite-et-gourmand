@@ -1,16 +1,15 @@
 <?php $activePage= 'Mentions Légales'; 
-
-session_start();
+require_once './login.php';
 
 ?>
 <!DOCTYPE html>
 
 <html lang="fr">
 
-    <?php include __DIR__.'./includes/head.php';?>
-
+        <?php include './includes/head.php';?>
+    
     <body>
-        <?php include __DIR__.'./includes/header.php';?>
+        <?php include './includes/header.php';?>
 
         <main>
             <div class="nos-menus-banner">

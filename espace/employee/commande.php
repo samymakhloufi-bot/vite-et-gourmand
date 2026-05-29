@@ -1,4 +1,4 @@
-<div class="menu-toolbar">
+<div class="cmd-toolbar">
                         <span class="toolbar-title-cmd">Commandes</span>
                         <input type="text" class="search-client" id="search-client" placeholder="Rechercher un client">
                         <select name="search-statut" id="search-statut">

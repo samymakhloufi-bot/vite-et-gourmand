@@ -1,3 +1,6 @@
+/*--------------------------------------------
+    MISE À JOUR STATUS CMD
+---------------------------------------------*/
 function updateStatus(selected, idCommande) {
     fetch('../traitement/updateStatus.php', {
         method: 'POST',

@@ -83,6 +83,7 @@ $menus = $stmt->fetchAll();
                 <h3><?= htmlspecialchars($menu['menu_nom']) ?></h3>
                 <span><?= $menu['theme'] ?> - <?= $menu['regime'] ?></span>
                 <span><?= $menu['prix'] ?> €/PERS.</span>
+                <span><?= $menu['nb_perso_min']?> PERS./min</span>
             </div>
 
             <div>
@@ -94,9 +95,11 @@ $menus = $stmt->fetchAll();
                     <div class="menu-card-footer">
                         <div class="nb-person">
                             <span>NB.<br>PERSONNES</span>
-                            <button type="button" class="counter-btn" onclick="change(this, -1)">-</button>
-                            <input type="number" class="counter-val" name="nb_pers" value="1" min="1">
-                            <button type="button" class="counter-btn" onclick="change(this, 1)">+</button>
+                            <div class="input-nb-person">
+                                <button type="button" class="counter-btn" onclick="change(this, -1)">-</button>
+                                <input type="number" class="counter-val" name="nb_pers" value="1" min="<?= $menu['nb_perso_min']?>">
+                                <button type="button" class="counter-btn" onclick="change(this, 1)">+</button>
+                            </div>
                         </div>
                         <div class="btn-footer-card-menu">
                             <button type="submit" class="btn-direct-order">Commander</button>

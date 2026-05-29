@@ -1,6 +1,8 @@
 const radioDiv = document.querySelectorAll('.radio-div');
 
-//Add & remove selected fromd radio
+/*--------------------------------------------
+    Ajout ou suppr element radio
+---------------------------------------------*/
 radioDiv.forEach(Option => {
     Option.addEventListener('click', (e) =>{
         e.preventDefault();
@@ -10,8 +12,9 @@ radioDiv.forEach(Option => {
     });
 });
 
-
-//button counter val order
+/*--------------------------------------------
+    button counter val order
+---------------------------------------------*/
 function change(btn, dir){
     const input = btn.parentElement.querySelector('.counter-val');
     const val = parseInt(input.value) + dir;
@@ -19,7 +22,7 @@ function change(btn, dir){
 }
 
 document.getElementById('form-commande').addEventListener('submit', function() {
-    const btn = this.querySelector('.btn-order');
+    const btn = this.querySelector('.btn-direct-order');
     btn.disabled = true;
     btn.innerText = "Envoi en cours...";
 })
