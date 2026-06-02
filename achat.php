@@ -75,9 +75,9 @@
     
                     // Insérer dans commande_detail
                     $detail = $pdo->prepare("INSERT INTO commande_detail 
-                        (Id_commande, Id_menu, quantite, prix) 
-                        VALUES (?, ?, ?, ?)");
-                    $detail->execute([$id_commande, $menu_id, $nb_pers, $prix_total]);
+                        (Id_commande, Id_menu, quantite, prix, frais_livraison, distance_km) 
+                        VALUES (?, ?, ?, ?, ?, ?)");
+                    $detail->execute([$id_commande, $menu_id, $nb_pers, $menu_prix * $nb_pers, $frais_livraison, $distanceKM]);
     
                     //enregistrement de la commande
                     $pdo ->commit();
@@ -158,7 +158,12 @@
             }
 }
 
-    
+//Récupération frais de livraison
+$frais_livraison = (float)($_POST['frais_livraison'] ?? 0);
+$distanceKM = (float)($_POST['distance_km'] ?? 0);
+
+// Calcul du total Final
+$prix_total = $menu_prix * $nb_pers + $frais_livraison;
 
 ?>
 <!DOCTYPE html >
@@ -315,9 +320,15 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
+
+                                        <th>Frais de livraison</th>
+                                        <td></td>
+                                        <td><?= $frais_livraison ?> € (<?= $distanceKM ?> km)</td>
+                                    </tr>
+                                    <tr>
                                         <th>Total</th>
                                         <td></td>
-                                        <td><?= ($menu_prix * $nb_pers) ?> €</td>
+                                        <td><?= $prix_total ?> €</td>
                                     </tr>
                                 </tfoot>
                             </table>    

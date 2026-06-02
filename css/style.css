@@ -644,6 +644,66 @@ button >*{
     transform: translateY(-1px);
 }
 
+/* Cookie */
+.cookie-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(3px);
+    z-index: 9999;
+    display: flex;
+    align-items: flex-end;
+}
+
+.cookie-banner {
+    width: 100%;
+    background: #fff;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+}
+
+.cookie-banner p {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.5;
+}
+
+.cookie-banner a {
+    color: #7D241A;
+    text-decoration: underline;
+}
+
+.cookie-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.btn-cookie-accept {
+    background: #7D241A;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 6px;
+    font-family: 'Lato', sans-serif;
+    cursor: pointer;
+}
+
+.btn-cookie-refuse {
+    background: transparent;
+    color: #7D241A;
+    border: 2px solid #7D241A;
+    padding: 0.6rem 1.4rem;
+    border-radius: 6px;
+    font-family: 'Lato', sans-serif;
+    cursor: pointer;
+}
 
 /*---------------------
     8.    Savoir-faire

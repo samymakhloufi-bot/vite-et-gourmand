@@ -65,6 +65,16 @@ require_once './login.php';
                         contactez-nous à : <?php echo $mailTitle ; ?>
                     </p>
                 </div>
+
+                <div class="information">
+                    <h3>Cookie </h3>
+                    <p>
+                        Ce site utilise Google Maps API pour le calcul des frais de livraison.
+                        Cette fonctionnalité implique un transfert de données (notamment votre adresse IP) vers les serveurs de Google LLC.
+                        Pour en savoir plus : Politique de confidentialité Google.
+            
+                    </p>
+                </div>
             </div>
         </main>
 
