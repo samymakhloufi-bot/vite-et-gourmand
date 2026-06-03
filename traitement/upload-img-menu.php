@@ -2,7 +2,7 @@
 require_once '../login.php';
 
 if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['employe', 'admin'])) {
-    header('Location: <?= BASE_URL ?>/index.php');
+    header('location: '. BASE_URL .'/index.php');
     exit;
 }
 
@@ -12,13 +12,13 @@ if (isset($_FILES['img_menu']) && $_FILES['img_menu']['error'] === 0) {
 
     // Vérification que c'est bien un PNG
     if ($extension !== 'png') {
-        header('Location: <?= BASE_URL ?>/espaceEmploye.php?section=menus-plat&error=format');
+        header('location: '. BASE_URL .'/espaceEmploye.php?section=menus-plat&error=format');
         exit;
     }
 
     // Vérification taille max 2MB
     if ($_FILES['img_menu']['size'] > 2 * 1024 * 1024) {
-        header('Location: <?= BASE_URL ?>/espaceEmploye.php?section=menus-plat&error=taille');
+        header('location: '. BASE_URL .'/espaceEmploye.php?section=menus-plat&error=taille');
         exit;
     }
 
@@ -31,10 +31,10 @@ if (isset($_FILES['img_menu']) && $_FILES['img_menu']['error'] === 0) {
         $stmt = $pdo->prepare("UPDATE menu SET img_desktop = ?, img_mobile = ? WHERE Id_menu = ?");
         $stmt->execute([$nom_fichier, $nom_fichier, $menu_id]);
 
-        header('Location: <?= BASE_URL ?>/espaceEmploye.php?section=menus-plat&success=1');
+        header('location: '. BASE_URL .'/espaceEmploye.php?section=menus-plat&success=1');
         exit;
     }
 }
 
-header('Location: <?= BASE_URL ?>/espaceEmploye.php?section=menus-plat&error=upload');
+header('location: '. BASE_URL .'/espaceEmploye.php?section=menus-plat&error=upload');
 exit;

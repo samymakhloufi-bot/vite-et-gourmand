@@ -2,7 +2,7 @@
 
 require_once './login.php';
 if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'] , ['admin', 'employe'])) {
-    header('Location: <?= BASE_URL ?>/index.php');
+    header('location: '. BASE_URL .'/index.php');
     exit();
 }
 

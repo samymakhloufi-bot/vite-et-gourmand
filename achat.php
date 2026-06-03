@@ -5,7 +5,7 @@
 
     //verif session
     if(!isset($_SESSION['user_id'])) {
-        header('Location: <?= BASE_URL ?>/connexion.php?redirect=nosmenus.php');
+        header('location: '. BASE_URL .'/connexion.php?redirect=nosmenus.php');
         exit();
     }
 
@@ -57,7 +57,7 @@
             if(!empty($_POST['date']) && !empty($_POST['heure']) ) {
                 $datetime_final = $_POST['date'] . ' '. $_POST['heure'].':00';
                 }else{ 
-                header('Location: <?= BASE_URL ?>/achat.php?error=champs_manquants');
+                header('location: '. BASE_URL .'/achat.php?error=champs_manquants');
                 exit();
             }
             //Vérif envois Transaction entière 
@@ -140,14 +140,14 @@
                                     ";
                                     $mail->send();
     
-                                    header('Location: <?= BASE_URL ?>/commandeSucces.php?type=devis&id=' . $id_commande);
+                                    header('location: '. BASE_URL .'/commandeSucces.php?type=devis&id=' . $id_commande);
                                     exit;
     
                         } catch (Exception $e) {
                         $message = "Erreur lors de l'envoi du mail : " . $e->getMessage();
                         } 
                     } else {
-                        header('Location: <?= BASE_URL ?>/paiement.php?id=' . $id_commande);
+                        header('location: '. BASE_URL .'/paiement.php?id=' . $id_commande);
                         exit;
                     }
             }catch(Exception $e) {

@@ -32,12 +32,12 @@ if (isset($_POST['se-connecter'])) {
         }
 
         if ($user['role'] ==='admin') {
-            header('Location: <?= BASE_URL ?>/espaceAdmin.php');
+            header('location: '. BASE_URL .'/espaceAdmin.php');
         } elseif ($user['role'] ==='employe'){
-            header('Location: <?= BASE_URL ?>/espaceEmploye.php');
+            header('location: '. BASE_URL .'/espaceEmploye.php');
         } else {
             $redirect = $_GET['redirect'] ?? $_POST['redirect'] ?? 'index.php';
-            header('Location: <?= BASE_URL ?>/'.$redirect);
+            header('location: '. BASE_URL .'/'.$redirect);
         }
         exit();
     } else {

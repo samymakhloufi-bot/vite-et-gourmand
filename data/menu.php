@@ -8,7 +8,7 @@ $stmt->execute([$id]);
 $menu_actif = $stmt->fetch();
 
 if (!$menu_actif) {
-    header('Location: <?= BASE_URL ?>/Nosmenus.php');
+    header('location: '. BASE_URL .'/Nosmenus.php');
     exit;
 }
 ?>
