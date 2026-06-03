@@ -2,7 +2,7 @@
 
 require_once './login.php';
 if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'] , ['admin', 'employe'])) {
-    header('Location: /VG/index.php');
+    header('Location: <?= BASE_URL ?>/index.php');
     exit();
 }
 
@@ -92,7 +92,7 @@ $horaires = [];
         </main>
 
         <?php include __DIR__.'/includes/footer.php' ;?>
-        <script src="/VG/js/espaceClient.js"></script>
-        <script src="/VG/js/espaceAdmin.js"></script>
+        <script src="<?= BASE_URL ?>/js/espaceClient.js"></script>
+        <script src="<?= BASE_URL ?>/js/espaceAdmin.js"></script>
     </body>
 </html>

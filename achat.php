@@ -5,7 +5,7 @@
 
     //verif session
     if(!isset($_SESSION['user_id'])) {
-        header('Location: /VG/connexion.php?redirect=nosmenus.php');
+        header('Location: <?= BASE_URL ?>/connexion.php?redirect=nosmenus.php');
         exit();
     }
 
@@ -57,7 +57,7 @@
             if(!empty($_POST['date']) && !empty($_POST['heure']) ) {
                 $datetime_final = $_POST['date'] . ' '. $_POST['heure'].':00';
                 }else{ 
-                header('Location: /VG/achat.php?error=champs_manquants');
+                header('Location: <?= BASE_URL ?>/achat.php?error=champs_manquants');
                 exit();
             }
             //Vérif envois Transaction entière 
@@ -75,9 +75,9 @@
     
                     // Insérer dans commande_detail
                     $detail = $pdo->prepare("INSERT INTO commande_detail 
-                        (Id_commande, Id_menu, quantite, prix) 
-                        VALUES (?, ?, ?, ?)");
-                    $detail->execute([$id_commande, $menu_id, $nb_pers, $prix_total]);
+                        (Id_commande, Id_menu, quantite, prix, frais_livraison, distance_km) 
+                        VALUES (?, ?, ?, ?, ?, ?)");
+                    $detail->execute([$id_commande, $menu_id, $nb_pers, $menu_prix * $nb_pers, $frais_livraison, $distanceKM]);
     
                     //enregistrement de la commande
                     $pdo ->commit();
@@ -140,14 +140,14 @@
                                     ";
                                     $mail->send();
     
-                                    header('Location: /VG/commandeSucces.php?type=devis&id=' . $id_commande);
+                                    header('Location: <?= BASE_URL ?>/commandeSucces.php?type=devis&id=' . $id_commande);
                                     exit;
     
                         } catch (Exception $e) {
                         $message = "Erreur lors de l'envoi du mail : " . $e->getMessage();
                         } 
                     } else {
-                        header('Location: /VG/paiement.php?id=' . $id_commande);
+                        header('Location: <?= BASE_URL ?>/paiement.php?id=' . $id_commande);
                         exit;
                     }
             }catch(Exception $e) {
@@ -158,7 +158,12 @@
             }
 }
 
-    
+//Récupération frais de livraison
+$frais_livraison = (float)($_POST['frais_livraison'] ?? 0);
+$distanceKM = (float)($_POST['distance_km'] ?? 0);
+
+// Calcul du total Final
+$prix_total = $menu_prix * $nb_pers + $frais_livraison;
 
 ?>
 <!DOCTYPE html >
@@ -315,9 +320,15 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
+
+                                        <th>Frais de livraison</th>
+                                        <td></td>
+                                        <td><?= $frais_livraison ?> € (<?= $distanceKM ?> km)</td>
+                                    </tr>
+                                    <tr>
                                         <th>Total</th>
                                         <td></td>
-                                        <td><?= ($menu_prix * $nb_pers) ?> €</td>
+                                        <td><?= $prix_total ?> €</td>
                                     </tr>
                                 </tfoot>
                             </table>    

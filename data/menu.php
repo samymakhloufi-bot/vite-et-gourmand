@@ -8,14 +8,14 @@ $stmt->execute([$id]);
 $menu_actif = $stmt->fetch();
 
 if (!$menu_actif) {
-    header('Location: /VG/Nosmenus.php');
+    header('Location: <?= BASE_URL ?>/Nosmenus.php');
     exit;
 }
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <?php include __DIR__ . '/../includes/head.php'; ?>
-    <script src="/VG/js/commande.js"></script>
+    <script src="<?= BASE_URL ?>/js/commande.js"></script>
 <body>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 

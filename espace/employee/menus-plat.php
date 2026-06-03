@@ -8,7 +8,7 @@
         $src = str_contains($img, '.') ? $img : $img . '.png';
     ?>
     <div class="menu-card" data-nom="<?= strtolower(htmlspecialchars($menu['menu_nom'])) ?>">        <div class="menu-card-header" onclick="toggleMenu(this)">
-            <img src="/VG/Images/<?= $src ?>" alt="<?= htmlspecialchars($menu['menu_nom']) ?>" class="menu-thumb">
+            <img src="<?= BASE_URL ?>/Images/<?= $src ?>" alt="<?= htmlspecialchars($menu['menu_nom']) ?>" class="menu-thumb">
             <span class="menu-name"><?= htmlspecialchars($menu['menu_nom']) ?></span>
             <span class="badge badge-<?= $menu['theme'] ?>"><?= $menu['theme'] ?></span>
             <span class="badge badge-<?= $menu['regime'] ?>"><?= $menu['regime'] ?></span>
@@ -81,8 +81,8 @@
             </div>
             <div class="card-footer-menus-plat">
                 <div class="img-row">
-                    <img src="/VG/Images/<?= $src ?>" alt="" class="img-preview">
-                    <form action="/VG/traitement/upload-img-menu.php" method="post" enctype="multipart/form-data">
+                    <img src="<?= BASE_URL ?>/Images/<?= $src ?>" alt="" class="img-preview">
+                    <form action="<?= BASE_URL ?>/traitement/upload-img-menu.php" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="menu_id" value="<?= $menu['Id_menu'] ?>">
                         <input type="file" name="img_menu" accept=".png" style="display:none" id="upload-<?= $menu['Id_menu'] ?>">
                         <label for="upload-<?= $menu['Id_menu'] ?>" class="btn-sm">Changer l'image</label>

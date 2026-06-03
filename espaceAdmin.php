@@ -93,6 +93,6 @@ $horaires = [];
 
         <?php include './includes/footer.php' ;?>
         <script src="./js/espaceClient.js"></script>
-        <script src="/VG/js/espaceAdmin.js"></script>
+        <script src="<?= BASE_URL ?>/js/espaceAdmin.js"></script>
     </body>
 </html>

@@ -134,7 +134,7 @@ if(isset($_POST['update-account'])) {
                 </section>
 
                 <section id="avis-form" class="account-panel">
-                    <form action="/VG/traitement/submit-avis.php" method="post" id="form-avis">
+                    <form action="<?= BASE_URL ?>/traitement/submit-avis.php" method="post" id="form-avis">
                         <textarea name="contenu" placeholder="Donner votre avis ...." required></textarea>
                         <button type="submit" name="submit-avis">Envoyer mon avis</button>
                     </form>
