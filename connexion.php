@@ -32,12 +32,12 @@ if (isset($_POST['se-connecter'])) {
         }
 
         if ($user['role'] ==='admin') {
-            header('Location: /VG/espaceAdmin.php');
+            header('Location: <?= BASE_URL ?>/espaceAdmin.php');
         } elseif ($user['role'] ==='employe'){
-            header('Location: /VG/espaceEmploye.php');
+            header('Location: <?= BASE_URL ?>/espaceEmploye.php');
         } else {
             $redirect = $_GET['redirect'] ?? $_POST['redirect'] ?? 'index.php';
-            header('Location: /VG/'.$redirect);
+            header('Location: <?= BASE_URL ?>/'.$redirect);
         }
         exit();
     } else {
@@ -66,7 +66,7 @@ if (isset($_POST['se-connecter'])) {
         <main>
             <?php if ($fromCommande) :?>
                 <div class="alert-commande">
-                    Pour pouvoir commander, veuillez vous connecter ou<a href="/VG/inscription.php">créer un compte.</a>
+                    Pour pouvoir commander, veuillez vous connecter ou<a href="<?= BASE_URL ?>/inscription.php">créer un compte.</a>
                 </div>
                 
             <?php endif;?>
@@ -74,7 +74,7 @@ if (isset($_POST['se-connecter'])) {
             <section class="auth-wrapper">
 
                 <div class="auth-form"> 
-                    <form action="/VG/connexion.php" method="post" id="form-login">
+                    <form action="<?= BASE_URL ?>/connexion.php" method="post" id="form-login">
                         <input type="hidden" name="redirect" value="<?= htmlspecialchars($_GET['redirect'] ?? ''); ?>">
                         <fieldset>
                             <h3>Se Connecter</h3>
@@ -125,7 +125,7 @@ if (isset($_POST['se-connecter'])) {
                             </div>
                             <div class="login">
                                 <button type="submit" class="btn-submit" name="se-connecter">Se Connecter</button>
-                                <a class="btn-forget" href="/VG/reinitialisationMDP.php">Mot de passe oublié ?</a>
+                                <a class="btn-forget" href="<?= BASE_URL ?>/reinitialisationMDP.php">Mot de passe oublié ?</a>
                             </div>
                         </fieldset>
                     </form>
