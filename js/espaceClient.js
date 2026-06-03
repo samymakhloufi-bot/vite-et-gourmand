@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const contenu = this.querySelector('textarea').value.trim();
         if(!contenu) return;
 
-        fetch('/VG/traitement/submit-avis.php', {
+        fetch(BASE_URL + '/traitement/submit-avis.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contenu })

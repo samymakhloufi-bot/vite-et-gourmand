@@ -56,7 +56,7 @@ function saveStatut(id, btn) {
     const statut = document.getElementById('sel-' + id).value;
     const toast  = document.getElementById('toast-' + id);
 
-    fetch('/VG/traitement/updateStatus.php', {
+    fetch(BASE_URL +'/traitement/updateStatus.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id_commande: id, statut })
@@ -111,7 +111,7 @@ function confirmerAnnulation(id) {
         return;
     }
 
-    fetch('/VG/traitement/annuler-commande.php', {
+    fetch(BASE_URL + '/traitement/annuler-commande.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id_commande: id, mode_contact: mode, motif })
@@ -149,7 +149,7 @@ function saveMenu(id, btn) {
     const data = { id };
     fields.forEach(f => { data[f.dataset.field] = f.innerText.trim(); });
 
-    fetch('/VG/traitement/update-menu.php', {
+    fetch(BASE_URL + '/traitement/update-menu.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -185,7 +185,7 @@ function toggleActifMenu(btn) {
 
     if (!confirm(`Voulez-vous vraiment ${action} ce menu ?`)) return;
 
-    fetch('/VG/traitement/toggle-menu.php', {
+    fetch(BASE_URL + '/traitement/toggle-menu.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, actif: nouvelEtat })
@@ -222,7 +222,7 @@ function toggleActifMenu(btn) {
 ----------------------------------*/
 
 function actionAvis(id, action) {
-    fetch('/VG/traitement/valider-avis.php', {
+    fetch(BASE_URL + '/traitement/valider-avis.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ Id_avis: id, action })
