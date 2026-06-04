@@ -15,7 +15,6 @@ if (!$menu_actif) {
 <!DOCTYPE html>
 <html lang="fr">
 <?php include __DIR__ . '/../includes/head.php'; ?>
-    <script src="<?= BASE_URL ?>/js/commande.js"></script>
 <body>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 
@@ -70,23 +69,22 @@ if (!$menu_actif) {
         <div class="menu-detail-footer">
             
             <em class="menu-price">Prix : <?= $menu_actif['prix'] ?> €/personne / Min : <?= $menu_actif['nb_perso_min'] ?> personnes</em>
-            <form action="../achat.php" method="POST">
+            <form id="form-commande" action="../achat.php" method="POST">
                 <input type="hidden" name="menu_nom" value="<?= htmlspecialchars($menu_actif['menu_nom'])?>">
                 <input type="hidden" name="nb_pers" value="<?= $nb_pers?>">
                 <input type="hidden" name="menu_id" value="<?= $menu_actif['Id_menu']?>">
 
                 <div class="nb-person-menu">
                     <span>NB.<br>PERSONNES</span>
-                    <div class="btn-counter-nb">
+                    <div class="input-nb-perso">
                             <button type="button" class="counter-btn" onclick="change(this, -1)">-</button>
                             <input type="number" class="counter-val" name="nb_pers" value="1" min="1">
                             <button type="button" class="counter-btn" onclick="change(this, 1)">+</button>
                         </div>
-                </div>
-
-                <div class="order-menu-btn">
-                    <button type="submit" class="btn-menu-order">Commander</button>
-                </div>
+		</div>
+		<div class="order-menu-btn">
+			<button type="submit" class="btn-menu-order">Commander</button>
+		</div>
 
             </form>
         </div>
@@ -94,5 +92,6 @@ if (!$menu_actif) {
 </main>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
+<script src="<?= BASE_URL ?>/js/commande.js"></script>
 </body>
 </html>

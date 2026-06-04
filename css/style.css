@@ -87,7 +87,7 @@ main h2::after{
     height: 3px;
     background: var(--bordeaux);
     margin: 0.625rem auto 0;
-    border-radius:  2px;
+    border-radius: 0.125rem;
     transition: width 1.25s ease 0.3s;
 }
 
@@ -290,6 +290,55 @@ button >*{
     width: 50%;
 }
 
+/*----------------------
+    4.    COOKIE
+-----------------------*/
+.cookie-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.cookie-banner {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    max-width: 600px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.cookie-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-cookie-accept, .btn-cookie-refuse {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-cookie-accept {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-cookie-refuse {
+    background: #f44336;
+    color: white;
+}
 
 /*----------------------
     5.    Hero-banner
@@ -398,7 +447,7 @@ button >*{
     width : 3rem;
     height: 3px;
     background: var(--bordeaux);
-    border-radius:  2px;
+    border-radius:  0.125rem;
     transition: width 1.5s ease 0.3s;
 }
 
@@ -1841,8 +1890,13 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     background: #faf8f4;
 }
 
-.menu-body.hidden, .client-body.hidden{
+.menu-body, .client-body.hidden{
     display: none;
+}
+
+.menu-body.open{
+	display: flex;
+	flex-direction : column;
 }
 
 .fields-grid, .cmd-grid {
@@ -2047,22 +2101,6 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     display: flex;
 }
 
-/*Horaires*/
-#horaires {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    padding: 1.5rem;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    overflow-x: auto;
-}
-
-#horaires.active {
-    display: flex;
-}
-
 .avis-item{
     display: inline-flex;
     align-items: center;
@@ -2095,6 +2133,39 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     border-radius: 0.5rem;
     padding: 0 0.25rem;
 }
+
+/*Horaires*/
+#horaires {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: auto;
+}
+
+#horaires.active {
+    display: flex;
+}
+
+.horaires-table {
+    border: 1px solid var(--bordeaux);
+    border-radius: 0.5rem;
+    background-color: var(--beige-dark);
+}
+
+.horaires-table th, .horaires-table td {
+    border: 1px solid var(--bordeaux);
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    text-align: left;
+    background-color: #fff;
+    color: var(--bordeaux);
+    font-style : var(--font-body);
+}
+
 
 
 /*----------------------
@@ -2365,7 +2436,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 .succes-card {
     background: var(--white);
     border: 0.5px solid #d4c9b0;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     padding: 2rem 2rem;
     max-width: 480px;
     width: 100%;
@@ -2395,14 +2466,14 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     width: 100%;
     height: 4px;
     background: var(--input);
-    border-radius: 2px;
+    border-radius: 0.125rem;
     overflow: hidden;
 }
 
 .succes-progress-bar {
     height: 4px;
     background: #7D241A;
-    border-radius: 2px;
+    border-radius: 0.125rem;
     animation: shrink 15s linear forwards;
 }
 
@@ -2445,7 +2516,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     color: var(--bordeaux);
     border: 1px solid var(--bordeaux);
     padding: 8px 20px;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     font-size: 13px;
     text-decoration: none;
 }
@@ -2465,7 +2536,6 @@ footer{
     color: var(--beige-dark);
     padding: 2.5rem 3.75rem 1.75rem;
     display: flex;
-
     flex-direction: column;
     gap: 2rem;
 }
@@ -2535,7 +2605,7 @@ footer a:hover{
 
 footer > *:not(:last-child) {
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--creme);
+    border-bottom: 2px solid var(--creme);
 }
 
 /*-------------------------------
@@ -2544,6 +2614,9 @@ footer > *:not(:last-child) {
 
 @media (min-width: 750px){
 
+/*----------------------
+        Navigation
+-----------------------*/
 .nav-menu button{
         display:none;
 }
@@ -2811,6 +2884,22 @@ footer > *:last-child{
 }
 
 /*----------------------
+        Footer 
+-----------------------*/   
+
+footer {
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    footer > *:not(:last-child) {
+        padding-right: 2rem;
+        padding-bottom: 0;
+        border-right: 2px solid var(--creme);
+        border-bottom: none;
+    }
+
+/*----------------------
         AVIS 
 -----------------------*/
 .reviews-grid{
@@ -2903,6 +2992,14 @@ footer > *:last-child{
 .menu-grid{
     margin: 0 auto;
 }
+
+/*--------------------     
+        MENU DETAIL
+---------------------*/
+.order-menu-btn{
+        height:2rem;
+}
+
 
 /*----------------------
         Connexion 
@@ -3129,6 +3226,5 @@ justify-content: space-evenly;
     .menu-grid{
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
+
 }
-
-

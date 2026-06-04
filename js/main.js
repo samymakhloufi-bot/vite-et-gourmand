@@ -29,3 +29,24 @@ document.addEventListener('click', (event) => {
     }
 });
 
+/*------------------------- 
+    Autorisation COOKIES
+--------------------------*/
+
+const cookieOverlay = document.getElementById('cookie-overlay');
+
+// Affiche uniquement si pas encore de choix
+if (!localStorage.getItem('maps-consent')) {
+    cookieOverlay.style.display = 'flex';
+
+}
+
+document.getElementById('accept-cookies').addEventListener('click', () => {
+    localStorage.setItem('maps-consent', 'true');
+    cookieOverlay.style.display = 'none';
+});
+
+document.getElementById('refuse-cookies').addEventListener('click', () => {
+    localStorage.setItem('maps-consent', 'false');
+    cookieOverlay.style.display = 'none';
+});

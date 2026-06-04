@@ -87,7 +87,7 @@ $menus = $stmt->fetchAll();
             </div>
 
             <div>
-                <form action="./achat.php" method="POST">
+                <form id="form-commande"action="./achat.php" method="POST">
                     <input type="hidden" name="menu_id"    value="<?= $menu['Id_menu'] ?>">
                     <input type="hidden" name="menu_nom"  value="<?= htmlspecialchars($menu['menu_nom']) ?>">
                     <input type="hidden" name="nb_pers" value="<?= $nb_pers ?>">

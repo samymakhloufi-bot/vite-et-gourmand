@@ -52,26 +52,4 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => msg.textContent = '', 4000);
         });
     });
-
-
-
-/*----------------
-    Menu card
-----------------*/
-
-    function toggleMenu(header) {
-        const card = header.closest('.menu-card');
-        const body = card.querySelector('.menu-body');
-        const chevron = header.querySelector('.chevron');
-        const isOpen = !body.classList.contains('hidden');
-    
-        document.querySelectorAll('.menu-body').forEach(b => b.classList.add('hidden'));
-        document.querySelectorAll('.menu-card-header .chevron').forEach(c => c.classList.remove('open'));
-        if (!isOpen) {
-            body.classList.remove('hidden');
-            chevron.classList.add('open');
-        }
-    }
-    
-}); 
-
+});

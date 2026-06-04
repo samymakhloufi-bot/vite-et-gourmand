@@ -31,7 +31,6 @@ $horaires = [];
         $stmt = $pdo->query("SELECT a.*, u.nom, u.prenom 
         FROM avis a 
         JOIN users u ON a.Id_user = u.Id_user 
-        WHERE a.statut = 'en_attente' 
         ORDER BY a.created_at DESC");
         $avis = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 

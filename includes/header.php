@@ -38,6 +38,21 @@
                 </nav>
             
             </div>
+
+            <div id="cookie-overlay" class="cookie-overlay">
+                <div class="cookie-banner">
+                    <p>
+                        <strong> Cookies & confidentialité</strong><br>
+                        Ce site utilise Google Maps pour le calcul des frais de livraison, 
+                        ce qui implique un transfert de données vers les serveurs Google. 
+                        <a href="<?= BASE_URL ?>/confidentialite.php" target="_blank">En savoir plus</a>
+                    </p>
+                    <div class="cookie-buttons">
+                        <button id="refuse-cookies" class="btn-cookie-refuse">Refuser</button>
+                        <button id="accept-cookies" class="btn-cookie-accept">Accepter</button>
+                    </div>
+                </div>
+            </div>
             <script src="<?= BASE_URL ?>/js/main.js"></script>
         </header>
         

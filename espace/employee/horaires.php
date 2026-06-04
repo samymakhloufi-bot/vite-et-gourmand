@@ -34,10 +34,10 @@ if (isset($_POST['save-horaires'])) {
             <thead>
                 <tr>
                     <th>Jour</th>
-                    <th>Ouverture matin</th>
-                    <th>Fermeture matin</th>
-                    <th>Ouverture après-midi</th>
-                    <th>Fermeture après-midi</th>
+                    <th>Ouv. matin</th>
+                    <th>Ferm. matin</th>
+                    <th>Ouv. après-midi</th>
+                    <th>Ferm. après-midi</th>
                     <th>Fermé</th>
                 </tr>
             </thead>

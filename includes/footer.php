@@ -13,18 +13,41 @@
 
             <address>
                 <h3> CONTACT </h3>
+                <?php
+                $stmt_info = $pdo->query("SELECT * FROM renseignement ");
+                $informations = $stmt_info->fetch();
+                ?>
+
                 <ul>
-                    <li> <?php echo $adressTitle ?? '42 Rue du Pas-Saint-Georges, 33000 Bordeaux' ; ?></li>
-                    <li><?php echo $phoneTitle ?? '05 56 44 12 89' ; ?></li>
-                    <li><a href="mailto:contact@vite-et-gourmand-traiteur.fr"><?php echo $mailTitle ?? 'contact@vite-et-gourmand-traiteur.fr' ; ?></a></li>
-                    <li> <?php echo $horaireTitle ?? 'Lun - Dim : 9h00 - 19h00'; ?></li>
+                    <li> <?php echo $informations['adresse'] ?? '42 Rue du Pas-Saint-Georges, 33000 Bordeaux' ; ?></li>
+                    <li><?php echo $informations['telephone'] ?? '05 56 44 12 89' ; ?></li>
+                    <li><a href="mailto:contact@vite-et-gourmand-traiteur.fr"><?php echo $informations['email'] ?? 'contact@vite-et-gourmand-traiteur.fr' ; ?></a></li>
                 </ul>
+
             </address>
 
+            <div>
+                <h3>HORAIRES</h3>
+                <ul>
+                    <?php 
+                        $stmt_h = $pdo->query("SELECT * FROM horaires ORDER BY Id_horaire ASC");
+                        $horaires_footer = $stmt_h->fetchAll();
+                    ?>
+                    <?php foreach ($horaires_footer as $h): ?>
+                        <?php if (!$h['ferme']):; ?>
+                            <li> <?= htmlspecialchars($h['jour']) ?> - <?= substr($h['ouverture_matin'], 0, 5) ?> à <?= substr($h['fermeture_apm'], 0, 5) ?></li>
+                        <?php else: ?>
+                            <li> <?= htmlspecialchars($h['jour']) ?> - Fermé</li>    
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+                
+                    </div>
+
             <div> 
-                <h3>INFORMATIONS</h3>
-                <a href="mentions.php"> Mentions Légales </a>
+                <h3>INFOS</h3>
+                <a href="<?= BASE_URL ?>/mentions.php"> Mentions Légales </a>
                 <br>
-                <a href="CGV.php"> Conditions Générales de Ventes </a>
+                <a href="<?= BASE_URL ?>/CGV.php"> Conditions Générales de Ventes </a>
             </div>
         </footer>

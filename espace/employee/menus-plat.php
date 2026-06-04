@@ -7,7 +7,8 @@
         $img = $menu['img_desktop'];
         $src = str_contains($img, '.') ? $img : $img . '.png';
     ?>
-    <div class="menu-card" data-nom="<?= strtolower(htmlspecialchars($menu['menu_nom'])) ?>">        <div class="menu-card-header" onclick="toggleMenu(this)">
+    <div class="menu-card" data-nom="<?= strtolower(htmlspecialchars($menu['menu_nom'])) ?>">
+	<div class="menu-card-header">
             <img src="<?= BASE_URL ?>/Images/<?= $src ?>" alt="<?= htmlspecialchars($menu['menu_nom']) ?>" class="menu-thumb">
             <span class="menu-name"><?= htmlspecialchars($menu['menu_nom']) ?></span>
             <span class="badge badge-<?= $menu['theme'] ?>"><?= $menu['theme'] ?></span>
@@ -19,7 +20,7 @@
             <span class="chevron">›</span>
         </div>
     
-        <div class="menu-body hidden">
+        <div class="menu-body">
             <div class="fields-grid">
                 <div class="field">
                     <label>Titre menu</label>
@@ -77,7 +78,7 @@
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="allergene"><?= htmlspecialchars($menu['allergene']) ?></div>
                 </div>
-                
+
             </div>
             <div class="card-footer-menus-plat">
                 <div class="img-row">

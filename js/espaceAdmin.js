@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*----------------
     FILTRE AVIS
 -----------------*/
-    document.getElementById('filter-avis')?.addEventListener('change', function() {
+    document.getElementById('toolbar-avis')?.addEventListener('change', function() {
         const filtre = this.value;
         document.querySelectorAll('.avis-item').forEach(item => {
             item.style.display = (!filtre || item.dataset.statut === filtre) ? 'block' : 'none';
@@ -141,6 +141,26 @@ function filtrerCommandes() {
     });
 }
 
+/*----------------
+    Menu card
+----------------*/
+
+    document.querySelectorAll('.menu-card-header').forEach(header => {
+        header.addEventListener('click', () => {
+        const card = header.closest('.menu-card');
+        const body = card.querySelector('.menu-body');
+        const chevron = header.querySelector('.chevron');
+        const isOpen = body.classList.contains('open');
+
+        document.querySelectorAll('.menu-body').forEach(b => b.classList.remove('open'));
+        document.querySelectorAll('.menu-card-header .chevron').forEach(c => c.classList.remove('open'));
+        if (!isOpen) {
+            body.classList.add('open');
+            chevron.classList.add('open');
+        }
+    });
+});
+
 /*----------------------------------
     ENREGISTREMENT MENU
 ----------------------------------*/
@@ -174,7 +194,7 @@ function saveMenu(id, btn) {
 }
 
 /*----------------------------------
-    TOGGLE ACTIF MENU
+    TOGGLE ACTIVER/DESACTIVER  MENU
 ----------------------------------*/
 
 function toggleActifMenu(btn) {

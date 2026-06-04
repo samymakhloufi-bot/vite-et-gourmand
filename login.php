@@ -4,11 +4,11 @@ if(session_status() === PHP_SESSION_NONE);{
 }
 
 $env = parse_ini_file( __DIR__ . '/.env');
-define('BASE_URL', '/VG');
+define('BASE_URL', $env['BASE_URL']);
 
 try {
     $pdo = new PDO(
-        "mysql:host={$env['DB_HOST']};dbname={$env['DB_NAME']}charset=utf8",
+        "mysql:host={$env['DB_HOST']};dbname={$env['DB_NAME']};charset=utf8",
         $env['DB_USERNAME'],
         $env['DB_PASSWORD']
     );
