@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*----------------
     FILTRE AVIS
 -----------------*/
-    document.getElementById('toolbar-avis')?.addEventListener('change', function() {
+    document.getElementById('filter-avis')?.addEventListener('change', function() {
         const filtre = this.value;
         document.querySelectorAll('.avis-item').forEach(item => {
             item.style.display = (!filtre || item.dataset.statut === filtre) ? 'block' : 'none';

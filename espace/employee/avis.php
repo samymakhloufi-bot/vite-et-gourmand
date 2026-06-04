@@ -8,7 +8,7 @@
             <?= $count?> avis en attente</span>
     </div>
 
-    <select name="toolbar-avis" id="toolbar-avis">
+    <select name="toolbar-avis" id="toolbar-avis" onchange="filtrerAvis(this.value)">
         <option value="en_attente"> En attente</option>
         <option value="valide">Validés</option>
         <option value="refuse">Refusés</option>

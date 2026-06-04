@@ -1,4 +1,4 @@
-        <footer>
+<footer>
             <div> 
                 <div class="footer-logo-group">
                     <img src="<?= BASE_URL ?>/Images/Logo_beige_final_v2.svg" class="footer-logo" alt="Logo VG"> 
