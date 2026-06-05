@@ -1,5 +1,6 @@
-<?php $activePage = 'Inscription Succes'; ?>
-
+<?php $activePage = 'Inscription Succes'; 
+require_once './login.php'
+?>
 <!DOCTYPE html>
 <html lang="en">
     <?php include './includes/head.php'; ?>
@@ -16,7 +17,7 @@
             <h2>Bienvenue chez nous<em> & compte créé avec succès </em></h2></div>
         </div>
 
-        <div class="sub-wrapper succes-wrapper">
+        <div class="succes-wrapper">
 
             <div class="succes-card">
 
