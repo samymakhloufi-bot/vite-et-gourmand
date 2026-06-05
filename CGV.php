@@ -1,4 +1,5 @@
 <?php $activePage= 'Conditions Générales de Vente'; 
+require_once './login.php';
 session_start();
 ?>
 <!DOCTYPE html>
@@ -20,7 +21,7 @@ session_start();
             </div>
 
             <div class="information-wrapper">
-                <p class="update">Dernière mise à jour : Mai 2026</p>
+                <p class="update">Dernière mise à jour : Juin 2026</p>
                 <div class="information">
                     <h3>1. Objet</h3>
                     <p>
@@ -153,6 +154,25 @@ session_start();
                             Les CGV applicables sont celles en vigueur au moment de la commande.
                         </li>
                     </ul>
+                </div>
+                <div class="information">
+                    <h3>9. Prêt de matériel</h3>
+                    <p>En cas de prêt de matériel par Vite & Gourmand, le client s’engage à le restituer en parfait état
+                        dans les délais convenus. Dès que le statut "Matériel prêté" est atteint, le client reçoit un email
+                        de rappel lui indiquant que :
+                    </p>
+                    <ul>
+                        <li>S’il ne restitue pas le matériel <strong>sous 10 jours ouvrés</strong> à compter de la date de réception de cet email,
+                            il devra s’acquitter d’une <strong>pénalité de 600 €</strong> (conformément à l’article X des présentes conditions générales de vente).
+                        </li>
+                        <li>Pour organiser la restitution, le client doit <strong>prendre contact avec notre société</strong>
+                            par email à <a href="mailto:contact@vite-et-gourmand.fr">contact@vite-et-gourmand.fr</a>
+                            ou par téléphone au 05 56 44 12 89.
+                        </li>
+                    </ul>
+                    <p>Cette pénalité couvre les frais de remplacement, de location ou de réparation du matériel non restitué.
+                        Aucun remboursement ne sera effectué tant que le matériel n’aura pas été restitué.
+                    </p>
                 </div>
             </div>
         </main>

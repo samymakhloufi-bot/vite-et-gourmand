@@ -6,6 +6,7 @@ if(session_status() === PHP_SESSION_NONE);{
 $env = parse_ini_file( __DIR__ . '/.env');
 define('BASE_URL', $env['BASE_URL']);
 define('GOOGLE_MAPS_KEY', $env['GOOGLE_MAPS_KEY']);
+define('MAIL_PASS', $env['MAIL_PASS']);
 
 try {
     $pdo = new PDO(

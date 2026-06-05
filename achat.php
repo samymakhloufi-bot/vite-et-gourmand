@@ -25,7 +25,7 @@
     $user_commande->execute([$_SESSION['user_id']]);
     $user = $user_commande->fetch();
 
-        $stmtMenu = $pdo->prepare('SELECT menu_nom, prix FROM menu WHERE Id_menu = ?');
+        $stmtMenu = $pdo->prepare('SELECT menu_nom, prix, nb_perso_min FROM menu WHERE Id_menu = ?');
     $stmtMenu->execute([$menu_id]);
     $menu_infos = $stmtMenu ->fetch(PDO::FETCH_ASSOC);
 
@@ -38,11 +38,16 @@
     $frais_livraison = (float)($_POST['frais_livraison'] ?? 0);
     $distanceKM = (float)($_POST['distance_km'] ?? 0);
 
+    //Réduction
+    $nb_pers_min = (int)$menu_infos['nb_perso_min'];
+    $reduction = ($nb_pers >= $nb_pers_min + 5) ? 0.10 : 0;
+    $prix_total = ($menu_prix * $nb_pers) * (1 - $reduction) + $frais_livraison;
+
     //traitement formulaire commande
         if (isset($_POST['commander'])) {
             $nom         = trim($_POST['nom']);
             $prenom      = trim($_POST['prenom']);
-            $adresse_de_livraison     = trim($_POST['address-livraison']);
+            $adresse_de_livraison     = trim($_POST['address-livraison-precis']);
             $ville_de_livraison       = trim($_POST['ville-livraison']) ?? $_POST['ville-livraison-autre'];
             $email       = trim($_POST['email']);
             $tel         = trim($_POST['tel']);
@@ -54,12 +59,13 @@
             $menu_nom = $menu_infos['menu_nom'] ?? 'Menu inconnu';
             $menu_prix = (float)($menu_infos['prix'] ?? '');
 
+        //Paiement
             $nb_pers     = (int)$_POST['nb_pers'];
             $prix_total       = $menu_prix * $nb_pers;
             $mode_paiement = $paiement === 'devis' ? 'devis' : 'carte_bancaire';
 
-            if(!empty($_POST['date']) && !empty($_POST['heure']) ) {
-                $datetime_final = $_POST['date'] . ' '. $_POST['heure'].':00';
+            if(!empty($_POST['date']) && !empty($_POST['time']) ) {
+                $datetime_final = $_POST['date'] . ' '. $_POST['time'].':00';
                 }else{ 
                 header('location: '. BASE_URL .'/achat.php?error=champs_manquants');
                 exit();
@@ -70,19 +76,18 @@
     
                     // Insérer dans commande
                     $insert = $pdo->prepare("INSERT INTO commande 
-                        (Id_user, date_livraison, statut, mode_paiement, adresse_livraison, ville_livraison, complement, date_commande) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
-                    $insert->execute([$_SESSION['user_id'], $datetime_final,'en_attente', $mode_paiement, $adresse_de_livraison, $ville_de_livraison, $complement]);
+                        (Id_user, date_livraison, statut, mode_paiement, adresse_livraison, ville_livraison, complement, date_commande,frais_livraison, distance_km) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, NOW(),?,?)");
+                    $insert->execute([$_SESSION['user_id'], $datetime_final,'en_attente', $mode_paiement, $adresse_de_livraison, $ville_de_livraison, $complement, $frais_livraison, $distanceKM]);
     
                     //Récup Id généré
                     $id_commande = $pdo->lastInsertId();
     
                     // Insérer dans commande_detail
                     $detail = $pdo->prepare("INSERT INTO commande_detail 
-                        (Id_commande, Id_menu, quantite, prix, frais_livraison, distance_km) 
-                        VALUES (?, ?, ?, ?, ?, ?)");
-                    $detail->execute([$id_commande, $menu_id, $nb_pers, $menu_prix * $nb_pers, $frais_livraison, $distanceKM]);
-    
+                        (Id_commande, Id_menu, quantite, prix) 
+                        VALUES (?, ?, ?, ?)");
+                    $detail->execute([$id_commande, $menu_id, $nb_pers, ($menu_prix * $nb_pers)]);
                     
                     //enregistrement de la commande
                     $pdo ->commit();
@@ -97,15 +102,15 @@
                             $mail->isSMTP();
                             $mail->Host       = 'smtp.gmail.com';
                             $mail->SMTPAuth   = true;
-                            $mail->Username   = 'ton-email@gmail.com';
-                            $mail->Password   = 'ton-app-password';
+                            $mail->Username   = 'samymakhloufi@gmail.com';
+                            $mail->Password   = MAIL_PASS;
                             $mail->SMTPSecure = 'tls';
                             $mail->Port       = 587;
                             $mail->CharSet    = 'UTF-8';
     
                             // Mail interne à l'équipe
-                                $mail->setFrom('ton-email@gmail.com', 'Vite & Gourmand');
-                                $mail->addAddress('ton-email@gmail.com', 'Vite & Gourmand');
+                                $mail->setFrom('samymakhloufi@gmail.com', 'Vite & Gourmand');
+                                $mail->addAddress('samymakhloufi@gmail.com', 'Vite & Gourmand');
                                 $mail->Subject = "Demande de devis #$id_commande — $nom $prenom";
                                 $mail->isHTML(true);
                                 $mail->Body = "
@@ -146,6 +151,7 @@
                                     $mail->send();
     
                                     header('location: '. BASE_URL .'/commandeSucces.php?type=devis&id=' . $id_commande);
+                                    
                                     exit;
     
                         } catch (Exception $e) {
@@ -162,6 +168,7 @@
                 $message = "Erreur lors de la transaction" .$e->getMessage();
             }
 }
+
 
 // Calcul du total Final
 $prix_total = $menu_prix * $nb_pers + $frais_livraison;
@@ -318,10 +325,17 @@ $prix_total = $menu_prix * $nb_pers + $frais_livraison;
                                         <td><?= $nb_pers ?></td>
                                         <td><?= $menu_prix ?> €</td>
                                     </tr>
+                                <?php if($nb_pers >= $nb_pers_min + 5):?>                                    
+                                    <tr>
+                                        <th>Réduction</th>
+                                        <td></td>
+                                        <td>-10% (<?= round($menu_prix * $nb_pers * 0.10, 2) ?>€)</td>
+                                    </tr>
+                                <?php endif ;?>
+                                
                                 </tbody>
                                 <tfoot>
                                     <tr>
-
                                         <th>Frais de livraison</th>
                                         <td></td>
                                         <td><?= $frais_livraison ?> € (<?= $distanceKM ?> km)</td>

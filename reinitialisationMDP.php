@@ -24,7 +24,7 @@ if(isset($_POST['reset-password'])) {
             $mail->Host  ='smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'samymakhloufi@gmail.com';
-            $mail->Password = 'hocmmjyvvvnuovkd';
+            $mail->Password = MAIL_PASS;
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
             $mail->CharSet = 'UTF-8';

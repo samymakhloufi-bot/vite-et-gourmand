@@ -1,4 +1,6 @@
-<?php require_once './login.php';
+<?php 
+require_once './login.php';
+require_once './vendor/autoload.php';
 
 $message = "";
 $activePage = 'Inscription'; 
@@ -29,9 +31,38 @@ $activePage = 'Inscription';
             // Insertion des données dans la base de données
             $stmt = $pdo -> prepare ("INSERT INTO users (nom, prenom, tel , adresse, ville, code_postal, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt -> execute([$name, $firstname, $phone, $address, $city, $postal_code, $email, $mdp_hashed]);
+            // Mail de bienvenue
+            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host  ='smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'samymakhloufi@gmail.com';
+            $mail->Password = MAIL_PASS;
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+            $mail->CharSet = 'UTF-8';
+
+            $mail->setFrom('samymakhloufi@gmail.com', 'Vite et Gourmand');
+            $mail->addAddress($email);
+            $mail->Subject = 'Bievenue chez Vite&Gourmand';
+            $mail->isHTML(true);
+            $mail->Body ="<p>Bonjour et bienvenu à Vite&Gourmand, n'hésitez à aller découvrir nos recettes faites maison. 
+                        Prendre contact avec nous pour un futur et heureux événements, nous serons ravies de vous accompagner.
+                        <a href='https://vite-et-gourmand-samy.alwaysdata.net/index.php'>A très bientôt</a>.</p>
+                        <div style='text-align: center; margin-bottom: 20px;'>
+                            <img src='https://vite-et-gourmand-samy.alwaysdata.net/Images/Logo_bordeaux.svg' alt='Logo' width='80'>
+                            <h1 style='font-family: Georgia, serif; color: #7D241A; font-size: 2rem; margin: 5px 0;'>VG</h1>
+                            <p style='font-family: Arial, sans-serif; color: #7D241A; margin: 0;'>Vite & Gourmand</p>
+                        </div> " ;
+            $mail-> send();
+                        } catch(Exception $e){}
             header('Location: inscriptionSucces.php');
             exit();
-            }};?>
+            }};
+            
+            
+?>
 
 <!DOCTYPE html >
 <html lang="fr">
