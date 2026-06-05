@@ -10,5 +10,9 @@ lieuSelect.addEventListener('change', () => {
     }else{
         villeAutre.style.display = 'none';
         document.getElementById('ville-livraison-autre').value ='' ;
+        fraisLivraison = 0;
+        distanceKM = 0;
+        updateRecap();
     }
 });
+

@@ -34,12 +34,16 @@
 
     $message = '';
 
+    //Récupération frais de livraison
+    $frais_livraison = (float)($_POST['frais_livraison'] ?? 0);
+    $distanceKM = (float)($_POST['distance_km'] ?? 0);
+
     //traitement formulaire commande
         if (isset($_POST['commander'])) {
             $nom         = trim($_POST['nom']);
             $prenom      = trim($_POST['prenom']);
             $adresse_de_livraison     = trim($_POST['address-livraison']);
-            $ville_de_livraison       = trim($_POST['ville-livraison']);
+            $ville_de_livraison       = trim($_POST['ville-livraison']) ?? $_POST['ville-livraison-autre'];
             $email       = trim($_POST['email']);
             $tel         = trim($_POST['tel']);
             $date        = $_POST['date'];
@@ -79,6 +83,7 @@
                         VALUES (?, ?, ?, ?, ?, ?)");
                     $detail->execute([$id_commande, $menu_id, $nb_pers, $menu_prix * $nb_pers, $frais_livraison, $distanceKM]);
     
+                    
                     //enregistrement de la commande
                     $pdo ->commit();
     
@@ -157,10 +162,6 @@
                 $message = "Erreur lors de la transaction" .$e->getMessage();
             }
 }
-
-//Récupération frais de livraison
-$frais_livraison = (float)($_POST['frais_livraison'] ?? 0);
-$distanceKM = (float)($_POST['distance_km'] ?? 0);
 
 // Calcul du total Final
 $prix_total = $menu_prix * $nb_pers + $frais_livraison;
@@ -266,13 +267,13 @@ $prix_total = $menu_prix * $nb_pers + $frais_livraison;
                             </div>
 
                             <div id="ville-livraison-autre-div" style="display: none;">
-                                <label for="ville-livraison">Précisez la ville : </label>
-                                <input type="text" id="ville-livraison" name="ville-livraison" placeholder="Bègles, Bruges, Talence,...">
+                                <label for="ville-livraison-autre">Précisez la ville : </label>
+                                <input type="text" id="ville-livraison-autre" name="ville-livraison-autre" placeholder="Bègles, Bruges, Talence,...">
                             </div>
 
                             <div>
-                                    <label for="address-livraison-autre">Adresse de livraison:</label>
-                                    <input type="text" id="address-livraison-autre" name="address-livraison-autre" required
+                                    <label for="address-livraison-precis">Adresse de livraison:</label>
+                                    <input type="text" id="address-livraison-precis" name="address-livraison-precis" required
                                     value="<?php echo htmlspecialchars($user['adresse'] ?? ''); ?>">
                             </div>
                             
@@ -331,7 +332,9 @@ $prix_total = $menu_prix * $nb_pers + $frais_livraison;
                                         <td><?= $prix_total ?> €</td>
                                     </tr>
                                 </tfoot>
-                            </table>    
+                            </table>
+                            <input type="hidden" name="frais_livraison" id="hidden-frais" value="0">
+                            <input type="hidden" name="distance_km" id="hidden-distance" value="0">   
                             <button type="submit" name="commander" class="btn-order">Commander </button>
                         </div>
 
@@ -343,8 +346,14 @@ $prix_total = $menu_prix * $nb_pers + $frais_livraison;
             </div>
         </main>
 
-        <script src="./js/commande.js"></script>
-        <script src="./js/achat.js"></script>
+        <script> const menuPrix = <?= $menu_prix ?>;
+                const nbPers = <?= $nb_pers ?>;
+        </script>
+
+        
+        <script src="<?= BASE_URL ?>/js/googleMaps.js"></script>
+        <script src="<?= BASE_URL ?>/js/commande.js"></script>
+        <script src="<?= BASE_URL ?>/js/achat.js"></script>
         <?php include './includes/footer.php' ;?>
 
     </body>

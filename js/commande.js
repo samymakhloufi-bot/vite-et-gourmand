@@ -20,9 +20,12 @@ function change(btn, dir){
     const val = parseInt(input.value) + dir;
     if (val >= 1 && val <= 999) input.value = val;
 }
-
-document.getElementById('form-commande').addEventListener('submit', function() {
-    const btn = this.querySelector('.btn-direct-order');
-    btn.disabled = true;
-    btn.innerText = "Envoi en cours...";
-})
+const formCommande = document.getElementById('form-commande');
+    if(formCommande){
+        document.getElementById('form-commande').addEventListener('submit', function() {
+    
+        const btn = this.querySelector('.btn-direct-order');
+        btn.disabled = true;
+        btn.innerText = "Envoi en cours...";
+        });
+}

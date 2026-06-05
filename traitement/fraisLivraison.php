@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../login.php';
+header('Content-Type: application/json');
 /*----------------------------
     Vérif de la requête AJAX
 -----------------------------*/
@@ -18,14 +20,11 @@ if (!isset($_COOKIE['maps-consent']) || $_COOKIE['maps-consent'] !== 'true') {
     exit;
 }
 
-
-require_once __DIR__ . '/includes/config.php';
-
 /*----------------------------
     Calcul frais de livraison
 -----------------------------*/
 function calculerFraisLivraison($adresseComplete) {
-    global $apiKey;
+
 
     // Si Bordeaux → 0€
     if (stripos($adresseComplete, "Bordeaux") !== false) {
@@ -35,9 +34,9 @@ function calculerFraisLivraison($adresseComplete) {
     // Appel à l'API Google Maps
     $origin = "Bordeaux, France";
     $destination = urlencode($adresseComplete);
-    $url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$origin&destinations=$destination&key=$apiKey";
+    $url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=".urlencode($origin)."&destinations=".urlencode($adresseComplete)."&key=" . GOOGLE_MAPS_KEY;
 
-    $response = @file_get_contents($url);
+    $response = file_get_contents($url);
     if ($response === false) {
         throw new Exception("Impossible de contacter l'API Google Maps");
     }
@@ -53,17 +52,17 @@ function calculerFraisLivraison($adresseComplete) {
 
     return [
         'distance_km' => $distanceKm,
-        'frais_livraison' => $fraisLivraison
+        'frais_livraison' => round(5 + ($distanceKm * 0.59), 2)
     ];
 }
 
 /*----------------------------
     gestion de la requête AJAX
 -----------------------------*/
-header('Content-Type: application/json');
 
 try {
     $adresse = $_POST['adresse'] ?? '';
+    error_log('adresse reçue: ' . print_r($_POST, true));
     if (empty($adresse)) {
         throw new Exception("Adresse manquante");
     }

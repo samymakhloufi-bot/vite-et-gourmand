@@ -294,7 +294,7 @@ button >*{
     4.    COOKIE
 -----------------------*/
 .cookie-overlay {
-    display: none;
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
@@ -306,8 +306,13 @@ button >*{
     align-items: center;
 }
 
+.cookie-overlay.hidden {
+    display: none;
+}
+
 .cookie-banner {
     background: white;
+    color: black;
     padding: 25px;
     border-radius: 10px;
     max-width: 600px;
