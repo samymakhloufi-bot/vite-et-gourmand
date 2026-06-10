@@ -27,7 +27,7 @@
                                     <span class="client-name"><?= htmlspecialchars($commande['nom']) ?></span>
                                     <span class="client-menu"><?= htmlspecialchars($commande['menu_nom']) ?></span>
                                     <span class="client-date">Fait le <?= htmlspecialchars(date('d/m/Y', strtotime($commande['date_commande']))) ?></span>
-                                    <span class="order-statut order-statut--<?= $commande['statut'] ?>"><?= strtolower(htmlspecialchars($commande['statut'])) ?></span>
+                                    <span class="order-statut order-statut--<?= $commande['statut'] ?>"><?= ucfirst(str_replace('_', ' ',($commande['statut']))) ?></span>
                                     <span class="chevron">›</span>
                                 </div>
 
@@ -84,7 +84,7 @@
                                     </div>
 
                                     <div class="annul-section" id="annul-<?= $commande['Id_commande'] ?>">
-                                        <div class="annul-title"><label>Contact client obligatoire avant annulation</label></div>
+                                        <div class="annul-title"><label for="contact client obligatoire">Contact client obligatoire avant annulation</label></div>
                                             <div class="annul-grid">
                                                 <select name="mode_contact">
                                                     <option value="appel">Appel</option>
@@ -96,6 +96,8 @@
                                         <button class="btn-annul" onclick="confirmerAnnulation(<?= $commande['Id_commande'] ?>)">Confirmer l'annulation</button>
                                     </div>
                                 </div>
+                            </div>
                         <?php endforeach; ?>
+                    </div>
                         <?php endif ;?>
                     </div>

@@ -12,20 +12,20 @@
                     <button aria-label="Ouvrir le menu"  class="burger-btn"> ☰ </button>
                     <ul class="nav-list"> 
                         <li> <a href="<?= BASE_URL ?>/index.php" class="<?php echo $activePage ==='Accueil' ? 'nav-active' : '' ;?>" >Accueil</a></li>
-                        <li> <a href="<?= BASE_URL ?>/nosmenus.php" class="<?php echo $activePage ==='Nos Menus' ? 'nav-active' : '' ;?>">Nos Menus</a></li>
+                        <li> <a href="<?= BASE_URL ?>/nos-menus.php" class="<?php echo $activePage ==='Nos Menus' ? 'nav-active' : '' ;?>">Nos Menus</a></li>
                         <li> <a href="<?= BASE_URL ?>/contact.php" class="<?php echo $activePage ==='Contact' ? 'nav-active' : '' ;?>" >Contact</a></li>
 
                         <?php if(isset($_SESSION['user_id'])) : ?>
 
                             <?php if($_SESSION['role'] === 'admin') : ?>
-                                <li> <a href="<?= BASE_URL ?>/espaceAdmin.php" class="<?php echo $activePage ==='espace admin' ? 'nav-active' : '' ;?>">Espace Admin</a></li>
-                                <li> <a href="<?= BASE_URL ?>/espaceEmploye.php" class="<?php echo $activePage ==='espace employe' ? 'nav-active' : '' ;?>">Espace Employé</a></li>
+                                <li> <a href="<?= BASE_URL ?>/espace-admin.php" class="<?php echo $activePage ==='espace admin' ? 'nav-active' : '' ;?>">Espace Admin</a></li>
+                                <li> <a href="<?= BASE_URL ?>/espace-employe.php" class="<?php echo $activePage ==='espace employe' ? 'nav-active' : '' ;?>">Espace Employé</a></li>
 
                             <?php elseif ($_SESSION['role'] === 'employe') : ?>
-                                <li> <a href="<?= BASE_URL ?>/espaceEmploye.php" class="<?php echo $activePage ==='espace employe' ? 'nav-active' : '' ;?>">Espace Employé</a></li>
+                                <li> <a href="<?= BASE_URL ?>/espace-employe.php" class="<?php echo $activePage ==='espace employe' ? 'nav-active' : '' ;?>">Espace Employé</a></li>
 
                             <?php else :?>
-                                <li> <a href="<?= BASE_URL ?>/espaceClient.php" class="<?php echo $activePage ==='espace client' ? 'nav-active' : '' ;?>">Mon Compte</a></li>
+                                <li> <a href="<?= BASE_URL ?>/espace-client.php" class="<?php echo $activePage ==='espace client' ? 'nav-active' : '' ;?>">Mon Compte</a></li>
                             <?php endif; ?>
 
                             <li> <a href="<?= BASE_URL ?>/deconnexion.php" class="<?php echo $activePage ==='Déconnexion' ? 'nav-active' : '' ;?>">Déconnexion</a></li>

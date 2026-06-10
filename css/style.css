@@ -551,6 +551,7 @@ button >*{
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    border-radius: 0.25rem;
 }
 
 /*animation au survol*/
@@ -812,6 +813,30 @@ button >*{
     letter-spacing: 0.15rem;
 }
 
+/*Notation avis ★ */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #7D241A;
+}
+
 /*---------------------
     10.   CONTACT
 ---------------------*/
@@ -909,6 +934,7 @@ textarea{
 .contact-card img{
     height: 3rem;
     width: 3rem;
+    padding-left: 0.25rem;
 }
 
 .contact-info {
@@ -951,9 +977,19 @@ textarea{
 }
 
 .contact-form{
-    background-color: var(--white);
+    background-color: #fff;
     box-shadow: var(--shadow-box);
+    padding-top: 0.5rem;
 }
+
+.personal-info-contact{
+    display: grid;
+    grid-template-columns:  1fr  5rem;
+    gap: 0;
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #fff;
+    border-radius: 0.35rem;}
 
 /*-----------------------
     11.    Nos Menus
@@ -1518,10 +1554,8 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     display: flex;
 }
 
-
 /* Le fieldset ne doit pas interférer */
-#form-update-account fieldset {
-    border: none;
+#form-update-account  {
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -1529,130 +1563,158 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     gap: 0;
 }
 
-.orders-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.82rem;
-    min-width: 31.25rem;
+.commande-card {
+    background: #fff;
+    border: 0.5px solid #d4c9b0;
+    border-radius: 0.75rem;
+    overflow:auto;
+    margin-bottom: 0.7rem;
 }
 
-.orders-table thead tr {
-    background: var(--bordeaux);
+.commande-card-header{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background .15s;
 }
 
-.orders-table thead th[scope="col"] {
-    color: var(--creme);
+.commande-card-header:hover{
+    background: #f9f6f0;
+}
+
+.commande-menu-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--bordeaux-dark);
+    flex: 1;
+}
+
+.commande-prix, .commande-date  {
     font-family: var(--font-body);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.75rem 1rem;
-    text-align: left;
-    border-right: 1px solid rgba(255, 255, 255, 0.12);
-    background: var(--bordeaux);
-}
-
-.orders-table thead th[scope="col"]:last-child {
-    border-right: none;
-}
-
-.orders-table tbody tr {
-    border-bottom: 1px solid var(--beige);
-    transition: background 0.15s;
-}
-
-.orders-table tbody tr:nth-child(even) {
-    background: var(--beige);
-}
-
-.orders-table tbody tr:hover {
-    background: var(--creme);
-}
-
-.orders-table tbody th[scope="row"] {
-    padding: 0.75rem 1rem;
-    font-weight: 700;
-    font-size: 0.78rem;
-    color: var(--text-light);
-    border: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--bordeaux);
     white-space: nowrap;
 }
 
-.orders-table tbody td {
-    padding: 0.75rem 1rem;
-    color: var(--text);
-    font-weight: 400;
-    border: none;
-    white-space: nowrap;
+.cmd-view{
+    background-color: #f9f6f0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
 }
 
-.order-statut {
+.div-edit-cmd, .div-save-edit{
+    margin: 0.5rem;
+}
+.btn-save-cmd, .btn-edit-cmd, .btn-cancel-cmd {
     display: inline-block;
-    font-size: 0.65rem;
+    font-family: var(--font-body);
+    font-size: 0.825rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: capitalize;
-    padding: 3px 10px;
-    border-radius: 20px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--bordeaux);
+    color: var(--creme);
+    background: var(--bordeaux);
+    border-radius: 0.3rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
 }
 
-.order-statut--en_preparation{
+.btn-save-cmd:hover, .btn-edit-cmd:hover, .btn-cancel-cmd:hover {
+    background: var(--creme);
+    color: var(--bordeaux);
+}
+
+.cmd-view label, .cmd-edit label{
+    font-family: var(--font-display);
+    color: var(--bordeaux);
+    font-weight: 600;
+}
+
+.info-row-cmd div{
+    font-family: var(--font-body);
+    font-weight: 500;
+}
+
+.info-row-cmd{
+    padding: 0.35rem;
+}
+
+.info-cmd:empty::before
+
+.commande-statut--en_preparation, .order-statut--en_preparation{
     background: #F0F5FF;
     color: #1D39C4;
     border: 1px solid #ADC6FF;
 }
 
-.order-statut--en_cours_de_livraison{
+.ordcommande-statut--en_cours_de_livraison, .order-statut--en_cours_de_livraison{
     background: #FFF7E6;
     color: #D46B08;
     border: 1px solid #FFD591;
 }
 
-.order-statut--livre{
+.commande-statut--livre, .order-statut--livre{
     background: #597141;
     color: #4be10a;
     border: 1px solid #B7EB8F;
 }
 
-.order-statut--en_attente_retour_materiel{
+.commande-statut--en_attente_retour_materiel, .order-statut--en_attente_retour_materiel{
     background: #FFF0F6;
     color: #C41D7F;
     border: 1px solid #FFADD2;
 }
 
-.order-statut--en_attente, .avis-badge-badge-wait {
+.commande-statut--en_attente, .avis-badge-badge-wait, .order-statut--en_attente {
     background: #FFF7E6;
     color: #8a6000;
     border: 1px solid #e6c86a;
 }
 
-.order-statut--accepte, .avis-badge-badge-ok, .btn-valider:hover {
+.commande-statut--accepte, .avis-badge-badge-ok, .btn-valider:hover, .order-statut--accepte {
     background: #EAF3DE;
     color: #3B6D11;
     border: 1px solid #97C459;
 }
 
-.order-statut--terminee {
+.commande-statut--terminee, .order-statut--terminee {
     background: #405821;
     color: #a9c88f;
     border: 1px solid #97C459;
 }
 
-.order-statut--annulee, .avis-badge-badge-non, .btn-refuse:hover {
+.commande-statut--annulee, .avis-badge-badge-non, .btn-refuse:hover, .order-statut--annulee {
     background: #FCEBEB;
     color: #A32D2D;
     border: 1px solid #F09595;
 }
+.commande-statut, .order-statut {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08rem;
+    text-transform: capitalize;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.35rem;
+}
+
 
 .btn-details {
     display: inline-block;
     font-family: var(--font-body);
-    font-size: 0.72rem;
+    font-size: 0.825rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 5px 12px;
+    padding: 0.3rem 0.75rem;
     border: 1px solid var(--bordeaux);
     color: var(--bordeaux);
     background: transparent;
@@ -1662,16 +1724,45 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     transition: background 0.2s, color 0.2s;
 }
 
-.btn-details:hover {
+.btn-details:hover{
     background: var(--bordeaux);
     color: var(--creme);
 }
 
-#form-update-account h3 {
+.btn-delete-cmd{
+    background-color: var(--bordeaux);
+    color: var(--creme);
+    border-radius: 0.35rem;
+    padding: 0.25rem;
+    cursor: pointer;
+}
+
+.btn-delete-cmd:hover{
+    background-color: var(--creme);
+    color: var(--bordeaux);
+    border: 2px solid var(--bordeaux-dark);
+}
+
+.commande-body {
+    display: none;
+}
+
+.commande-body.open {
+    display: block;
+}
+
+.cmd-edit{
+    display : none;
+}
+.cmd-edit.open{
+    display:block;
+}
+
+.personal-info h3, .personal-info-contact h3 {
     font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text);
+    font-size: 1.25rem;
+    font-weight: 750;
+    color: var(--bordeaux);
     background: transparent;
     text-transform: none;
     padding: 0;
@@ -1682,25 +1773,21 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     gap: 10px;
 }
 
-#form-update-account h3::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--beige-dark);
-}
 
-.personal-info {
+.personal-info{
     display: grid;
-    grid-template-columns: 10rem 1fr;
+    grid-template-columns:  1fr  5rem;
     gap: 0;
     width: 100%;
-    margin-left: 0.75rem;
-
+    padding: 0.5rem;
+    background-color: #fff;
+    border-radius: 0.35rem;
+    border: 1.5px solid var(--bordeaux);
 }
 
-.personal-info label {
+.personal-info label, .personal-info-contact label {
     font-family: var(--font-body);
-    font-size: 0.72rem;
+    font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -1711,7 +1798,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     border-bottom: 1px solid var(--beige);
 }
 
-.personal-info input {
+.personal-info input, .personal-info-contact input {
     background: var(--input);
     border: none;
     border-bottom: 1px solid var(--beige);
@@ -1724,14 +1811,18 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     border-radius: 0.3rem;
 }
 
-.personal-info input:focus {
+.personal-info input:focus, .personal-info-contact input:focus {
     outline: none;
     background: var(--beige);
     border-bottom: 1px solid var(--bordeaux);
 }
 
-#form-update-account .btn-edit,
-#form-update-account .btn-submit {
+.btn-personal-info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-personal-info button{
     margin-top: 1.25rem;
     margin-right: 0.75rem;
     padding: 0.55rem 1.25rem;
@@ -1745,24 +1836,13 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     width: fit-content;
 }
 
-#form-update-account .btn-edit {
-    background: transparent;
-    border: 1px solid var(--bordeaux);
-    color: var(--bordeaux);
-}
-
-#form-update-account .btn-edit:hover {
-    background: var(--bordeaux);
-    color: var(--creme);
-}
-
-#form-update-account .btn-submit {
+.btn-submit-personal-info {
     background: var(--bordeaux);
     border: none;
     color: var(--creme);
 }
 
-#form-update-account .btn-submit:hover {
+.btn-submit-personal-info:hover {
     background: var(--bordeaux-dark);
 }
 
@@ -1787,8 +1867,8 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 }
 
 .search-menu, .search-client, #search-statut, .toolbar-avis select{
-    font-size: 13px;
-    padding: 5px 12px;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.75rem;
     border-radius: 8px;
     border: 0.5px solid #d4c9b0;
     background: #fff;
@@ -1804,16 +1884,16 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 .menu-card, .client-card {
     background: #fff;
     border: 0.5px solid #d4c9b0;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 0.7rem;
 }
 
 .menu-card-header, .client-card-header{
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
     cursor: pointer;
     transition: background .15s;
 }
@@ -1823,30 +1903,30 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 }
 
 .menu-thumb {
-    width: 52px;
-    height: 38px;
-    border-radius: 6px;
+    width: 3.25rem;
+    height: 2.375rem;
+    border-radius: 0.375rem;
     object-fit: cover;
     flex-shrink: 0;
     background: #e8dfd0;
 }
 
 .menu-name, .client-name, .client-menu {
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     color: #3d1a10;
     flex: 1;
 }
 
 .menu-prix, .client-date, .avis-date  {
-    font-size: 13px;
+    font-size: 0.8rem;
     font-weight: 500;
     color: #7D241A;
     white-space: nowrap;
 }
 
 .chevron {
-    font-size: 16px;
+    font-size: 1rem;
     color: #9a8a78;
     transition: transform .2s;
     flex-shrink: 0;
@@ -1874,9 +1954,9 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 /* Badges thème / régime */
 .badge {
     display: inline-block;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 4px;
+    font-size: 0.7rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
     font-weight: 500;
     white-space: nowrap;
 }
@@ -2030,7 +2110,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 }
 
 .saved-toast {
-    font-size: 12px;
+    font-size: 1rem;
     color: #1D9E75;
     font-style: italic;
 }
@@ -2221,7 +2301,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     margin : 0.5rem 0.75rem 0.5rem 0;
 }
 
-.personal-info{
+.personal-info,.personal-info-contact{
     display : grid;
     grid-template-columns: 1fr;
     margin-bottom: 1rem;
@@ -2938,7 +3018,7 @@ footer {
     max-width: 100%;
 }
 
-.personal-info, .auth-fields{
+.personal-info, .auth-fields, .personal-info-contact{
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
@@ -2958,6 +3038,7 @@ footer {
 .contact-card img {
     width: 3.5rem;
     height: 3.5rem;
+    padding: 0.35rem;
 }
 
 /*----------------------

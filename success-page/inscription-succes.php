@@ -1,12 +1,12 @@
 <?php $activePage = 'Inscription Succes'; 
-require_once './login.php'
+require_once '../login.php'
 ?>
 <!DOCTYPE html>
 <html lang="en">
-    <?php include './includes/head.php'; ?>
+    <?php include '../includes/head.php'; ?>
 
     <body>
-    <?php include './includes/header.php'; ?>
+    <?php include '../includes/header.php'; ?>
 
     <main>
         
@@ -58,12 +58,12 @@ require_once './login.php'
 
             if (tempsRestant <= 0) {
                 clearInterval(interval);
-                window.location.href = './connexion.php';
+                window.location.href = '../connexion.php';
             }
         },1000);
     </script>
 
 </body>
 
-    <?php include './includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 </html>

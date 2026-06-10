@@ -16,65 +16,65 @@
             <?php if (!$menu['actif']): ?>
                 <span class="badge badge-inactif"> Désactivé</span>
             <?php endif; ?>
-            <span class="menu-prix"><?= $menu['prix'] ?> €/pers</span>
+            <span class="menu-prix"><?= $menu['prix_menu'] ?> €/pers</span>
             <span class="chevron">›</span>
         </div>
     
         <div class="menu-body">
             <div class="fields-grid">
                 <div class="field">
-                    <label>Titre menu</label>
+                    <label for="Titre menu">Titre menu</label>
                     <div class="val editable" contenteditable="true" 
                         data-id="<?= $menu['Id_menu'] ?>" data-field="menu_nom"><?= $menu['menu_nom'] ?></div>
                 </div>
                 <div class="field">
-                    <label>Thème</label>
+                    <label for="Thème">Thème</label>
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="theme"><?= htmlspecialchars($menu['theme']) ?></div>
                 </div>
                 <div class="field">
-                    <label>Prix / pers (€)</label>
+                    <label for="prix par personne">Prix / pers (€)</label>
                     <div class="val editable" contenteditable="true" 
-                        data-id="<?= $menu['Id_menu'] ?>" data-field="prix"><?= $menu['prix'] ?></div>
+                        data-id="<?= $menu['Id_menu'] ?>" data-field="prix"><?= $menu['prix_menu'] ?></div>
                 </div>
                 
                 <div class="field full">
-                    <label>Description chef</label>
+                    <label for="Description du chef">Description chef</label>
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="description"><?= htmlspecialchars($menu['description']) ?></div>
                 </div>
                 <div class="field">
-                    <label>Régime</label>
+                    <label for="Régime">Régime</label>
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="regime"><?= htmlspecialchars($menu['regime']) ?></div>
                 </div>
                 <div class="field">
-                    <label>Nb personnes min</label>
+                    <label for="nombre de personnes minimum">Nb personnes min</label>
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="nb_perso_min"><?= $menu['nb_perso_min'] ?></div>
                 </div>
                 <div class="field full">
-                    <label>Entrée</label>
+                    <label for="entrée">Entrée</label>
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="entree"><?= htmlspecialchars($menu['entree']) ?></div>
                 </div>
                 <div class="field full">
-                    <label>Plat</label>
+                    <label for="plat">Plat</label>
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="plat"><?= htmlspecialchars($menu['plat']) ?></div>
                 </div>
                 <div class="field full">
-                    <label>Dessert</label>
+                    <label for="dessert">Dessert</label>
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="dessert"><?= htmlspecialchars($menu['dessert']) ?></div>
                 </div>
                 <div class="field full">
-                    <label>Boissons (séparées par |)</label>
+                    <label for="boissons">Boissons (séparées par |)</label>
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="boisson"><?= htmlspecialchars($menu['boisson']) ?></div>
                 </div>
                 <div class="field full">
-                    <label>Allergènes (séparés par |)</label>
+                    <label for="allergènes">Allergènes (séparés par |)</label>
                     <div class="val editable" contenteditable="true"
                         data-id="<?= $menu['Id_menu'] ?>" data-field="allergene"><?= htmlspecialchars($menu['allergene']) ?></div>
                 </div>

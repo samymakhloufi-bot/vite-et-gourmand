@@ -29,7 +29,7 @@ villeAutreInput.addEventListener('blur', () => {
     calculerFrais(ville);
 });
 function calculerFrais(ville){
-    fetch(BASE_URL + '/traitement/fraisLivraison.php', {
+    fetch(BASE_URL + '/traitement/frais-livraison.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -50,7 +50,6 @@ function calculerFrais(ville){
         document.getElementById('hidden-distance').value = distanceKM;
     })
     .catch((err) => {
-        console.error('erreur fetch:', err);
         alert ('Erreur lors du calcul des frais de livraison')
 });
 };

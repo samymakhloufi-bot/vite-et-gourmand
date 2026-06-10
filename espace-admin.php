@@ -1,8 +1,8 @@
-<?php $activePage = 'espace employe'; 
+<?php $activePage = 'espace admin'; 
 
 require_once './login.php';
-if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'] , ['admin', 'employe'])) {
-    header('location: '. BASE_URL .'/index.php');
+if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin'])) {
+    header('Location: ./index.php');
     exit();
 }
 
@@ -31,7 +31,6 @@ $horaires = [];
         $stmt = $pdo->query("SELECT a.*, u.nom, u.prenom 
         FROM avis a 
         JOIN users u ON a.Id_user = u.Id_user 
-        WHERE a.statut = 'en_attente' 
         ORDER BY a.created_at DESC");
         $avis = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
@@ -40,28 +39,29 @@ $horaires = [];
 <!DOCTYPE html >
 <html lang="fr">
     
-        <?php include __DIR__.'/includes/head.php';?>
+        <?php include './includes/head.php';?>
     
     <body>
-        <?php include __DIR__.'/includes/header.php';?>
+        <?php include './includes/header.php';?>
 
         <div class="nos-menus-banner">
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Mon espace <em> employé </em></h2></div>
+            <h2>Mon espace <em> & commandes </em></h2></div>
         </div>
 
-        <main>
+        <main class="main-espace">
 
             <div class="espace-wrapper">
-
+                
                 <div class="sidebar-espace">
-                    <button type="button" class="btn-commande" data-target="commandes-wrapper" aria-selected="commandes">Les Commandes</button>
-                    <button type="button" class="btn-menus" data-target="menus-plat" aria-selected="Menus et plats">Menus & Plats</button>
-                    <button type="button" class="btn-avis" data-target="moderation-avis" aria-selected="Modération Avis">Modération Avis</button>
-                    <button type="button" class="btn-horaires" data-target="horaires" aria-selected="Horaires">Horaires</button>
+
+                    <button type="button" class="btn-dashboard" data-target="dashboard-wrapper" aria-selected="Tableau de Bord">Tableau de Bord</button>
+                    <button type="button" class="btn-employee" data-target="employee-wrapper" aria-selected="Employés">Employés</button>
+                    <button type="button" class="btn-turnover" data-target="turnover-view" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button>
                 </div>
+
 
 
                 <section id="commandes-wrapper" class="account-panel active">
@@ -77,22 +77,22 @@ $horaires = [];
                     <?php endif; ?>
                     
 
-                <section id="menus-plat" class="account-panel">
-                        <?php include './espace/employee/menus-plat.php' ?>
+                <section id="dashboard-wrapper" class="account-panel">
+                        <?php include './espace/admin/dashboard.php' ?>
                 </section>
 
-                <section id="moderation-avis" class="account-panel">
-                        <?php include './espace/employee/avis.php' ?>
+                <section id="employee-wrapper" class="account-panel">
+                        <?php include './espace/admin/employee.php' ?>
                 </section>
-                
-                <section id="horaires" class="account-panel">
-                    <?php include './espace/employee/horaires.php' ?>
+
+                <section id="turnover-wrapper" class="account-panel">
+                        <?php include './espace/admin/turnover.php' ?>
                 </section>
 
         </main>
 
-        <?php include __DIR__.'/includes/footer.php' ;?>
-        <script src="<?= BASE_URL ?>/js/espaceClient.js"></script>
-        <script src="<?= BASE_URL ?>/js/espaceAdmin.js"></script>
+        <?php include './includes/footer.php' ;?>
+        <script src="./js/espace-client.js"></script>
+        <script src="<?= BASE_URL ?>/js/espace-admin.js"></script>
     </body>
 </html>

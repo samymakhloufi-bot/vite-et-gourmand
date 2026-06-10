@@ -1,18 +1,31 @@
 <?php 
+header('Content-Type: application/json');
 require_once '../login.php';
 
 if(!isset($_SESSION['user_id'])) {
-    header('Location: ./index.php');
+    echo json_encode(['error' => 'Non connecté']);
     exit();
 }
 
-$contenu = trim($_POST['contenu']);
-if(!empty($contenu)){
-    $stmt = $pdo -> prepare("INSERT INTO avis (Id_user, contenu, statut) VALUES (?, ?, 'en_attente')");
-    $stmt -> execute([$_SESSION['user_id'], $contenu]);
-    header('Location: ../espaceClient.php?avis=ok');
-} else{
-    header('Location: ../espaceClient.php?avis=error');
-}
+if(isset($_POST['contenu'])){
 
-exit();
+    $contenu = trim($_POST['contenu']);
+    $note = (int)$_POST['note'];
+
+    if(empty($contenu) || $note <1 || $note > 5){
+        echo json_encode(['error' => 'Veuillez remplir le commentaire et choisir une note.']);
+        exit;
+    }
+    
+    try {
+        $stmt = $pdo -> prepare("INSERT INTO avis (Id_user, contenu, note, created_at, statut_avis) 
+                            VALUES (?, ?, ?, NOW(), 'en_attente')");
+        $stmt -> execute([$_SESSION['user_id'], $contenu, $note]);
+    
+        echo json_encode(['success'=>true]);
+        exit();
+    }catch(Exception $e){
+        echo json_encode(['error' => $e->getMessage()]);
+        exit();
+        }
+}

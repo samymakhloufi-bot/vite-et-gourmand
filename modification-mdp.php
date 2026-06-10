@@ -51,9 +51,9 @@ $activePage = 'Changement de mot de passe';
             <section class="auth-wrapper">
                 <div class="msg-password">
                     <?php if(!$token_valide):?>
-                        <p class="message-erreur">Ce lien est invalide ou expiré : </br> <a href="reinitialisationMDP.php" class="new_link"> Demander un nouveau lien.</a></p>
+                        <p class="message-erreur">Ce lien est invalide ou expiré : </br> <a href="reinitialisation-mdp.php" class="new_link"> Demander un nouveau lien.</a></p>
                         <?php else:?>
-                        <form action="./modificationMDP.php?token=<?php echo htmlspecialchars($token); ?>" method="post">
+                        <form action="./modification-mdp.php?token=<?php echo htmlspecialchars($token); ?>" method="post">
                             <fieldset>
                                 <?php if ($message) : ?>
                                     <p class="message-<?= $message_type?>"><?= htmlspecialchars($message); ?></p>

@@ -25,7 +25,7 @@ if(isset($_POST['submit-contact'])) {
             $mail->Host  ='smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'samymakhloufi@gmail.com';
-            $mail->Password = 'hocmmjyvvvnuovkd';
+            $mail->Password = MAIL_PASS;
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
             $mail->CharSet = 'UTF-8';
@@ -44,7 +44,7 @@ if(isset($_POST['submit-contact'])) {
             $mail->send();
             $message = "Votre message a été envoyé avec succès.";
             $message_type = 'success';
-            header('Location: contactSucess.php');
+            header('Location: /success-page/contactsucces.php');
             exit();
         } catch (Exception $e) {
             $message = "Erreur lors de l'envoi de l'email : ";
@@ -85,7 +85,7 @@ if(isset($_POST['submit-contact'])) {
                         </fieldset>
                         
                         <fieldset>
-                            <div class="personal-info">
+                            <div class="personal-info-contact">
                                 <div>
                                     <label for="nom">NOM :</label>
                                     <input type="text" id="nom" name="nom" required>

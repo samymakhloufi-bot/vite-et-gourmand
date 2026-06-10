@@ -1,15 +1,12 @@
-<?php $activePage = 'Demande envoyée'; 
-
-session_start();
-
+<?php $activePage = 'Inscription Succes'; 
+require_once '../login.php'
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-    <?php include './includes/head.php'; ?>
+    <?php include '../includes/head.php'; ?>
 
     <body>
-    <?php include './includes/header.php'; ?>
+    <?php include '../includes/header.php'; ?>
 
     <main>
         
@@ -17,10 +14,10 @@ session_start();
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Demande<em> envoyée</em></h2></div>
+            <h2>Merci pour<em> votre commande </em></h2></div>
         </div>
 
-        <div class="sub-wrapper succes-wrapper">
+        <div class="succes-wrapper">
 
             <div class="succes-card">
 
@@ -30,9 +27,9 @@ session_start();
                     </svg>
                 </div>
                 
-                    <h2>Votre demande de contact a été envoyée avec succès !</h2>
-                    <p>Votre message a été reçu avec succés. <br>
-                    Nous vous répondrons dans les plus brefs délais.</p>
+                    <h2>Votre commande a bien été pris en compte !</h2>
+                    <p>Vous recevrez un mail de confirmation, <br>
+                    lorsque votre commande sera validé par notre équipe.</p>
                     
                     <div class="succes-progress">
                         <div class="succes-progress-bar" id="bar"></div>
@@ -41,7 +38,6 @@ session_start();
                     <p class="succes-counter">Redirection dans <span id="compte-rebours">15</span> secondes</p>
                     
                     <div class="succes-btn">
-                        <a href="connexion.php" class="btn-submit">Se connecter</a>
                         <a href="index.php" class="btn-outline">Retour à l'accueil</a>
                     </div>
             </div>
@@ -61,12 +57,12 @@ session_start();
 
             if (tempsRestant <= 0) {
                 clearInterval(interval);
-                window.location.href = './index.php';
+                window.location.href = '../espace-client.php';
             }
         },1000);
     </script>
 
 </body>
 
-    <?php include './includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 </html>

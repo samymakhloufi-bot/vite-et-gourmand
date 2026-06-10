@@ -8,7 +8,7 @@ if(document.cookie.includes('maps-consent')){
 }
 
 document.getElementById('accept-cookies').addEventListener('click', () => {
-    fetch(BASE_URL + '/traitement/traitement_cookie.php?consent=true')
+    fetch(BASE_URL + '/traitement/traitement-cookie.php?consent=true')
     .then(() => {
         overlay.classList.add('hidden');
         if(typeof loadGoogleMaps === 'function') {
@@ -18,7 +18,7 @@ document.getElementById('accept-cookies').addEventListener('click', () => {
 });
 
 document.getElementById('refuse-cookies').addEventListener('click', () => {
-    fetch(BASE_URL + '/traitement/traitement_cookie.php?consent=false')
+    fetch(BASE_URL + '/traitement/traitement-cookie.php?consent=false')
     .then(() => {
         overlay.classList.add('hidden');
     });

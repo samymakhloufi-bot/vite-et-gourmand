@@ -3,6 +3,7 @@ $activePage = 'Nos Menus';
 require_once __DIR__ . '/login.php';
 $stmt = $pdo->query("SELECT * FROM menu WHERE actif = 1 ORDER BY menu_nom ASC");
 $menus = $stmt->fetchAll();
+$nb_pers = 0 ;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -40,7 +41,7 @@ $menus = $stmt->fetchAll();
                 </select>
             </div>
             <div class="filter" id="tags-regime">
-                <label>RÉGIME</label>
+                <label for="regime">RÉGIME</label>
                 <button class="tag on" data-value="">Tous</button>
                 <button class="tag" data-value="non-vegan">Non-Vegan</button>
                 <button class="tag" data-value="vegan">Vegan</button>
@@ -71,7 +72,7 @@ $menus = $stmt->fetchAll();
         <article class="menu-card"
             data-regime="<?= htmlspecialchars($menu['regime']) ?>"
             data-theme="<?= htmlspecialchars($menu['theme']) ?>"
-            data-prix="<?= $menu['prix'] ?>"
+            data-prix="<?= $menu['prix_menu'] ?>"
             data-nb-max="<?= $menu['nb_perso_max'] ?>">
 
             <picture>
@@ -82,7 +83,7 @@ $menus = $stmt->fetchAll();
             <div class="info-menu">
                 <h3><?= htmlspecialchars($menu['menu_nom']) ?></h3>
                 <span><?= $menu['theme'] ?> - <?= $menu['regime'] ?></span>
-                <span><?= $menu['prix'] ?> €/PERS.</span>
+                <span><?= $menu['prix_menu'] ?> €/PERS.</span>
                 <span><?= $menu['nb_perso_min']?> PERS./min</span>
             </div>
 

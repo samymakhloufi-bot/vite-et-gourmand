@@ -5,7 +5,7 @@
 
     //verif session
     if(!isset($_SESSION['user_id'])) {
-        header('location: '. BASE_URL .'/connexion.php?redirect=nosmenus.php');
+        header('location: '. BASE_URL .'/connexion.php?redirect=nos-menus.php');
         exit();
     }
 
@@ -25,12 +25,12 @@
     $user_commande->execute([$_SESSION['user_id']]);
     $user = $user_commande->fetch();
 
-        $stmtMenu = $pdo->prepare('SELECT menu_nom, prix, nb_perso_min FROM menu WHERE Id_menu = ?');
+        $stmtMenu = $pdo->prepare('SELECT menu_nom, prix_menu, nb_perso_min FROM menu WHERE Id_menu = ?');
     $stmtMenu->execute([$menu_id]);
     $menu_infos = $stmtMenu ->fetch(PDO::FETCH_ASSOC);
 
     $menu_nom = $menu_infos['menu_nom'] ?? 'Menu inconnu';
-    $menu_prix = (float)($menu_infos['prix'] ?? '');
+    $menu_prix = (float)($menu_infos['prix_menu'] ?? '');
 
     $message = '';
 
@@ -48,7 +48,7 @@
             $nom         = trim($_POST['nom']);
             $prenom      = trim($_POST['prenom']);
             $adresse_de_livraison     = trim($_POST['address-livraison-precis']);
-            $ville_de_livraison       = trim($_POST['ville-livraison']) ?? $_POST['ville-livraison-autre'];
+            $ville_de_livraison       = trim($_POST['ville-livraison']) === 'autre' ? trim($_POST['ville-livraison-autre']) : 'Bordeaux';
             $email       = trim($_POST['email']);
             $tel         = trim($_POST['tel']);
             $date        = $_POST['date'];
@@ -57,11 +57,13 @@
             $paiement    = $_POST['mode_paiement'];
             $menu_id     = $_POST['menu_id'];
             $menu_nom = $menu_infos['menu_nom'] ?? 'Menu inconnu';
-            $menu_prix = (float)($menu_infos['prix'] ?? '');
+            $menu_prix = (float)($menu_infos['prix_menu'] ?? '');
 
         //Paiement
             $nb_pers     = (int)$_POST['nb_pers'];
-            $prix_total       = $menu_prix * $nb_pers;
+            $prix       = $menu_prix * $nb_pers;
+            $reduction = ($nb_pers >= $nb_pers_min + 5) ? 0.10 : 0;
+            $prix_total = $prix * (1 - $reduction) + $frais_livraison;
             $mode_paiement = $paiement === 'devis' ? 'devis' : 'carte_bancaire';
 
             if(!empty($_POST['date']) && !empty($_POST['time']) ) {
@@ -85,9 +87,9 @@
     
                     // Insérer dans commande_detail
                     $detail = $pdo->prepare("INSERT INTO commande_detail 
-                        (Id_commande, Id_menu, quantite, prix) 
-                        VALUES (?, ?, ?, ?)");
-                    $detail->execute([$id_commande, $menu_id, $nb_pers, ($menu_prix * $nb_pers)]);
+                        (Id_commande, Id_menu, quantite, prix, prix_total, reduction) 
+                        VALUES (?, ?, ?, ?, ?, ?)");
+                    $detail->execute([$id_commande, $menu_id, $nb_pers, $prix, $prix_total, $reduction]);
                     
                     //enregistrement de la commande
                     $pdo ->commit();
@@ -120,7 +122,7 @@
                                     <p><strong>Email :</strong> $email</p>
                                     <p><strong>Téléphone :</strong> $tel</p>                
                                     <h3>Livraison</h3>
-                                    <p><strong>Adresse :</strong> $adresse</p>
+                                    <p><strong>Adresse :</strong> $adresse_livraison</p>
                                     <p><strong>Date :</strong> $date à $heure</p>
                                     <p><strong>Complément :</strong> $complement</p>                
                                     <h3>Commande</h3>
@@ -150,7 +152,7 @@
                                     ";
                                     $mail->send();
     
-                                    header('location: '. BASE_URL .'/commandeSucces.php?type=devis&id=' . $id_commande);
+                                    header('location: '. BASE_URL .'/success-page/achat-succes.php?type=devis&id=' . $id_commande);
                                     
                                     exit;
     
@@ -158,7 +160,7 @@
                         $message = "Erreur lors de l'envoi du mail : " . $e->getMessage();
                         } 
                     } else {
-                        header('location: '. BASE_URL .'/paiement.php?id=' . $id_commande);
+                        header('location: '. BASE_URL .'/success-page/achat-succes.php?id=' . $id_commande);
                         exit;
                     }
             }catch(Exception $e) {
@@ -365,7 +367,7 @@ $prix_total = $menu_prix * $nb_pers + $frais_livraison;
         </script>
 
         
-        <script src="<?= BASE_URL ?>/js/googleMaps.js"></script>
+        <script src="<?= BASE_URL ?>/js/google-maps.js"></script>
         <script src="<?= BASE_URL ?>/js/commande.js"></script>
         <script src="<?= BASE_URL ?>/js/achat.js"></script>
         <?php include './includes/footer.php' ;?>

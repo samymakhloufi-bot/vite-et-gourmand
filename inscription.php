@@ -57,7 +57,7 @@ $activePage = 'Inscription';
                         </div> " ;
             $mail-> send();
                         } catch(Exception $e){}
-            header('Location: inscriptionSucces.php');
+            header('Location: /success-page/inscription-succes.php');
             exit();
             }};
             

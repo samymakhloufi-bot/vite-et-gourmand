@@ -1,5 +1,15 @@
 <?php $activePage = 'Accueil'; 
 include './login.php';
+
+$stmtAvis = $pdo -> prepare("SELECT a.contenu, a.note, u.nom, u.prenom
+                            FROM avis a
+                            JOIN users u ON a.Id_user = u.id_user
+                            WHERE a.statut_avis ='valide'
+                            ORDER BY a.note DESC, a.created_at DESC
+                            LIMIT 3");
+$stmtAvis -> execute();
+$avis = $stmtAvis ->fetchAll();
+
 ?>
 <!DOCTYPE html >
 
@@ -93,7 +103,7 @@ include './login.php';
 
             </section>
 
-            <div class="div-index-to-menu"><a href="./nosmenus.php"  class="index-to-menus">Tous nos menus</a></div>
+            <div class="div-index-to-menu"><a href="./nos-menus.php"  class="index-to-menus">Tous nos menus</a></div>
 
             <h2>Notre savoir-faire</h2>
 
@@ -123,29 +133,15 @@ include './login.php';
                 <h2> Ils nous ont fait confiance! <br>
                 Pourquoi pas vous ?</h2>
                 <div class="reviews-grid">
+                    <?php foreach ($avis as $a):?>
                     <article class="review-card">
                         <div class="review-header">
-                            <h3 class="review-author" aria-label="auteur de l'avis">Orlane B.</h3> 
-                            <p class="review-stars" aria-label="5 étoiles sur 5">★★★★★</p>
+                            <h3 class="review-author" aria-label="auteur de l'avis"><?= htmlspecialchars($a['prenom'])?><?=htmlspecialchars(substr($a['nom'], 0,1)) ?></h3> 
+                            <p class="review-stars" aria-label="5 étoiles sur 5"><?= str_repeat('★', ($a['note'])). str_repeat('☆', 5 -$a['note'])?></p>
                         </div>
-                        <p class="review-text" aria-label="avis">Prestation de Noël parfaite : plats délicieux, présentation élégante et service irréprochable, je recommande Vite & Gourmand les yeux fermés !</p>
+                        <p class="review-text" aria-label="avis"><?= htmlspecialchars($a['contenu']) ?></p>
                     </article>
-
-                    <article class="review-card">
-                        <div class="review-header">
-                            <h3 class="review-author" aria-label="auteur de l'avis">Samy M.</h3> 
-                            <p class="review-stars" aria-label="5 étoiles sur 5">★★★★★</p>
-                        </div>
-                        <p class="review-text" aria-label="avis">Menu de Pâques raffiné et savoureux, présentation magnifique et service impeccable — Vite & Gourmand a sublimé notre repas !</p>
-                    </article>
-
-                    <article class="review-card" id="review-last">
-                        <div class="review-header">
-                            <h3 class="review-author" aria-label="auteur de l'avis">Lana M.</h3> 
-                            <p class="review-stars" aria-label="5 étoiles sur 5">★★★★★</p>
-                        </div>
-                        <p class="review-text" aria-label="avis">Menu de mariage réservé pour juin : dégustation exceptionnelle, équipe à l'écoute et très professionnelle, nous sommes ravis !</p>
-                    </article>
+                    <?php endforeach; ?>
                 </div>
             </section>
 

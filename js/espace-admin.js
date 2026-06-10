@@ -56,7 +56,7 @@ function saveStatut(id, btn) {
     const statut = document.getElementById('sel-' + id).value;
     const toast  = document.getElementById('toast-' + id);
 
-    fetch(BASE_URL +'/traitement/updateStatus.php', {
+    fetch(BASE_URL +'/traitement/update-status.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id_commande: id, statut })

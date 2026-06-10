@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 require_once '../login.php';
 
 if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['employe', 'admin'])) {

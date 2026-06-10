@@ -8,7 +8,7 @@ $stmt->execute([$id]);
 $menu_actif = $stmt->fetch();
 
 if (!$menu_actif) {
-    header('location: '. BASE_URL .'/Nosmenus.php');
+    header('location: '. BASE_URL .'/nos-menus.php');
     exit;
 }
 ?>
@@ -68,7 +68,7 @@ if (!$menu_actif) {
 
         <div class="menu-detail-footer">
             
-            <em class="menu-price">Prix : <?= $menu_actif['prix'] ?> €/personne / Min : <?= $menu_actif['nb_perso_min'] ?> personnes</em>
+            <em class="menu-price">Prix : <?= $menu_actif['prix_menu'] ?> €/personne / Min : <?= $menu_actif['nb_perso_min'] ?> personnes</em>
             <form id="form-commande" action="../achat.php" method="POST">
                 <input type="hidden" name="menu_nom" value="<?= htmlspecialchars($menu_actif['menu_nom'])?>">
                 <input type="hidden" name="nb_pers" value="<?= $nb_pers?>">

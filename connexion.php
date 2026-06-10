@@ -1,7 +1,7 @@
 <?php $activePage = 'Connexion'; 
 require_once __DIR__.'/login.php';
 
-    $fromCommande = isset($_GET['redirect']) && $_GET['redirect'] == 'nosmenus.php';
+    $fromCommande = isset($_GET['redirect']) && $_GET['redirect'] == 'nos-menus.php';
 
 $message ='';
 
@@ -32,9 +32,9 @@ if (isset($_POST['se-connecter'])) {
         }
 
         if ($user['role'] ==='admin') {
-            header('location: '. BASE_URL .'/espaceAdmin.php');
+            header('location: '. BASE_URL .'/espace-admin.php');
         } elseif ($user['role'] ==='employe'){
-            header('location: '. BASE_URL .'/espaceEmploye.php');
+            header('location: '. BASE_URL .'/espace-employe.php');
         } else {
             $redirect = $_GET['redirect'] ?? $_POST['redirect'] ?? 'index.php';
             header('location: '. BASE_URL .'/'.$redirect);
@@ -125,7 +125,7 @@ if (isset($_POST['se-connecter'])) {
                             </div>
                             <div class="login">
                                 <button type="submit" class="btn-submit" name="se-connecter">Se Connecter</button>
-                                <a class="btn-forget" href="<?= BASE_URL ?>/reinitialisationMDP.php">Mot de passe oublié ?</a>
+                                <a class="btn-forget" href="<?= BASE_URL ?>/reinitialisation-mdp.php">Mot de passe oublié ?</a>
                             </div>
                         </fieldset>
                     </form>
