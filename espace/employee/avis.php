@@ -2,13 +2,13 @@
     <div class="avis-count">
         <?php $count = 0;
             foreach ($avis as $a){
-                if($a['statut'] ==='en_attente') $count++;} ?> 
+                if($a['statut_avis'] ==='en_attente') $count++;} ?> 
             <span class="avis-count" id="avis-count"> 
         
             <?= $count?> avis en attente</span>
     </div>
 
-    <select name="toolbar-avis" id="toolbar-avis" onchange="filtrerAvis(this.value)">
+    <select name="toolbar-avis" id="toolbar-avis" >
         <option value="en_attente"> En attente</option>
         <option value="valide">Validés</option>
         <option value="refuse">Refusés</option>
@@ -22,14 +22,14 @@
         <div class="avis-empty">Aucun avis en attente</div>
         <?php else :?>
         <?php foreach($avis as $a): ?>
-            <div class="avis-item" id="avis-item-<?= $a['Id_avis'] ?>" data-statut="<?= $a['statut']?>">
+            <div class="avis-item" id="avis-item-<?= $a['Id_avis'] ?>" data-statut="<?= $a['statut_avis']?>">
                 <div class="avis-content">
 
                     <div class="avis-meta">
                         <div class="avis-name"><span class="id-avis">#<?=htmlspecialchars($a['Id_avis'])?> - </span><span class="nom-avis"><?= htmlspecialchars($a['nom']) ?> <?= htmlspecialchars($a['prenom']) ?> - </span></div>
                         <div class="avis-date"><span class="date-avis"><?php $date = new DateTime($a['created_at']); echo $date-> format('d/m/Y H:i');?></span></div>
-                        <div class="avis-badge"><span class="avis-badge-<?= $a['statut'] === 'en_attente' ?'badge-wait' : 
-                        ($a['statut'] === 'valide' ? 'badge-ok' : 'badge-non') ?>"><?= $a['statut'] === 'en_attente' ? 'En attente' : ($a['statut'] === 'valide' ? 'Validé' : 'Refusé') ?> </span></div>
+                        <div class="avis-badge"><span class="avis-badge-<?= $a['statut_avis'] === 'en_attente' ?'badge-wait' : 
+                        ($a['statut_avis'] === 'valide' ? 'badge-ok' : 'badge-non') ?>"><?= $a['statut_avis'] === 'en_attente' ? 'En attente' : ($a['statut_avis'] === 'valide' ? 'Validé' : 'Refusé') ?> </span></div>
 
 
                     <div class="avis-text"> "<?= htmlspecialchars($a['contenu']) ?>"</div>

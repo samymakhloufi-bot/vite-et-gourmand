@@ -1,6 +1,7 @@
 <?php $activePage = 'espace employe'; 
 
 require_once './login.php';
+
 if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'] , ['admin', 'employe'])) {
     header('location: '. BASE_URL .'/index.php');
     exit();
@@ -31,7 +32,7 @@ $horaires = [];
         $stmt = $pdo->query("SELECT a.*, u.nom, u.prenom 
         FROM avis a 
         JOIN users u ON a.Id_user = u.Id_user 
-        WHERE a.statut = 'en_attente' 
+        WHERE a.statut_avis 
         ORDER BY a.created_at DESC");
         $avis = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
@@ -88,11 +89,11 @@ $horaires = [];
                 <section id="horaires" class="account-panel">
                     <?php include './espace/employee/horaires.php' ?>
                 </section>
-
+            </div>
         </main>
 
         <?php include __DIR__.'/includes/footer.php' ;?>
         <script src="<?= BASE_URL ?>/js/espace-client.js"></script>
-        <script src="<?= BASE_URL ?>/js/espace-admin.js"></script>
+        <script src="<?= BASE_URL ?>/js/espace-employe.js"></script>
     </body>
 </html>

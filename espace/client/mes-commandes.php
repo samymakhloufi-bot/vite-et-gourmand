@@ -72,7 +72,7 @@
                     <div class="info-cmd" data-id="<?= $commande['Id_commande']?>" data-info-row="prix">Prix du menu : <?= $commande['prix']?>€</div>
 
                     <div class="info-cmd" data-id="<?= $commande['Id_commande']?>" data-info-row="prix">Frais de livraison : <?= $commande['frais_livraison']?>€</div>
-                    <div class="info-cmd" data-id="<?= $commande['Id_commande']?>" data-info-row="prix">Réduction : <?= ($commande['prix_total'] - $commande['prix']) -$commande['frais_livraison']?>€</div>
+                    <div class="info-cmd" data-id="<?= $commande['Id_commande']?>" data-info-row="prix">Réduction : <?= round(($commande['prix_total'] - $commande['prix']) -$commande['frais_livraison'], 2)?>€</div>
 
                     <div class="info-cmd" data-id="<?= $commande['Id_commande']?>" data-info-row="prix">Prix Total : <?= $commande['prix_total']?>€</div>
 
@@ -116,7 +116,7 @@
 
                 <div class="div-save-edit">
                     <button class="btn-save-cmd" onclick="saveCmd(<?= $commande['Id_commande'] ?>, this)">Enregistrer</button>
-                    <button class="btn-cancel-cmd" onclick="=cancelCmd(<?= $commande['Id_commande'] ?>, this)">Annuler</button>
+                    <button class="btn-cancel-cmd" >Annuler</button>
                 </div>
                 
             </div>

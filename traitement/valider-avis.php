@@ -15,7 +15,7 @@ if(!in_array($action, ['valide', 'refuse'])){
     exit();
 }
 
-$stmt = $pdo ->prepare('UPDATE avis SET statut = ? WHERE Id_avis = ?');
+$stmt = $pdo ->prepare('UPDATE avis SET statut_avis = ? WHERE Id_avis = ?');
 $stmt -> execute([$action, $id]);
 
 echo json_encode(['success'=> true]);

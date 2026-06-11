@@ -98,6 +98,6 @@
                                 </div>
                             </div>
                         <?php endforeach; ?>
-                    </div>
+                    
                         <?php endif ;?>
                     </div>

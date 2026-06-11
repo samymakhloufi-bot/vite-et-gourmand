@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 toast.textContent='', 3000;
         });    
     });
-
+    });
 /*---------------------------
     commande card / body
 ---------------------------*/
@@ -104,6 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
             btnEdit.classList.remove('open');
     });
 });
+
+});
+
 
 /*---------------------------
     Enregistrer modif cmd
@@ -150,6 +153,7 @@ function saveCmd(idCommande, btn){
 ----------------------------*/
 
 function cancelCmd(idCommande, btn){
+    console.log('cancelCmd appelé', idCommande);
 
     //confirmation de l'annulation
     if(!confirm('Êtes-vous sûr de vouloir annuler votre commande ?')){
@@ -171,13 +175,12 @@ function cancelCmd(idCommande, btn){
             
             //Enlever btn-details / btn-delete
             btn.style.display = 'none';
-            btn.closest('.commande-card').querySelector('btn-details').style.display = 'none';
+            btn.closest('.commande-card').querySelector('.btn-details').style.display = 'none';
 
 
         }else{
             alert('Erreur : ' + data.error);
         }
+        
     });
-}
-});
-})
+};

@@ -62,13 +62,6 @@ $horaires = [];
                     <button type="button" class="btn-turnover" data-target="turnover-view" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button>
                 </div>
 
-
-
-                <section id="commandes-wrapper" class="account-panel active">
-
-                    <?php include './espace/employee/commande.php' ?>
-                </section>
-
                     <?php // Message image à jour
                     if (isset($_GET['success'])): ?>
                         <p class="message-succes">Image mise à jour avec succès.</p>

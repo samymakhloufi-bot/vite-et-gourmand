@@ -1481,17 +1481,19 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     justify-content: center;
 }
 
-/*----------------------
-    14.   Espace Client
------------------------*/
+/*------------------------
+    14.   SIDEBAR ESPACE
+-------------------------*/
 .espace-wrapper{
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+
 }
 
 .sidebar-espace{
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     position: sticky;
     background-color: var(--creme);
     border-top: 1px solid black;
@@ -1523,6 +1525,19 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     background : var(--white);
     color: var(--bordeaux);
 }
+
+.sub-panel{
+    display: none;
+}
+
+.sub-panel.active{
+    display: flex;
+    flex-direction: column;
+}
+
+/*----------------------
+    14.   Espace Client
+-----------------------*/
 /* Mes commandes */
 #my-orders-wrapper {
     display: none;
@@ -2251,6 +2266,161 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     font-style : var(--font-body);
 }
 
+/*---------------------
+    ESPACE ADMIN
+---------------------*/
+.button-employe-sidebar{
+    display: flex;
+    border: 1px solid black;
+}
+
+#dashboard-wrapper {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: auto;
+}
+
+#dashboard-wrapper.active {
+    display: flex;
+}
+
+#employee-wrapper {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: auto;
+    gap : 4rem;
+}
+
+#employee-wrapper.active {
+    display: flex;
+}
+
+#create-employe-panel{
+    display: flex;
+    flex-direction: column;
+    padding: 0.35rem;
+    background-color: #fff;
+}
+
+#create-employe-panel h3, #manage-employe-panel h3 {
+    font-size: 1.15rem;
+    color: var(--bordeaux);
+    padding-bottom: 0.15rem;
+    font-weight: 650;
+}
+
+#create-employe-panel label{
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    font-weight: 550;
+}
+
+.info-employe {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.1rem;
+}
+#create-employe-panel input {
+    background: var(--input);
+    border: none;
+    border-bottom: 1px solid var(--beige);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--text);
+    transition: background 0.2s, border-color 0.2s;
+    border-radius: 0.3rem;
+}
+
+.btn-create-employe{
+    padding: 0.1rem;
+    border-radius: 0.3rem;
+    background-color: var(--bordeaux);
+    color: var(--creme);
+}
+
+.btn-create-employe:hover{
+    background-color: var(--creme);
+    color: var(--bordeaux);
+}
+
+.employee-card {
+    background: #fff;
+    border: 0.5px solid #d4c9b0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    margin-bottom: 0.7rem;
+}
+
+.employee-card{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    transition: background .15s;
+}
+
+.employee-card:hover{
+    background: #f9f6f0;
+}
+
+
+.employee-field {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3d1a10;
+    flex: 1;
+}
+
+.menu-prix, .client-date, .avis-date  {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #7D241A;
+    white-space: nowrap;
+}
+
+#turnover-wrapper {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: auto;
+}
+
+#turnover-wrapper.active {
+    display: flex;
+}
+
+
+/* Style des sous-panels */
+.sub-panel {
+    display: none;
+}
+
+.sub-panel.active {
+    display: block;
+}
+
+.sub-tabs {
+    display: none;
+}
+
+.sub-tabs.active {
+    display: flex;
+}
 
 
 /*----------------------
@@ -2868,7 +3038,17 @@ footer > *:not(:last-child) {
     align-items: start;
     flex : 1;
 }
+
+/*----------------------
+    ESPACE ADMIN
+----------------------*/
+.employee-card{
+    display: flex;
+    flex-direction: row;
 }
+
+}
+
 
 /*----------------------
     19.    Responsive 869
