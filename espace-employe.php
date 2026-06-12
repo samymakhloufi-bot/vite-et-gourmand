@@ -66,17 +66,8 @@ $horaires = [];
 
 
                 <section id="commandes-wrapper" class="account-panel active">
-
                     <?php include './espace/employee/commande.php' ?>
                 </section>
-
-                    <?php // Message image à jour
-                    if (isset($_GET['success'])): ?>
-                        <p class="message-succes">Image mise à jour avec succès.</p>
-                    <?php elseif (isset($_GET['error'])): ?>
-                        <p class="message-erreur">Erreur lors de l'upload.</p>
-                    <?php endif; ?>
-                    
 
                 <section id="menus-plat" class="account-panel">
                         <?php include './espace/employee/menus-plat.php' ?>

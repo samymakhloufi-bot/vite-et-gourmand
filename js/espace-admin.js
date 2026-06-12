@@ -1,27 +1,41 @@
-/*----------------  
-    ADMIN SIDEBAR
------------------*/
-const btnEmployee = document.querySelector('.btn-employee');
-const subPanel = document.querySelector('.sub-panel');
-const plus = document.querySelector('.plus');
+/*-------------------
+    GRAPH TURNOVER
+--------------------*/
 
-btnEmployee.addEventListener('click', ()=> {
-    subPanel.classList.toggle('active');
-    plus.textContent= subPanel.classList.contains('active') ? '-' : '+';
-});
+const canvas = document.getElementById('chartCommandes');
 
-
-/*---------------------------
-    SUB PANEL
-----------------------------*/
-document.querySelectorAll('.sub-panel button').forEach(btn =>{
-    btn.addEventListener('click', () => {
-        const target = btn.dataset.target;
-
-        document.querySelectorAll('.sub-tabs').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.sub-tabs button').forEach(b => b.classList.remove('active'));
-        
-    })
-})
-
-
+if(canvas) {
+    new Chart(canvas,{
+        type: 'bar',
+        data:{
+            labels: labels,
+            datasets:[
+                {
+                    label: 'Nombre de commandes',
+                    data: nbCommandes,
+                    backgroundColor: '#7D241A',
+                    borderRadius: 6,
+                },
+                {
+                    label: 'CA (€)',
+                    data: caData,
+                    backgroundColor: '#d4a96a',
+                    borderRadius: 6,
+                }
+            ]
+        },
+        options:{
+            responsive: true,
+            plugins:{
+                legend:{position: 'top'},
+                title:{
+                    display:true,
+                    text:'Commandes & CA par menu'
+                }
+            },
+            scales:{
+                y:{beginAtZero:true}
+            }
+        }
+    });
+}

@@ -22,11 +22,17 @@
                         <?php foreach($commandes as $commande): ?>
                             <div class="client-card" data-nom="<?= strtolower(htmlspecialchars($commande['nom'])) ?>" data-statut="<?= strtolower(htmlspecialchars($commande['statut'])) ?>">
                                 
-                                <div class="client-card-header" onclick="toggleCmd(this)">
-                                    <span class="client-id">#<?= htmlspecialchars($commande['Id_commande']) ?></span>
-                                    <span class="client-name"><?= htmlspecialchars($commande['nom']) ?></span>
-                                    <span class="client-menu"><?= htmlspecialchars($commande['menu_nom']) ?></span>
-                                    <span class="client-date">Fait le <?= htmlspecialchars(date('d/m/Y', strtotime($commande['date_commande']))) ?></span>
+                                <div class="client-card-header" onclick="toggleCmd(this)">    
+                                    <div>
+                                        <span class="client-id">#<?= htmlspecialchars($commande['Id_commande']) ?></span>
+                                        <span class="client-name"><?= htmlspecialchars($commande['nom']) ?></span>
+                                    </div>
+                                    
+                                    <div>
+                                        <span class="client-menu"><?= htmlspecialchars($commande['menu_nom']) ?></span>
+                                        <span class="client-date">Fait le <?= htmlspecialchars(date('d/m/Y', strtotime($commande['date_commande']))) ?></span>
+                                    </div>
+                                    
                                     <span class="order-statut order-statut--<?= $commande['statut'] ?>"><?= ucfirst(str_replace('_', ' ',($commande['statut']))) ?></span>
                                     <span class="chevron">›</span>
                                 </div>

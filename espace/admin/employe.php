@@ -22,7 +22,7 @@ if(isset($_POST['create-employe'])){
     }
 ?>
 
-<div id="create-employe-panel" class="sub-tabs">
+<div id="create-employe-panel" >
 
     <h3>Création d'un compte pour employé : </h3>
         <form method="post" action="">
@@ -53,7 +53,7 @@ if(isset($_POST['create-employe'])){
 
 </div>
 
-<div id="manage-employe-panel" class="sub-tabs">
+<div id="manage-employe-panel" >
                         
     <h3>Compte employé :</h3>
     <div class="employees-list">

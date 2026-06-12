@@ -1,5 +1,13 @@
 <div class="menus-toolbar">
     <span class="toolbar-title">Menus <em>&</em> plats</span>
+<div>
+                    <?php // Message image à jour
+                    if (isset($_GET['success'])): ?>
+                        <p class="message-succes">Image mise à jour avec succès.</p>
+                    <?php elseif (isset($_GET['error'])): ?>
+                        <p class="message-erreur">Erreur lors de l'upload.</p>
+                    <?php endif; ?>
+                </div>
     <input type="text" class="search-menu" id="search-menu" placeholder="Rechercher un menu...">
 </div>
 <div id="menus-list">
@@ -8,14 +16,18 @@
         $src = str_contains($img, '.') ? $img : $img . '.png';
     ?>
     <div class="menu-card" data-nom="<?= strtolower(htmlspecialchars($menu['menu_nom'])) ?>">
-	<div class="menu-card-header">
-            <img src="<?= BASE_URL ?>/Images/<?= $src ?>" alt="<?= htmlspecialchars($menu['menu_nom']) ?>" class="menu-thumb">
-            <span class="menu-name"><?= htmlspecialchars($menu['menu_nom']) ?></span>
-            <span class="badge badge-<?= $menu['theme'] ?>"><?= $menu['theme'] ?></span>
-            <span class="badge badge-<?= $menu['regime'] ?>"><?= $menu['regime'] ?></span>
-            <?php if (!$menu['actif']): ?>
-                <span class="badge badge-inactif"> Désactivé</span>
-            <?php endif; ?>
+	    <div class="menu-card-header">
+            <div class="menu-card-header-header">
+                <img src="<?= BASE_URL ?>/Images/<?= $src ?>" alt="<?= htmlspecialchars($menu['menu_nom']) ?>" class="menu-thumb">
+                <span class="menu-name"><?= htmlspecialchars($menu['menu_nom']) ?></span>
+            </div>
+            <div class="menu-card-header-badge">
+                <span class="badge badge-<?= $menu['theme'] ?>"><?= $menu['theme'] ?></span>
+                <span class="badge badge-<?= $menu['regime'] ?>"><?= $menu['regime'] ?></span>
+                <?php if (!$menu['actif']): ?>
+                    <span class="badge badge-inactif"> Désactivé</span>
+                <?php endif; ?>
+            </div>
             <span class="menu-prix"><?= $menu['prix_menu'] ?> €/pers</span>
             <span class="chevron">›</span>
         </div>
@@ -86,13 +98,13 @@
                     <form action="<?= BASE_URL ?>/traitement/upload-img-menu.php" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="menu_id" value="<?= $menu['Id_menu'] ?>">
                         <input type="file" name="img_menu" accept=".png" style="display:none" id="upload-<?= $menu['Id_menu'] ?>">
-                        <label for="upload-<?= $menu['Id_menu'] ?>" class="btn-sm">Changer l'image</label>
+                        <label for="upload-<?= $menu['Id_menu'] ?>" class="btn-sm">Modifier</label>
                         <button type="submit" class="btn-sm">Uploader</button>
                     </form>
                 </div>
                 <div class="btn-menus-plat">
                     <button class="btn-save" onclick="saveMenu(<?= $menu['Id_menu'] ?>, this)">Enregistrer</button>
-                    <button class="btn-<?= $menu['actif'] ? 'desactivate' : 'reactivate' ?>" onclick="toggleActifMenu(<?= $menu['Id_menu'] ?>, <?= $menu['actif']?>,  this)"><?= $menu['actif'] ? 'Désactiver' : 'Réactiver'?></button>
+                    <button class="btn-<?= $menu['actif'] ? 'desactivate' : 'reactivate' ?>" data-actif= "<?= $menu['actif'] ?>"data-id="<?= $menu['Id_menu'] ?>," onclick="toggleActifMenu(this)"><?= $menu['actif'] ? 'Désactiver' : 'Réactiver'?></button>
 
                     <span class="saved-toast" id="toast-<?= $menu['Id_menu'] ?>"></span>
 

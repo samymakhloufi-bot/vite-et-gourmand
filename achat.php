@@ -1,180 +1,72 @@
-<?php $activePage = 'Votre Espace Client'; 
+<?php $activePage = 'Votre commande'; 
     require_once './login.php';
     require_once './vendor/autoload.php';
 
-
-    //verif session
+        //verif session
     if(!isset($_SESSION['user_id'])) {
         header('location: '. BASE_URL .'/connexion.php?redirect=nos-menus.php');
         exit();
     }
 
     //stockage données du menu commander
-    if(isset($_POST['menu_id']) && !isset($_POST['commander'])){
+    // Stockage menu en session
+    if (isset($_POST['menu_id']) && !isset($_POST['commander'])) {
         $_SESSION['menu_id'] = $_POST['menu_id'];
         $_SESSION['nb_pers'] = $_POST['nb_pers'];
     }
-
-    // Récupération données menu depuis session
-    $menu_id = $_SESSION['menu_id'] ?? null;
-    $menu_nom = $_SESSION['menu_nom'] ?? '';
-    $nb_pers = ((int)$_SESSION['nb_pers'] ?? 1);
-
-    // Récupération données utilisateur pré-remplissage formulaire
-    $user_commande = $pdo->prepare("SELECT * FROM users WHERE id_user = ?");
-    $user_commande->execute([$_SESSION['user_id']]);
-    $user = $user_commande->fetch();
-
-        $stmtMenu = $pdo->prepare('SELECT menu_nom, prix_menu, nb_perso_min FROM menu WHERE Id_menu = ?');
+    
+    $menu_id = $_POST['menu_id'] ?? $_SESSION['menu_id'] ?? null;
+    $nb_pers = (int)($_POST['nb_pers'] ?? $_SESSION['nb_pers'] ?? 1);
+    
+    $stmtMenu = $pdo->prepare('SELECT menu_nom, prix_menu, nb_perso_min FROM menu WHERE Id_menu = ?');
     $stmtMenu->execute([$menu_id]);
-    $menu_infos = $stmtMenu ->fetch(PDO::FETCH_ASSOC);
-
-    $menu_nom = $menu_infos['menu_nom'] ?? 'Menu inconnu';
-    $menu_prix = (float)($menu_infos['prix_menu'] ?? '');
-
-    $message = '';
-
-    //Récupération frais de livraison
+    $menu_infos  = $stmtMenu->fetch(PDO::FETCH_ASSOC);
+    
+    $menu_nom    = $menu_infos['menu_nom'] ?? 'Menu inconnu';
+    $menu_prix   = (float)($menu_infos['prix_menu'] ?? 0);
+    $nb_pers_min = (int)($menu_infos['nb_perso_min'] ?? 1);
+    $reduction   = ($nb_pers >= $nb_pers_min + 5) ? 0.10 : 0;
     $frais_livraison = (float)($_POST['frais_livraison'] ?? 0);
-    $distanceKM = (float)($_POST['distance_km'] ?? 0);
-
-    //Réduction
-    $nb_pers_min = (int)$menu_infos['nb_perso_min'];
-    $reduction = ($nb_pers >= $nb_pers_min + 5) ? 0.10 : 0;
-    $prix_total = ($menu_prix * $nb_pers) * (1 - $reduction) + $frais_livraison;
+    $distanceKM      = (float)($_POST['distance_km'] ?? 0);
+    $prix_total  = ($menu_prix * $nb_pers) * (1 - $reduction) + $frais_livraison;
 
     //traitement formulaire commande
-        if (isset($_POST['commander'])) {
-            $nom         = trim($_POST['nom']);
-            $prenom      = trim($_POST['prenom']);
-            $adresse_de_livraison     = trim($_POST['address-livraison-precis']);
-            $ville_de_livraison       = trim($_POST['ville-livraison']) === 'autre' ? trim($_POST['ville-livraison-autre']) : 'Bordeaux';
-            $email       = trim($_POST['email']);
-            $tel         = trim($_POST['tel']);
-            $date        = $_POST['date'];
-            $heure       = $_POST['time'];
-            $complement = trim($_POST['comment']);
-            $paiement    = $_POST['mode_paiement'];
-            $menu_id     = $_POST['menu_id'];
-            $menu_nom = $menu_infos['menu_nom'] ?? 'Menu inconnu';
-            $menu_prix = (float)($menu_infos['prix_menu'] ?? '');
+if (isset($_POST['commander'])) {
+    $nom              = trim($_POST['nom']);
+    $prenom           = trim($_POST['prenom']);
+    $adresse_de_livraison = trim($_POST['address-livraison-precis']);
+    $ville_de_livraison   = trim($_POST['ville-livraison']) === 'autre' ? trim($_POST['ville-livraison-autre']) : 'Bordeaux';
+    $email            = trim($_POST['email']);
+    $tel              = trim($_POST['tel']);
+    $date             = $_POST['date'];
+    $heure            = $_POST['time'];
+    $complement       = trim($_POST['comment']);
+    $paiement         = $_POST['mode_paiement'];
+    $menu_nom         = $menu_infos['menu_nom'] ?? 'Menu inconnu';
+    $menu_prix        = (float)($menu_infos['prix_menu'] ?? 0);
+    $nb_pers          = (int)$_POST['nb_pers'];
+    $prix             = $menu_prix * $nb_pers;
+    $reduction        = ($nb_pers >= $nb_pers_min + 5) ? 0.10 : 0;
+    $prix_total       = $prix * (1 - $reduction) + $frais_livraison;
+    $mode_paiement    = $paiement === 'devis' ? 'devis' : 'carte_bancaire';
 
-        //Paiement
-            $nb_pers     = (int)$_POST['nb_pers'];
-            $prix       = $menu_prix * $nb_pers;
-            $reduction = ($nb_pers >= $nb_pers_min + 5) ? 0.10 : 0;
-            $prix_total = $prix * (1 - $reduction) + $frais_livraison;
-            $mode_paiement = $paiement === 'devis' ? 'devis' : 'carte_bancaire';
+    if (empty($date) || empty($heure)) {
+        header('location: ' . BASE_URL . '/achat.php?error=champs_manquants');
+        exit();
+    }
 
-            if(!empty($_POST['date']) && !empty($_POST['time']) ) {
-                $datetime_final = $_POST['date'] . ' '. $_POST['time'].':00';
-                }else{ 
-                header('location: '. BASE_URL .'/achat.php?error=champs_manquants');
-                exit();
-            }
-            //Vérif envois Transaction entière 
-            Try {
-                $pdo -> beginTransaction();
-    
-                    // Insérer dans commande
-                    $insert = $pdo->prepare("INSERT INTO commande 
-                        (Id_user, date_livraison, statut, mode_paiement, adresse_livraison, ville_livraison, complement, date_commande,frais_livraison, distance_km) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, NOW(),?,?)");
-                    $insert->execute([$_SESSION['user_id'], $datetime_final,'en_attente', $mode_paiement, $adresse_de_livraison, $ville_de_livraison, $complement, $frais_livraison, $distanceKM]);
-    
-                    //Récup Id généré
-                    $id_commande = $pdo->lastInsertId();
-    
-                    // Insérer dans commande_detail
-                    $detail = $pdo->prepare("INSERT INTO commande_detail 
-                        (Id_commande, Id_menu, quantite, prix, prix_total, reduction) 
-                        VALUES (?, ?, ?, ?, ?, ?)");
-                    $detail->execute([$id_commande, $menu_id, $nb_pers, $prix, $prix_total, $reduction]);
-                    
-                    //enregistrement de la commande
-                    $pdo ->commit();
-    
-                    // Suite — mail devis ou redirection paiement
-                    if ($paiement === 'devis') {
-                        // envoi mail
-    
-                        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-    
-                        try {
-                            $mail->isSMTP();
-                            $mail->Host       = 'smtp.gmail.com';
-                            $mail->SMTPAuth   = true;
-                            $mail->Username   = 'samymakhloufi@gmail.com';
-                            $mail->Password   = MAIL_PASS;
-                            $mail->SMTPSecure = 'tls';
-                            $mail->Port       = 587;
-                            $mail->CharSet    = 'UTF-8';
-    
-                            // Mail interne à l'équipe
-                                $mail->setFrom('samymakhloufi@gmail.com', 'Vite & Gourmand');
-                                $mail->addAddress('samymakhloufi@gmail.com', 'Vite & Gourmand');
-                                $mail->Subject = "Demande de devis #$id_commande — $nom $prenom";
-                                $mail->isHTML(true);
-                                $mail->Body = "
-                                    <h2>Nouvelle demande de devis #$id_commande</h2>                
-                                    <h3>Informations client</h3>
-                                    <p><strong>Nom :</strong> $nom $prenom</p>
-                                    <p><strong>Email :</strong> $email</p>
-                                    <p><strong>Téléphone :</strong> $tel</p>                
-                                    <h3>Livraison</h3>
-                                    <p><strong>Adresse :</strong> $adresse_livraison</p>
-                                    <p><strong>Date :</strong> $date à $heure</p>
-                                    <p><strong>Complément :</strong> $complement</p>                
-                                    <h3>Commande</h3>
-                                    <p><strong>Menu :</strong> $menu_nom</p>
-                                    <p><strong>Nombre de personnes :</strong> $nb_pers</p>
-                                    <p><strong>Prix/pers :</strong> $menu_prix €</p>
-                                    <p><strong>Total estimé :</strong> $prix_total €</p>
-                                    ";
-                                    $mail->send();
-    
-                                    // Mail de confirmation au client
-                                    $mail->clearAddresses();
-                                    $mail->addAddress($email, "$prenom $nom");
-                                    $mail->Subject = "Votre demande de devis #$id_commande — Vite & Gourmand";
-                                    $mail->Body = "
-                                        <p>Bonjour $prenom $nom,</p>
-                                        <p>Votre demande de devis a bien été reçue. Notre équipe reviendra vers vous dans les plus brefs délais avec un devis personnalisé.</p>
-    
-                                        <h3>Récapitulatif</h3>
-                                        <p><strong>Menu :</strong> $menu_nom</p>
-                                        <p><strong>Nombre de personnes :</strong> $nb_pers</p>
-                                        <p><strong>Date de livraison :</strong> $date à $heure</p>
-                                        <p><strong>Adresse :</strong> $adresse</p>
-    
-                                        <p>Pour toute question, contactez-nous à <a href='mailto:contact@vite-et-gourmand.fr'>contact@vite-et-gourmand.fr</a></p>
-                                        <p>Vite & Gourmand</p>
-                                    ";
-                                    $mail->send();
-    
-                                    header('location: '. BASE_URL .'/success-page/achat-succes.php?type=devis&id=' . $id_commande);
-                                    
-                                    exit;
-    
-                        } catch (Exception $e) {
-                        $message = "Erreur lors de l'envoi du mail : " . $e->getMessage();
-                        } 
-                    } else {
-                        header('location: '. BASE_URL .'/success-page/achat-succes.php?id=' . $id_commande);
-                        exit;
-                    }
-            }catch(Exception $e) {
-                if($pdo -> inTransaction()){
-                    $pdo ->rollBack();
-                }
-                $message = "Erreur lors de la transaction" .$e->getMessage();
-            }
+    $datetime_final = $date . ' ' . $heure . ':00';
+
+    try {
+        $pdo->beginTransaction();
+        require_once __DIR__ . '/traitement/traitement-commande.php';
+    } catch (Exception $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        $message = "Erreur lors de la transaction : " . $e->getMessage();
+    }
 }
-
-
-// Calcul du total Final
-$prix_total = $menu_prix * $nb_pers + $frais_livraison;
-
 ?>
 <!DOCTYPE html >
 <html lang="fr">

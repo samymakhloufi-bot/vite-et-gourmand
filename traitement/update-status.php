@@ -29,6 +29,23 @@ try{
 
     echo json_encode(['success' => true]);
 
+    //sync mongoDB
+    $stmt = $pdo->prepare("UPDATE commande SET statut = ? WHERE Id_commande = ?");
+    $stmt->execute([$statut, $id_commande]);
+    
+    // Sync MongoDB
+    try {
+        require_once __DIR__ . '/../includes/mongodb.php';
+        $mongoDB->selectCollection('commandes_stats')->updateOne(
+            ['commande_id' => $id_commande],
+            ['$set' => ['statut' => $statut]]
+        );
+    } catch (Exception $e) {
+        error_log('MongoDB sync error : ' . $e->getMessage());
+    }
+
+echo json_encode(['success' => true]);
+
     $userStmt = $pdo -> prepare("SELECT u.nom, u.prenom, u.email 
                                 FROM users u
                                 JOIN commande c ON u.Id_user = c.Id_user

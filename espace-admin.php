@@ -59,29 +59,21 @@ $horaires = [];
 
                     <button type="button" class="btn-dashboard" data-target="dashboard-wrapper" aria-selected="Tableau de Bord">Tableau de Bord</button>
                     <button type="button" class="btn-employee" data-target="employee-wrapper" aria-selected="Employés">Employés</button>
-                    <button type="button" class="btn-turnover" data-target="turnover-view" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button>
+                    <button type="button" class="btn-turnover" data-target="turnover-wrapper" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button>
                 </div>
 
-                    <?php // Message image à jour
-                    if (isset($_GET['success'])): ?>
-                        <p class="message-succes">Image mise à jour avec succès.</p>
-                    <?php elseif (isset($_GET['error'])): ?>
-                        <p class="message-erreur">Erreur lors de l'upload.</p>
-                    <?php endif; ?>
-                    
-
-                <section id="dashboard-wrapper" class="account-panel">
+                <section id="dashboard-wrapper" class="account-panel active">
                         <?php include './espace/admin/dashboard.php' ?>
                 </section>
 
                 <section id="employee-wrapper" class="account-panel">
-                        <?php include './espace/admin/employee.php' ?>
+                        <?php include './espace/admin/employe.php' ?>
                 </section>
-
+                
                 <section id="turnover-wrapper" class="account-panel">
                         <?php include './espace/admin/turnover.php' ?>
                 </section>
-
+            </div>
         </main>
 
         <?php include './includes/footer.php' ;?>
