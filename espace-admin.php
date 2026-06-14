@@ -1,5 +1,7 @@
 <?php $activePage = 'espace admin'; 
 
+$activeTab = $_GET['tab'] ?? 'dashboard';
+
 require_once './login.php';
 if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin'])) {
     header('Location: ./index.php');
@@ -48,7 +50,7 @@ $horaires = [];
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Mon espace <em> & commandes </em></h2></div>
+            <h2><em> ADMINISTRATEUR </em></h2></div>
         </div>
 
         <main class="main-espace">
@@ -57,20 +59,20 @@ $horaires = [];
                 
                 <div class="sidebar-espace">
 
-                    <button type="button" class="btn-dashboard" data-target="dashboard-wrapper" aria-selected="Tableau de Bord">Tableau de Bord</button>
-                    <button type="button" class="btn-employee" data-target="employee-wrapper" aria-selected="Employés">Employés</button>
-                    <button type="button" class="btn-turnover" data-target="turnover-wrapper" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button>
+                    <button type="button" class="btn-dashboard <?= $activeTab ==='dashboard' ? 'active' : ''?>" data-target="dashboard-wrapper" aria-selected="Tableau de Bord">Tableau de Bord</button>
+                    <button type="button" class="btn-employee <?= $activeTab ==='employe' ? 'active' : ''?>" data-target="employee-wrapper" aria-selected="Employés">Employés</button>
+                    <button type="button" class="btn-turnover <?= $activeTab ==='turnover' ? 'active' : ''?>" data-target="turnover-wrapper" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button>
                 </div>
 
-                <section id="dashboard-wrapper" class="account-panel active">
+                <section id="dashboard-wrapper" class="account-panel <?= $activeTab ==='dashboard' ? 'active' : ''?>">
                         <?php include './espace/admin/dashboard.php' ?>
                 </section>
-
-                <section id="employee-wrapper" class="account-panel">
+                
+                <section id="employee-wrapper" class="account-panel <?= $activeTab ==='employe' ? 'active' : ''?>">
                         <?php include './espace/admin/employe.php' ?>
                 </section>
                 
-                <section id="turnover-wrapper" class="account-panel">
+                <section id="turnover-wrapper" class="account-panel <?= $activeTab ==='turnover' ? 'active' : ''?>">
                         <?php include './espace/admin/turnover.php' ?>
                 </section>
             </div>

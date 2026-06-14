@@ -1,41 +1,19 @@
-/*-------------------
-    GRAPH TURNOVER
---------------------*/
 
-const canvas = document.getElementById('chartCommandes');
+/*--------------------------------------------
+    Conformité mot de passe
+---------------------------------------------*/ 
+const togglePassword = document.getElementById('toggle-password');
+const passwordInput = document.getElementById('password-employe');
+const passwordError = document.getElementById('password-error');
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+!@#$%^&amp;*(),.?:|&lt;&gt;_-]).{10,}$/;
+const form = document.getElementById('form-employe-account');
 
-if(canvas) {
-    new Chart(canvas,{
-        type: 'bar',
-        data:{
-            labels: labels,
-            datasets:[
-                {
-                    label: 'Nombre de commandes',
-                    data: nbCommandes,
-                    backgroundColor: '#7D241A',
-                    borderRadius: 6,
-                },
-                {
-                    label: 'CA (€)',
-                    data: caData,
-                    backgroundColor: '#d4a96a',
-                    borderRadius: 6,
-                }
-            ]
-        },
-        options:{
-            responsive: true,
-            plugins:{
-                legend:{position: 'top'},
-                title:{
-                    display:true,
-                    text:'Commandes & CA par menu'
-                }
-            },
-            scales:{
-                y:{beginAtZero:true}
-            }
+if (form && passwordInput) {
+    form.addEventListener('submit', (e) => {
+        if (!passwordRegex.test(passwordInput.value)) {
+            e.preventDefault();
+            alert("Le mot de passe doit contenir au moins 10 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial (!@#$%^&*(),.?':{}|<>).");
         }
     });
+
 }

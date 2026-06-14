@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../../includes/mongodb.php';
 
 $collection = $mongoDB->selectCollection('commandes_stats');

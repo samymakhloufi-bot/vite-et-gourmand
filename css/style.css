@@ -2257,6 +2257,16 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 /*---------------------
     ESPACE ADMIN
 ---------------------*/
+.turnover-container h2, .dashboard-container h2 {
+    position: static;
+    margin: 0 0 1rem 0;
+    text-align: center;
+    width: auto;
+        font-size: 1.75rem;
+    color: var(--bordeaux);
+}
+
+
 /*---------------------
     DASHBOARD
 ---------------------*/
@@ -2270,9 +2280,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 }
 
 .dashboard-container h2 {
-    font-size: 1.75rem;
-    color: var(--bordeaux);
-    margin: 0;
+
 }
 
 .dashboard-container h2::after {
@@ -2325,7 +2333,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     width: 100%;
 }
 
-.dashboard-section h3 , .dashboard-recent h3{
+.dashboard-section h3 , .dashboard-recent h3, #create-employe-panel h3, #manage-employe-panel h3{
     font-size: 1.25rem;
     font-weight: 800;
     color: var(--bordeaux);
@@ -2364,18 +2372,17 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 
 /* Tableaux */
 .recent-table-wrapper {
-    overflow: auto;
-    width:20rem;
+    width:100%;
     border: 0.5px solid #d4c9b0;
     border-radius: 0.75rem;
     overflow:auto;
 }
 
 .recent-table {
-    width: max-content;
     border-collapse: collapse;
     background: var(--white);
     font-size: 0.875rem;
+    width: 100%;
 }
 
 .recent-table thead tr {
@@ -2399,6 +2406,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     font-weight: 500;
     border-bottom: 0.5px solid #e8dfd0;
 }
+
 
 .recent-table tr:last-child td { border-bottom: none; }
 .recent-table tbody tr:hover td { background: #f9f6f0; }
@@ -2446,6 +2454,101 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     color: var(--text-light);
     font-size: 0.875rem;
     font-style: italic;
+}
+
+/*Compte Employe*/
+
+#employee-wrapper{
+    flex-direction: column;
+}
+#employee-wrapper button{
+    cursor: pointer;
+}
+
+#create-employe-panel, #manage-employe-panel{
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1rem;
+    color: var(--bordeaux);
+    font-family: var(--font-body);
+    align-items: center;
+}
+
+#create-employe-panel fieldset{
+    display: grid;
+}
+
+#create-employe-panel form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.info-employe input{
+    width: calc(100% - 1.5rem);
+    border-radius: 0.35rem;
+    background-color: var(--input);
+    height: 1.75rem;
+}
+
+.btn-create-employe, .btn-manage-employe{
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.35rem;
+    background: var(--bordeaux);
+    color: var(--beige);
+}
+
+.btn-create-employe:hover, .btn-manage-employe:hover{
+    text-decoration: underline;
+}
+
+#manage-employe-panel{
+    padding: 0;
+
+    margin-bottom: 3rem;
+}
+
+.employees-list{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.employee-card{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0.4rem;
+    background-color:var(--white);
+    border: 1px solid var(--bordeaux-dark-dark); 
+    gap : 0.75rem;
+    padding : 0 1rem;
+}
+
+
+.employee-card:hover{ background: #f9f6f0; }
+
+.badge-employe-1 {
+    border: 1px solid var(--bordeaux);
+    background : #01af1081;
+    margin:  0.875rem 0 ;
+    padding: 0.15rem 0.35rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    color: #01580e;
+}
+
+.badge-employe-0 {
+    border: 1px solid var(--bordeaux);
+    background : #9e9e9ec0;
+    margin:  0.875rem 0 ;
+    padding: 0.15rem 0.35rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    color: #000000;
 }
 
 /* Turnover */
@@ -2571,13 +2674,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     max-width: 100%;
     margin: 0 auto;
 }
-
-
-
-
     .stat-value { font-size: 1.75rem; }
-
-
 
     .turnover-filters { flex-direction: row; flex-wrap: wrap; align-items: flex-end; }
     .turnover-filters select,
@@ -2585,7 +2682,6 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     .turnover-filters button { width: auto; padding: 0.4rem 1rem; }
     .ca-total { flex-direction: row; align-items: center; justify-content: space-between; }
     .ca-total strong { font-size: 2rem; }
-
 
 /*----------------------
     15.    Inscription
@@ -3025,7 +3121,11 @@ footer > *:not(:last-child) {
     padding-bottom: 1rem;
     border-bottom: 2px solid var(--creme);
 }
+@media (max-width: 519px) {
+    .col-secondaire { display: none; }
 
+
+}
 /*-------------------------------
     18.    responsive for Tablet
 ---------------------------------*/
@@ -3219,21 +3319,17 @@ footer > *:not(:last-child) {
 /*----------------------
     ESPACE ADMIN
 ----------------------*/
-/*---------------------
-    DASHBOARD
----------------------*/
+/*DASHBOARD*/
 .dashboard-container  {
     width: 100%;
     align-items: center;
 }
 
-/* Stats rapides */
 .dashboard-stats {
     grid-template-rows: repeat(3, 1fr);
     gap: 1rem;
 }
 
-/* Tableaux dashboard */
 .recent-table-wrapper {
     max-width: 100%;
 }
@@ -3241,6 +3337,18 @@ footer > *:not(:last-child) {
 .recent-table{
     width: 100%
 }
+
+/*EMPLOYE*/
+
+.employee-card{
+    max-width: 100%;
+}
+
+#create-employe-panel fieldset { 
+
+    grid-template-columns: 1fr  1fr;
+}
+
 /* Filtres turnover */
 .turnover-filters {
     display: flex;

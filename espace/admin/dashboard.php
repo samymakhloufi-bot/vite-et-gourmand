@@ -68,9 +68,9 @@ foreach ($cursor as $doc) {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Client</th>
+                                <th class="col-secondaire">Client</th>
                                 <th>Menu</th>
-                                <th>Date commande</th>
+                                <th class="col-secondaire">Date commande</th>
                                 <th>Livraison</th>
                             </tr>
                         </thead>
@@ -79,9 +79,9 @@ foreach ($cursor as $doc) {
                                 <?php if ($cmd['statut'] !== 'en_attente') continue; ?>
                                     <tr>
                                         <td><?= $cmd['Id_commande'] ?></td>
-                                        <td><?= htmlspecialchars($cmd['nom']) ?></td>
+                                        <td class="col-secondaire"><?= htmlspecialchars($cmd['nom']) ?></td>
                                         <td><?= htmlspecialchars($cmd['menu_nom']) ?></td>
-                                        <td><?= date('d/m/Y', strtotime($cmd['date_commande'])) ?></td>
+                                        <td class="col-secondaire"><?= date('d/m/Y', strtotime($cmd['date_commande'])) ?></td>
                                         <td><?= date('d/m/Y H:i', strtotime($cmd['date_livraison'])) ?></td>
                                     </tr>
                             <?php endforeach; ?>
@@ -104,9 +104,9 @@ foreach ($cursor as $doc) {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Client</th>
-                                <th>Menu</th>
-                                <th>Date livraison</th>
+                                <th >Client</th>
+                                <th class="col-secondaire">Menu</th>
+                                <th class="col-secondaire">Date livraison</th>
                                 <th>Jours écoulés</th>
                                 <th>Alerte</th>
                             </tr>
@@ -122,9 +122,9 @@ foreach ($cursor as $doc) {
                                 ?>
                                 <tr class="retour-row--<?= $alerte ?>">
                                     <td><?= $cmd['Id_commande'] ?></td>
-                                    <td><?= htmlspecialchars($cmd['nom']) ?></td>
-                                    <td><?= htmlspecialchars($cmd['menu_nom']) ?></td>
-                                    <td><?= date('d/m/Y', strtotime($cmd['date_livraison'])) ?></td>
+                                    <td ><?= htmlspecialchars($cmd['nom']) ?></td>
+                                    <td class="col-secondaire"><?= htmlspecialchars($cmd['menu_nom']) ?></td>
+                                    <td class="col-secondaire"><?= date('d/m/Y', strtotime($cmd['date_livraison'])) ?></td>
                                     <td><?= $jours ?> jour<?= $jours > 1 ? 's' : '' ?></td>
                                     <td>
                                         <?php if ($alerte === 'critique'): ?>
@@ -165,9 +165,9 @@ foreach ($cursor as $doc) {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Client</th>
+                        <th class="col-secondaire">Client</th>
                         <th>Menu</th>
-                        <th>Date</th>
+                        <th class="col-secondaire">Date</th>
                         <th>Statut</th>
                     </tr>
                 </thead>
@@ -175,9 +175,9 @@ foreach ($cursor as $doc) {
                     <?php foreach ($dernières_commandes as $cmd): ?>
                         <tr>
                             <td><?= $cmd['Id_commande'] ?></td>
-                            <td><?= htmlspecialchars($cmd['nom']) ?></td>
+                            <td class="col-secondaire"><?= htmlspecialchars($cmd['nom']) ?></td>
                             <td><?= htmlspecialchars($cmd['menu_nom']) ?></td>
-                            <td><?= date('d/m/Y', strtotime($cmd['date_commande'])) ?></td>
+                            <td class="col-secondaire"><?= date('d/m/Y', strtotime($cmd['date_commande'])) ?></td>
                             <td><span class="order-statut order-statut--<?= $cmd['statut'] ?>">
                                 <?= ucfirst(str_replace('_', ' ', $cmd['statut'])) ?></span></td>
                         </tr>
