@@ -1,16 +1,28 @@
 <?php
-// Insérer dans commande
-$insert = $pdo->prepare("INSERT INTO commande 
-    (Id_user, date_livraison, statut, mode_paiement, adresse_livraison, ville_livraison, complement, date_commande, frais_livraison, distance_km) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?)");
-$insert->execute([$_SESSION['user_id'], $datetime_final, 'en_attente', $mode_paiement, $adresse_de_livraison, $ville_de_livraison, $complement, $frais_livraison, $distanceKM]);
 
-$id_commande = $pdo->lastInsertId();
+require_once __DIR__ .'/../classes/Repository/CommandeRepository.php';
 
-$detail = $pdo->prepare("INSERT INTO commande_detail 
-    (Id_commande, Id_menu, quantite, prix, prix_total, reduction) 
-    VALUES (?, ?, ?, ?, ?, ?)");
-$detail->execute([$id_commande, $menu_id, $nb_pers, $prix, $prix_total, $reduction]);
+$commandeRepository = new CommandeRepository($pdo);
+
+$id_commande = $commandeRepository->create(
+    (int)$_SESSION['user_id'],
+    $datetime_final,
+    $mode_paiement,
+    $adresse_de_livraison,
+    $ville_de_livraison,
+    $complement,
+    $frais_livraison,
+    $distanceKM
+);
+
+$commandeRepository->createDetail(
+    $id_commande,
+    (int)$menu_id,
+    $nb_pers,
+    $prix,
+    $prix_total,
+    $reduction
+);
 
 $pdo->commit();
 
@@ -54,7 +66,8 @@ if ($paiement === 'devis') {
             <p><strong>Nom :</strong> $nom $prenom</p>
             <p><strong>Email :</strong> $email</p>
             <p><strong>Téléphone :</strong> $tel</p>
-            <p><strong>Adresse :</strong> $adresse_de_livraison</p>
+            <p><strong>Adresse de livraison:</strong> $adresse_de_livraison</p>
+            <p><strong>Ville de livraison :</strong>$ville_de_livraison</p>
             <p><strong>Date :</strong> $date à $heure</p>
             <p><strong>Complément :</strong> $complement</p>
             <p><strong>Menu :</strong> $menu_nom</p>

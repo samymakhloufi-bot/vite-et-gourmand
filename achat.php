@@ -1,36 +1,36 @@
 <?php $activePage = 'Votre commande'; 
     require_once './login.php';
     require_once './vendor/autoload.php';
+    require_once './classes/Repository/MenuRepository.php';
+    require_once './classes/Repository/UserRepository.php';
 
-        //verif session
-    if(!isset($_SESSION['user_id'])) {
-        header('location: '. BASE_URL .'/connexion.php?redirect=nos-menus.php');
-        exit();
-    }
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ' . BASE_URL . '/connexion.php?redirect=nos-menus.php');
+    exit();
+}
 
-    //stockage données du menu commander
-    // Stockage menu en session
-    if (isset($_POST['menu_id']) && !isset($_POST['commander'])) {
-        $_SESSION['menu_id'] = $_POST['menu_id'];
-        $_SESSION['nb_pers'] = $_POST['nb_pers'];
-    }
-    
-    $menu_id = $_POST['menu_id'] ?? $_SESSION['menu_id'] ?? null;
-    $nb_pers = (int)($_POST['nb_pers'] ?? $_SESSION['nb_pers'] ?? 1);
-    
-    $stmtMenu = $pdo->prepare('SELECT menu_nom, prix_menu, nb_perso_min FROM menu WHERE Id_menu = ?');
-    $stmtMenu->execute([$menu_id]);
-    $menu_infos  = $stmtMenu->fetch(PDO::FETCH_ASSOC);
-    
-    $menu_nom    = $menu_infos['menu_nom'] ?? 'Menu inconnu';
-    $menu_prix   = (float)($menu_infos['prix_menu'] ?? 0);
-    $nb_pers_min = (int)($menu_infos['nb_perso_min'] ?? 1);
-    $reduction   = ($nb_pers >= $nb_pers_min + 5) ? 0.10 : 0;
-    $frais_livraison = (float)($_POST['frais_livraison'] ?? 0);
-    $distanceKM      = (float)($_POST['distance_km'] ?? 0);
-    $prix_total  = ($menu_prix * $nb_pers) * (1 - $reduction) + $frais_livraison;
+if (isset($_POST['menu_id']) && !isset($_POST['commander'])) {
+    $_SESSION['menu_id'] = $_POST['menu_id'];
+    $_SESSION['nb_pers'] = $_POST['nb_pers'];
+}
 
-    //traitement formulaire commande
+$menu_id = $_POST['menu_id'] ?? $_SESSION['menu_id'] ?? null;
+$nb_pers = (int)($_POST['nb_pers'] ?? $_SESSION['nb_pers'] ?? 1);
+
+$menuRepository = new MenuRepository($pdo);
+$menu = $menuRepository->findById((int)$menu_id);
+
+$userRepository = new UserRepository($pdo);
+$user = $userRepository->findById((int)$_SESSION['user_id']);
+
+$menu_nom    = $menu ? $menu->getNom() : 'Menu inconnu';
+$menu_prix   = $menu ? $menu->getPrix() : 0;
+$nb_pers_min = $menu ? $menu->getNbPersoMin() : 1;
+$reduction   = ($nb_pers >= $nb_pers_min + 5) ? 0.10 : 0;
+$frais_livraison = (float)($_POST['frais_livraison'] ?? 0);
+$distanceKM      = (float)($_POST['distance_km'] ?? 0);
+$prix_total  = ($menu_prix * $nb_pers) * (1 - $reduction) + $frais_livraison;
+
 if (isset($_POST['commander'])) {
     $nom              = trim($_POST['nom']);
     $prenom           = trim($_POST['prenom']);
@@ -42,8 +42,6 @@ if (isset($_POST['commander'])) {
     $heure            = $_POST['time'];
     $complement       = trim($_POST['comment']);
     $paiement         = $_POST['mode_paiement'];
-    $menu_nom         = $menu_infos['menu_nom'] ?? 'Menu inconnu';
-    $menu_prix        = (float)($menu_infos['prix_menu'] ?? 0);
     $nb_pers          = (int)$_POST['nb_pers'];
     $prix             = $menu_prix * $nb_pers;
     $reduction        = ($nb_pers >= $nb_pers_min + 5) ? 0.10 : 0;
@@ -51,7 +49,7 @@ if (isset($_POST['commander'])) {
     $mode_paiement    = $paiement === 'devis' ? 'devis' : 'carte_bancaire';
 
     if (empty($date) || empty($heure)) {
-        header('location: ' . BASE_URL . '/achat.php?error=champs_manquants');
+        header('Location: ' . BASE_URL . '/achat.php?error=champs_manquants');
         exit();
     }
 
@@ -68,7 +66,7 @@ if (isset($_POST['commander'])) {
     }
 }
 ?>
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="fr">
     
         <?php include './includes/head.php';?>
@@ -99,7 +97,7 @@ if (isset($_POST['commander'])) {
                                 <div>
                                     <label for="nom">Nom :</label>
                                     <input type="text" id="nom" name="nom" required
-                                    value="<?php echo htmlspecialchars($user['nom'] ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($user-> getNom() ?? ''); ?>">
                                     
                                 </div>
                                 
@@ -107,7 +105,7 @@ if (isset($_POST['commander'])) {
                                 <div>
                                     <label for="prenom">Prénom :</label>
                                     <input type="text" id="prenom" name="prenom" required
-                                    value="<?php echo htmlspecialchars($user['prenom'] ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($user->getPrenom() ?? ''); ?>">
                                 </div>
 
                                 <div>
@@ -118,31 +116,31 @@ if (isset($_POST['commander'])) {
                                 <div>
                                     <label for="address">Adresse :</label>
                                     <input type="text" id="address" name="address" required
-                                    value="<?php echo htmlspecialchars($user['adresse'] ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($user->getAdresse()?? ''); ?>">
                                 </div>
     
                                 <div>
                                     <label for="ville">Ville :</label>
                                     <input type="text" id="ville" name="ville" required
-                                    value="<?php echo htmlspecialchars($user['ville'] ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($user->getVille() ?? ''); ?>">
                                 </div>
                 
                                 <div>
                                     <label for="postal_code">Code Postal :</label>
                                     <input type="text" id="postal_code" name="postal_code" required
-                                    value="<?php echo htmlspecialchars($user['code_postal'] ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($user->getCodePostal() ?? ''); ?>">
                                 </div>
                     
                                 <div>
                                     <label for="email">Email :</label>
                                     <input type="email" id="email" name="email" required
-                                    value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($user->getEmail() ?? ''); ?>">
                                 </div>
     
                                 <div>
                                     <label for="tel">Téléphone :</label>
                                     <input type="text" id="tel" name="tel" required
-                                    value="<?php echo htmlspecialchars($user['tel'] ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($user->getTel() ?? ''); ?>">
                                 </div>
                             </div>
                         </fieldset>
@@ -175,7 +173,7 @@ if (isset($_POST['commander'])) {
                             <div>
                                     <label for="address-livraison-precis">Adresse de livraison:</label>
                                     <input type="text" id="address-livraison-precis" name="address-livraison-precis" required
-                                    value="<?php echo htmlspecialchars($user['adresse'] ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($user->getAdresse() ?? ''); ?>">
                             </div>
                             
                             <div>

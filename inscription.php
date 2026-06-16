@@ -1,70 +1,54 @@
 <?php 
 require_once './login.php';
 require_once './vendor/autoload.php';
+require_once './classes/Repository/UserRepository.php';
 
 $message = "";
-$activePage = 'Inscription'; 
+$activePage = 'Inscription';
+$userRepository = new UserRepository($pdo);
 
-        // validation des données d'inscription
-        if (isset($_POST['inscription'])) {
-            $name = trim($_POST['name']);
-            $firstname = trim($_POST['firstname']);
-            $phone = trim($_POST['tel']);
-            $address = trim($_POST['address']);
-            $city = trim($_POST['city']);
-            $postal_code = trim($_POST['postal_code']);
-            $email = trim($_POST['email']);
-            $password = trim($_POST['password']);
+if (isset($_POST['inscription'])) {
+    $name        = trim($_POST['name']);
+    $firstname   = trim($_POST['firstname']);
+    $phone       = trim($_POST['tel']);
+    $address     = trim($_POST['address']);
+    $city        = trim($_POST['city']);
+    $postal_code = trim($_POST['postal_code']);
+    $email       = trim($_POST['email']);
+    $password    = trim($_POST['password']);
 
+    if ($userRepository->emailExists($email)) {
+        $message = "Cet email est déjà utilisé. Veuillez en choisir un autre.";
+    } else {
+        $mdp_hashed = password_hash($password, PASSWORD_DEFAULT);
+        $userRepository->create($name, $firstname, $phone, $address, $city, $postal_code, $email, $mdp_hashed);
 
-            // Vérification de l'email
-            $check = $pdo -> prepare("SELECT id_user FROM users WHERE email = ?");
-            $check -> execute([$email]);
-            if($check->fetch()){
-                $message = "Cet email est déjà utilisé. Veuillez en choisir un autre.";
-            } else {
-        
-
-            // Hashage du mot de passe
-            $mdp_hashed = password_hash($password, PASSWORD_DEFAULT);
-
-            // Insertion des données dans la base de données
-            $stmt = $pdo -> prepare ("INSERT INTO users (nom, prenom, tel , adresse, ville, code_postal, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt -> execute([$name, $firstname, $phone, $address, $city, $postal_code, $email, $mdp_hashed]);
-            // Mail de bienvenue
-            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        // Mail de bienvenue
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
         try {
             $mail->isSMTP();
-            $mail->Host  ='smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'samymakhloufi@gmail.com';
-            $mail->Password = MAIL_PASS;
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'samymakhloufi@gmail.com';
+            $mail->Password   = MAIL_PASS;
             $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
-            $mail->CharSet = 'UTF-8';
-
+            $mail->Port       = 587;
+            $mail->CharSet    = 'UTF-8';
             $mail->setFrom('samymakhloufi@gmail.com', 'Vite et Gourmand');
             $mail->addAddress($email);
-            $mail->Subject = 'Bievenue chez Vite&Gourmand';
+            $mail->Subject = 'Bienvenue chez Vite&Gourmand';
             $mail->isHTML(true);
-            $mail->Body ="<p>Bonjour et bienvenu à Vite&Gourmand, n'hésitez à aller découvrir nos recettes faites maison. 
-                        Prendre contact avec nous pour un futur et heureux événements, nous serons ravies de vous accompagner.
-                        <a href='https://vite-et-gourmand-samy.alwaysdata.net/index.php'>A très bientôt</a>.</p>
-                        <div style='text-align: center; margin-bottom: 20px;'>
-                            <img src='https://vite-et-gourmand-samy.alwaysdata.net/Images/Logo_bordeaux.svg' alt='Logo' width='80'>
-                            <h1 style='font-family: Georgia, serif; color: #7D241A; font-size: 2rem; margin: 5px 0;'>VG</h1>
-                            <p style='font-family: Arial, sans-serif; color: #7D241A; margin: 0;'>Vite & Gourmand</p>
-                        </div> " ;
-            $mail-> send();
-                        } catch(Exception $e){}
-            header('Location: /success-page/inscription-succes.php');
-            exit();
-            }};
-            
-            
+            $mail->Body = "<p>Bonjour et bienvenu à Vite&Gourmand...</p>";
+            $mail->send();
+        } catch (Exception $e) {}
+
+        header('Location: '. BASE_URL .'/success-page/inscription-succes.php');
+        exit();
+    }
+}
 ?>
 
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="fr">
     
         <?php include './includes/head.php';?>
@@ -100,7 +84,7 @@ $activePage = 'Inscription';
 
                             <div>
                                 <label for="tel">Téléphone :</label>
-                                <input type="tel" id="tel" name="tel" required>
+                                <input type="tel" id="tel" name="tel" required maxlength="20">
                             </div>
                             
                             <div>
@@ -114,7 +98,7 @@ $activePage = 'Inscription';
                 
                             <div>
                                 <label for="postal_code">Code Postal :</label>
-                                <input type="text" id="postal_code" name="postal_code" required>
+                                <input type="text" id="postal_code" name="postal_code" required maxlength="5" >
                                 <?php if ($message) : ?>
                                 <p class="message-erreur"><?php echo htmlspecialchars($message); ?></p>
                                 <?php endif; ?>

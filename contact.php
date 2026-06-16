@@ -53,7 +53,7 @@ if(isset($_POST['submit-contact'])) {
     }
 ?>
 
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="fr">
     
         <?php include './includes/head.php';?>

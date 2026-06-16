@@ -19,11 +19,12 @@ if (!$menu_actif) {
 <?php include __DIR__ . '/../includes/header.php'; ?>
 
 <main>
+    <h1 class="hidden-h1">Détails du menu <?= htmlspecialchars($menu_actif['menu_nom'])?></h1>
     <article class="menu-detail">
         <div class="menu-detail-header">
             <picture>
                 <source media="(min-width:750px)" srcset="../Images/<?= $menu_actif['img_desktop'] ?>.png">
-                <img src="../Images/<?= $menu_actif['img_mobile'] ?>.png" alt="<?= htmlspecialchars($menu_actif['menu_nom']) ?>" class="menu-detail-img">
+                <img src="../Images/<?= $menu_actif['img_mobile'] ?>.png" alt="Photo du menu <?= htmlspecialchars($menu_actif['menu_nom']) ?>" class="menu-detail-img">
             </picture>
             <div class="menu-detail-headline">
                 <h2><?= htmlspecialchars($menu_actif['menu_nom']) ?></h2>
@@ -77,9 +78,9 @@ if (!$menu_actif) {
                 <div class="nb-person-menu">
                     <span>NB.<br>PERSONNES</span>
                     <div class="input-nb-perso">
-                            <button type="button" class="counter-btn" onclick="change(this, -1)">-</button>
+                            <button type="button" class="counter-btn" onclick="change(this, -1)" aria-label="Diminuer le nombre de personnes">-</button>
                             <input type="number" class="counter-val" name="nb_pers" value="1" min="1">
-                            <button type="button" class="counter-btn" onclick="change(this, 1)">+</button>
+                            <button type="button" class="counter-btn" onclick="change(this, 1)" aria-label="Augmenter le nombre de personnes">+</button>
                         </div>
 		</div>
 		<div class="order-menu-btn">

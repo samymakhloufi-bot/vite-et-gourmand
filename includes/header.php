@@ -4,8 +4,8 @@
             
                 <div id="logo">
                 <a href="<?= BASE_URL ?>/index.php"> <img src='<?= BASE_URL ?>/Images/Logo_bordeaux.svg' class="logo-img" alt='Logo VG'>
-                <h1 class="short-logo"> VG </h1>
-                <h1 class="long-logo">Vite & Gourmand</h1></a>
+                <span class="short-logo"> VG </span>
+                <span class="long-logo">Vite & Gourmand</span></a>
                 </div>
                 
                 <nav class="nav-menu">

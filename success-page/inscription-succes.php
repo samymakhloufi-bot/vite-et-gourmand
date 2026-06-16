@@ -38,7 +38,7 @@ require_once '../login.php'
                     <p class="succes-counter">Redirection dans <span id="compte-rebours">15</span> secondes</p>
                     
                     <div class="succes-btn">
-                        <a href="connexion.php" class="btn-submit">Se connecter</a>
+                        <a href="<?=BASE_URL?>/connexion.php" class="btn-submit">Se connecter</a>
                         <a href="index.php" class="btn-outline">Retour à l'accueil</a>
                     </div>
             </div>

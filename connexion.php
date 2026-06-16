@@ -1,54 +1,43 @@
 <?php $activePage = 'Connexion'; 
-require_once __DIR__.'/login.php';
+require_once __DIR__ . '/login.php';
+require_once __DIR__ . '/classes/Repository/UserRepository.php';
 
-    $fromCommande = isset($_GET['redirect']) && $_GET['redirect'] == 'nos-menus.php';
-
-$message ='';
+$userRepository = new UserRepository($pdo);
+$fromCommande = isset($_GET['redirect']) && $_GET['redirect'] == 'nos-menus.php';
+$message = '';
 
 if (isset($_POST['se-connecter'])) {
-    $email = trim($_POST['email-login']);
+    $email    = trim($_POST['email-login']);
     $password = trim($_POST['password-login']);
 
-    // Vérification de l'email
-    $check = $pdo -> prepare("SELECT id_user, password, role FROM users WHERE email = ?");
-    $check -> execute([$email]);
-    $user = $check->fetch();
+    $user = $userRepository->findByEmail($email);
 
-    if ($user && password_verify($password, $user['password'])) {
-        // Connexion réussie
-        $_SESSION['user_id'] = $user['id_user'];
-        $_SESSION['role'] = $user['role'];
-        
-        //remember me
+    if ($user && password_verify($password, $user->getPassword())) {
+        $_SESSION['user_id'] = $user->getId();
+        $_SESSION['role']    = $user->getRole();
+
         if (isset($_POST['remember-me'])) {
             $token = bin2hex(random_bytes(32));
-
-            // Stocker le token dans la base de données
-            $stmt = $pdo->prepare("UPDATE users SET remember_token = ? WHERE id_user = ?");
-            $stmt->execute([$token, $user['id_user']]);
-
-            // Stocker le token dans un cookie pendant 30 jours
+            $userRepository->updateRememberToken($user->getId(), $token);
             setcookie('remember_token', $token, time() + (30 * 24 * 60 * 60), "/");
         }
 
-        if ($user['role'] ==='admin') {
-            header('location: '. BASE_URL .'/espace-admin.php');
-        } elseif ($user['role'] ==='employe'){
-            header('location: '. BASE_URL .'/espace-employe.php');
+        if ($user->getRole() === 'admin') {
+            header('Location: ' . BASE_URL . '/espace-admin.php');
+        } elseif ($user->getRole() === 'employe') {
+            header('Location: ' . BASE_URL . '/espace-employe.php');
         } else {
             $redirect = $_GET['redirect'] ?? $_POST['redirect'] ?? 'index.php';
-            header('location: '. BASE_URL .'/'.$redirect);
+            header('Location: ' . BASE_URL . '/' . $redirect);
         }
         exit();
     } else {
-        // Échec de la connexion
         $message = "Email ou mot de passe incorrect.";
     }
 }
-
 ?>
 
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="fr">
     
         <?php include __DIR__.'/includes/head.php';?>
@@ -77,7 +66,7 @@ if (isset($_POST['se-connecter'])) {
                     <form action="<?= BASE_URL ?>/connexion.php" method="post" id="form-login">
                         <input type="hidden" name="redirect" value="<?= htmlspecialchars($_GET['redirect'] ?? ''); ?>">
                         <fieldset>
-                            <h3>Se Connecter</h3>
+                            <legend>Se Connecter</legend>
                             <div class="auth-fields">
                                 <label for="email-login">E-mail</label>
                                 <input type="email" id="email-login" name="email-login" maxlength="255" placeholder="Saisissez votre e-mail" autocomplete="current-email">
@@ -114,7 +103,7 @@ if (isset($_POST['se-connecter'])) {
                                 </div>
                                 
                             </div>
-                            <div class="erreur-div">
+                            <div class="erreur-div" role="alert" aria-live="assertive">
                                     <?php if ($message):?>
                                     <p class="message-erreur"><?php echo htmlspecialchars($message); ?></p>
                                     <?php endif; ?>

@@ -54,7 +54,7 @@ if(isset($_POST['reset-password'])) {
     }
 }
 ?>
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="fr">
     
         <?php include __DIR__.'/includes/head.php';?>

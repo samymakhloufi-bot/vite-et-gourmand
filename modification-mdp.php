@@ -37,7 +37,7 @@ if(isset($_POST['nouveau-mdp']) && $token_valide) {
 $activePage = 'Changement de mot de passe';
 ?>
 <!DOCTYPE html>
-    <html lang="en">
+    <html lang="fr">
         <?php include './includes/head.php';?>
     <body>
         <?php include './includes/header.php';?>
@@ -55,17 +55,18 @@ $activePage = 'Changement de mot de passe';
                         <?php else:?>
                         <form action="./modification-mdp.php?token=<?php echo htmlspecialchars($token); ?>" method="post">
                             <fieldset>
+                                <legend>Réinitialisation Mot de passe</legend>
                                 <?php if ($message) : ?>
-                                    <p class="message-<?= $message_type?>"><?= htmlspecialchars($message); ?></p>
+                                    <p class="message-<?= $message_type?>" role="alert"><?= htmlspecialchars($message); ?></p>
                                 <?php endif; ?>
                                 <div class="reset-password-field"></div>
                                     <div class="first-password">
                                         <label for="password">Nouveau mot de passe</label>
-                                        <input type="password" id="password" name="password" minlenght="8" required>
+                                        <input type="password" id="password" name="password" minlength="8"  autocomplete="new-password" required>
                                     </div>
                                         <div class="recall-password">
                                         <label for="password-confirm">Confirmez mot de passe</label>
-                                        <input type="password" id="password-confirm" name="password-confirm" minlenght="8" required>
+                                        <input type="password" id="password-confirm" name="password-confirm" minlength="8" autocomplete="new-password" required>
                                     </div>
                                 </div>
                                 

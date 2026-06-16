@@ -17,7 +17,7 @@
             <script src="<?= BASE_URL?>/js/cookie.js"></script>
             <div> 
                 <div class="footer-logo-group">
-                    <img src="<?= BASE_URL ?>/Images/Logo_beige_final_v2.svg" class="footer-logo" alt="Logo VG"> 
+                    <img src="<?= BASE_URL ?>/Images/Logo_beige_final_v2.svg" class="footer-logo" alt="Logo Vite & Gourmand"> 
                     <div class="footer-logo-text">
                         <h3>VG</h3>
                         <p>Vite & Gourmand</p>
@@ -34,8 +34,14 @@
                 $informations = $stmt_info->fetch();
                 ?>
 
+                <address>
+                    <address>
+                <p><?= $informations['adresse'] ?? '42 Rue du Pas-Saint-Georges, 33000 Bordeaux' ?></p>
+            </address>
+                </address>
+
+
                 <ul>
-                    <li> <?php echo $informations['adresse'] ?? '42 Rue du Pas-Saint-Georges, 33000 Bordeaux' ; ?></li>
                     <li><?php echo $informations['telephone'] ?? '05 56 44 12 89' ; ?></li>
                     <li><a href="mailto:contact@vite-et-gourmand-traiteur.fr"><?php echo $informations['email'] ?? 'contact@vite-et-gourmand-traiteur.fr' ; ?></a></li>
                 </ul>
@@ -62,7 +68,7 @@
 
             <div> 
                 <h3>INFOS</h3>
-                <a href="<?= BASE_URL ?>/mentions.php"> Mentions Légales </a>
+                <a href="<?= BASE_URL ?>/mentions.php"> Mentions Légales et politique de confidentialité</a>
                 <br>
                 <a href="<?= BASE_URL ?>/CGV.php"> Conditions Générales de Ventes </a>
             </div>
