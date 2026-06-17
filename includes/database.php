@@ -7,7 +7,16 @@ class Database {
 
     public static function getInstance(): PDO {
         if (self::$instance === null) {
-            $env = parse_ini_file(__DIR__ . '/../.env');
+            $envDocker = __DIR__ . '/../.env.docker';
+            $envNormal = __DIR__ . '/../.env';
+            if (file_exists($envDocker)) {
+                $testEnv = parse_ini_file($envDocker);
+                $envFile = ($testEnv['DB_HOST'] === 'db') ? $envDocker : $envNormal;
+            } else {
+                $envFile = $envNormal;
+            }
+
+            $env = parse_ini_file($envFile);
             try {
                 self::$instance = new PDO(
                     "mysql:host={$env['DB_HOST']};dbname={$env['DB_NAME']};charset=utf8",

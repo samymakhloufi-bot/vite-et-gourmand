@@ -2,8 +2,24 @@
 if(session_status() === PHP_SESSION_NONE){
     session_start();
 }
+$envFile = file_exists(__DIR__ . '/.env.docker') 
+    ? __DIR__ . '/.env.docker'
+    : __DIR__ . '/.env';
 
-$env = parse_ini_file( __DIR__ . '/.env');
+
+
+$envDocker =  __DIR__ .'/.env.docker';
+$envNormal = __DIR__ .'/.env';
+
+if(file_exists($envDocker)){
+    $testEnv = parse_ini_file($envDocker);
+    $envFile = ($testEnv['DB_HOST']=== 'db') ? $envDocker : $envNormal;
+} else {
+    $envFile = $envDocker;
+}
+
+$env = parse_ini_file($envFile);
+
 define('BASE_URL', $env['BASE_URL']);
 define('GOOGLE_MAPS_KEY', $env['GOOGLE_MAPS_KEY']);
 define('MAIL_PASS', $env['MAIL_PASS']);

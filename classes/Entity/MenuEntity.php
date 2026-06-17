@@ -22,7 +22,6 @@ class Menu {
         $this->prix_menu         = (float)$data['prix_menu'];
         $this->nb_perso_min      = (int)$data['nb_perso_min'];
         $this->description       = $data['description'] ?? '';
-        $this->image             = $data['image'] ?? null;
         $this->quantite_restante = isset($data['quantite_restante']) ? (int)$data['quantite_restante'] : null;
         $this->img_desktop  = $data['img_desktop'] ?? null;
         $this->img_mobile   = $data['img_mobile'] ?? null;
