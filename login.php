@@ -7,15 +7,15 @@ $envFile = file_exists(__DIR__ . '/.env.docker')
     : __DIR__ . '/.env';
 
 
-
-$envDocker =  __DIR__ .'/.env.docker';
 $envNormal = __DIR__ .'/.env';
+$envDocker =  __DIR__ .'/.env.docker';
+
 
 if(file_exists($envDocker)){
     $testEnv = parse_ini_file($envDocker);
     $envFile = ($testEnv['DB_HOST']=== 'db') ? $envDocker : $envNormal;
 } else {
-    $envFile = $envDocker;
+    $envFile = $envNormal;
 }
 
 $env = parse_ini_file($envFile);
