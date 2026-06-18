@@ -3,7 +3,7 @@
             <div class="nav-bar">
             
                 <div id="logo">
-                <a href="<?= BASE_URL ?>/index.php"> <img src='<?= BASE_URL ?>/Images/Logo_bordeaux.svg' class="logo-img" alt='Logo VG'>
+                <a href="<?= BASE_URL ?>/index.php"> <img src='<?= BASE_URL ?>/Images/Logo_bordeaux.svg' class="logo-img" alt='Logo Vite & Gourmand'>
                 <span class="short-logo"> VG </span>
                 <span class="long-logo">Vite & Gourmand</span></a>
                 </div>

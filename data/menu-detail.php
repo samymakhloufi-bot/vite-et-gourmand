@@ -1,14 +1,13 @@
 <?php
 require_once __DIR__ . '/../login.php';
-$activePage = 'menus';
+require_once __DIR__ . '/../classes/Repository/MenuRepository.php';
+$activePage = 'détails du menu';
 
-$id = $_GET['id'] ?? null;
-$stmt = $pdo->prepare("SELECT * FROM menu WHERE link = ? AND actif = 1 ");
-$stmt->execute([$id]);
-$menu_actif = $stmt->fetch();
+$menuRepository = new MenuRepository($pdo);
+$menu = $menuRepository->findByLink($_GET['id'] ?? '');
 
-if (!$menu_actif) {
-    header('location: '. BASE_URL .'/nos-menus.php');
+if (!$menu) {
+    header('Location: ' . BASE_URL . '/nos-menus.php');
     exit;
 }
 ?>
@@ -19,74 +18,74 @@ if (!$menu_actif) {
 <?php include __DIR__ . '/../includes/header.php'; ?>
 
 <main>
-    <h1 class="hidden-h1">Détails du menu <?= htmlspecialchars($menu_actif['menu_nom'])?></h1>
+    <h1 class="hidden-h1">Détails du menu <?= htmlspecialchars($menu->getNom()) ?></h1>
     <article class="menu-detail">
         <div class="menu-detail-header">
             <picture>
-                <source media="(min-width:750px)" srcset="../Images/<?= $menu_actif['img_desktop'] ?>.png">
-                <img src="../Images/<?= $menu_actif['img_mobile'] ?>.png" alt="Photo du menu <?= htmlspecialchars($menu_actif['menu_nom']) ?>" class="menu-detail-img">
+                <source media="(min-width:750px)" srcset="../Images/<?= $menu->getImgDesktopUrl() ?>">
+                <img src="../Images/<?= $menu->getImgMobileUrl() ?>" alt="Photo du menu <?= htmlspecialchars($menu->getNom()) ?>" class="menu-detail-img">
             </picture>
             <div class="menu-detail-headline">
-                <h2><?= htmlspecialchars($menu_actif['menu_nom']) ?></h2>
-                <p class="menu-chef-note"><em>Note du Chef :</em> <?= htmlspecialchars($menu_actif['description']) ?></p>
+                <h2><?= htmlspecialchars($menu->getNom()) ?></h2>
+                <p class="menu-chef-note"><em>Note du Chef :</em> <?= htmlspecialchars($menu->getDescription()) ?></p>
             </div>
         </div>
 
-        <h3>Entrée : <?= htmlspecialchars($menu_actif['entree']) ?></h3>
+        <h3>Entrée : <?= htmlspecialchars($menu->getEntree()) ?></h3>
         <ul>
-            <?php foreach (explode('|', $menu_actif['entree_description']) as $ligne): ?>
+            <?php foreach (explode('|', $menu->getEntreeDescription() ?? '') as $ligne): ?>
                 <li><?= htmlspecialchars($ligne) ?></li>
             <?php endforeach; ?>
         </ul>
 
-        <h3>Plat : <?= htmlspecialchars($menu_actif['plat']) ?></h3>
+        <h3>Plat : <?= htmlspecialchars($menu->getPlat()) ?></h3>
         <ul>
-            <?php foreach (explode('|', $menu_actif['plat_description']) as $ligne): ?>
+            <?php foreach (explode('|', $menu->getPlatDescription() ?? '') as $ligne): ?>
                 <li><?= htmlspecialchars($ligne) ?></li>
             <?php endforeach; ?>
         </ul>
 
-        <h3>Boisson :</h3>
-        <ul>
-            <?php foreach (explode('|', $menu_actif['boisson']) as $ligne): ?>
-                <li><?= htmlspecialchars($ligne) ?></li>
-            <?php endforeach; ?>
-        </ul>
+        <?php if ($menu->getBoisson()): ?>
+    <h3>Boisson :</h3>
+    <ul>
+        <?php foreach (explode('|', $menu->getBoisson() ?? '') as $ligne): ?>
+            <li><?= htmlspecialchars($ligne) ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
 
-        <h3>Dessert : <?= htmlspecialchars($menu_actif['dessert']) ?></h3>
+        <h3>Dessert : <?= htmlspecialchars($menu->getDessert()) ?></h3>
         <ul>
-            <?php foreach (explode('|', $menu_actif['dessert_description']) as $ligne): ?>
+            <?php foreach (explode('|', $menu->getDessertDescription() ?? '') as $ligne): ?>
                 <li><?= htmlspecialchars($ligne) ?></li>
             <?php endforeach; ?>
         </ul>
 
         <h3>Allergènes :</h3>
         <ul>
-            <?php foreach (explode('|', $menu_actif['allergene']) as $ligne): ?>
+            <?php foreach (explode('|', $menu->getAllergene() ?? '') as $ligne): ?>
                 <li><?= htmlspecialchars($ligne) ?></li>
             <?php endforeach; ?>
         </ul>
 
         <div class="menu-detail-footer">
-            
-            <em class="menu-price">Prix : <?= $menu_actif['prix_menu'] ?> €/personne / Min : <?= $menu_actif['nb_perso_min'] ?> personnes</em>
+            <em class="menu-price">Prix : <?= $menu->getPrix() ?> €/personne / Min : <?= $menu->getNbPersoMin() ?> personnes</em>
             <form id="form-commande" action="../achat.php" method="POST">
-                <input type="hidden" name="menu_nom" value="<?= htmlspecialchars($menu_actif['menu_nom'])?>">
-                <input type="hidden" name="nb_pers" value="<?= $nb_pers?>">
-                <input type="hidden" name="menu_id" value="<?= $menu_actif['Id_menu']?>">
+                <input type="hidden" name="menu_nom" value="<?= htmlspecialchars($menu->getNom()) ?>">
+                <input type="hidden" name="nb_pers" value="1">
+                <input type="hidden" name="menu_id" value="<?= $menu->getId() ?>">
 
                 <div class="nb-person-menu">
                     <span>NB.<br>PERSONNES</span>
                     <div class="input-nb-perso">
-                            <button type="button" class="counter-btn" onclick="change(this, -1)" aria-label="Diminuer le nombre de personnes">-</button>
-                            <input type="number" class="counter-val" name="nb_pers" value="1" min="1">
-                            <button type="button" class="counter-btn" onclick="change(this, 1)" aria-label="Augmenter le nombre de personnes">+</button>
-                        </div>
-		</div>
-		<div class="order-menu-btn">
-			<button type="submit" class="btn-menu-order">Commander</button>
-		</div>
-
+                        <button type="button" class="counter-btn" onclick="change(this, -1)" aria-label="Diminuer le nombre de personnes">-</button>
+                        <input type="number" class="counter-val" name="nb_pers" value="1" min="1">
+                        <button type="button" class="counter-btn" onclick="change(this, 1)" aria-label="Augmenter le nombre de personnes">+</button>
+                    </div>
+                </div>
+                <div class="order-menu-btn">
+                    <button type="submit" class="btn-menu-order">Commander</button>
+                </div>
             </form>
         </div>
     </article>

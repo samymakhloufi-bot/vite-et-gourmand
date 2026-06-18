@@ -5,7 +5,7 @@
                         <strong> Cookies & confidentialité</strong><br>
                         Ce site utilise Google Maps pour le calcul des frais de livraison, 
                         ce qui implique un transfert de données vers les serveurs Google. 
-                        <a href="<?= BASE_URL ?>/mentions.php" target="_blank">En savoir plus</a>
+                        <a href="<?= BASE_URL ?>/mentions.php" target="_blank" aria-label="s'ouvre les mentions légales dans un nouvel onglet">En savoir plus</a>
                     </p>
                     <div class="cookie-buttons">
                         <button id="refuse-cookies" class="btn-cookie-refuse">Refuser</button>

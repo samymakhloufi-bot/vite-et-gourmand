@@ -100,7 +100,7 @@ if(isset($_POST['submit-contact'])) {
                                 </div>
                                 <div>
                                     <label for="tel">TÉLÉPHONE :</label>
-                                    <input type="tel" id="tel" name="telephone" required>
+                                    <input type="tel" id="tel" name="telephone" required pattern ="[0-9]{10}">
                                 </div>
                                 <div>
                                     <label for="adresse">ADRESSE :</label>
@@ -122,7 +122,7 @@ if(isset($_POST['submit-contact'])) {
 
                             <div class="form-textarea"> 
                                 <label for="demande">Votre demande :</label>
-                                <textarea id="demande" rows="50" name="demande"></textarea>
+                                <textarea id="demande" rows="5" name="demande"></textarea>
                             </div>
 
                             <button type="submit" class="btn-submit" name="submit-contact">Envoyer</button>

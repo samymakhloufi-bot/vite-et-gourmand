@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../Entity/CommandeEntity.php';
-require_once __DIR__ . '/../Entity/CommandeDetail.php';
+require_once __DIR__ . '/../Entity/CommandeDetailEntity.php';
 
 class CommandeRepository {
     private PDO $pdo;

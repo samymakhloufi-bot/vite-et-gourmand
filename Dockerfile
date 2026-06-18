@@ -10,7 +10,10 @@ RUN apt-get update && apt-get install -y \
 
     COPY . /var/www/html/
 
-    RUN chown -R www-data:www-data /var/www/html
+    RUN mkdir -p /var/www/html/Images && chown -R www-data:www-data /var/www/html/Images
+
+    RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html/Images
 
     RUN echo '<Directory /var/www/html>\n\
         Options Indexes FollowSymLinks\n\
@@ -20,3 +23,7 @@ RUN apt-get update && apt-get install -y \
         && a2enconf app
 
         EXPOSE 80
+    
+    RUN pecl uninstall mongodb \
+    && pecl install mongodb-1.19.0 \
+    && docker-php-ext-enable mongodb

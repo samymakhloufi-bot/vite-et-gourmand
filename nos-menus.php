@@ -79,8 +79,8 @@ $nb_pers = 0;
                     data-nb-max="<?= $menu->getNbPersoMin() ?>">
                                 
                     <picture>
-                        <source media="(min-width:750px)" srcset="./Images/<?= $menu->getImgDesktop() ?>.png">
-                        <img src="./Images/img/<?= $menu->getImgMobile() ?>.png" alt="<?= htmlspecialchars($menu->getNom()) ?>">
+                        <source media="(min-width:750px)" srcset="./Images/<?= $menu->getImgDesktopUrl() ?>">
+                        <img src="./Images/img/<?= $menu->getImgMobileUrl() ?>" alt="<?= htmlspecialchars($menu->getNom()) ?>">
                     </picture>
                                 
                     <div class="info-menu">

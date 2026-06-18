@@ -2539,7 +2539,7 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 
 .badge-employe-1 {
     border: 1px solid var(--bordeaux);
-    background : #01af1081;
+    background : #DFF0D8;
     margin:  0.875rem 0 ;
     padding: 0.15rem 0.35rem;
     border-radius: 1rem;

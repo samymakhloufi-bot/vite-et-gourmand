@@ -40,6 +40,12 @@ class MenuRepository {
         return $this->hydrate($stmt->fetch());
     }
 
+    public function findByLink(string $link): ?Menu {
+        $stmt = $this->pdo->prepare("SELECT * FROM menu WHERE link = ? AND actif = 1 ");
+        $stmt->execute([$link]);
+        return $this->hydrate($stmt->fetch());
+    }
+
     public function findByFilters(array $filters): array {
         $sql    = "SELECT * FROM menu WHERE actif = 1";
         $params = [];
