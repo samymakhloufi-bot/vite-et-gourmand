@@ -18,7 +18,7 @@ cd vite-et-gourmand
 
 Copier le fichier d'exemple et le renommer :
 
-cp .env.example .env.docker
+cp .env.docker.exemple .env.docker
 
 Les variables sont pré-remplies et fonctionnelles, aucune modification nécessaire pour un lancement en local.
 
