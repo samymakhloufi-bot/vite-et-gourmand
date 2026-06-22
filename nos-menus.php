@@ -41,6 +41,7 @@ $nb_pers = 0;
                             <option value="paque">Pâques</option>
                             <option value="mariage">Mariage</option>
                             <option value="seminaire">Séminaire</option>
+                            <option value="casse-croûte">Casse-croûte</option>
                         </select>
                     </div>
                     <div class="filter" id="tags-regime">

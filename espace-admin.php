@@ -61,7 +61,10 @@ $horaires = [];
 
                     <button type="button" class="btn-dashboard <?= $activeTab ==='dashboard' ? 'active' : ''?>" data-target="dashboard-wrapper" aria-selected="Tableau de Bord">Tableau de Bord</button>
                     <button type="button" class="btn-employee <?= $activeTab ==='employe' ? 'active' : ''?>" data-target="employee-wrapper" aria-selected="Employés">Employés</button>
-                    <button type="button" class="btn-turnover <?= $activeTab ==='turnover' ? 'active' : ''?>" data-target="turnover-wrapper" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button>
+                    <button type="button" class="btn-turnover <?= $activeTab ==='turnover' ? 'active' : ''?>" data-target="turnover-wrapper" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button><button type="button" class="btn-commande" data-target="commandes-wrapper" aria-selected="commandes">Les Commandes</button>
+                    <button type="button" class="btn-menus" data-target="menus-plat" aria-selected="Menus et plats">Menus & Plats</button>
+                    <button type="button" class="btn-avis" data-target="moderation-avis" aria-selected="Modération Avis">Modération Avis</button>
+                    <button type="button" class="btn-horaires" data-target="horaires" aria-selected="Horaires">Horaires</button>
                 </div>
 
                 <section id="dashboard-wrapper" class="account-panel <?= $activeTab ==='dashboard' ? 'active' : ''?>">
@@ -75,11 +78,28 @@ $horaires = [];
                 <section id="turnover-wrapper" class="account-panel <?= $activeTab ==='turnover' ? 'active' : ''?>">
                         <?php include './espace/admin/turnover.php' ?>
                 </section>
+
+                <section id="commandes-wrapper" class="account-panel active">
+                    <?php include './espace/employee/commande.php' ?>
+                </section>
+
+                <section id="menus-plat" class="account-panel">
+                        <?php include './espace/employee/menus-plat.php' ?>
+                </section>
+
+                <section id="moderation-avis" class="account-panel">
+                        <?php include './espace/employee/avis.php' ?>
+                </section>
+                
+                <section id="horaires" class="account-panel">
+                    <?php include './espace/employee/horaires.php' ?>
+                </section>
             </div>
         </main>
 
         <?php include './includes/footer.php' ;?>
         <script src="./js/espace-client.js"></script>
         <script src="<?= BASE_URL ?>/js/espace-admin.js"></script>
+        <script src="<?= BASE_URL ?>/js/espace-employe.js"></script>
     </body>
 </html>

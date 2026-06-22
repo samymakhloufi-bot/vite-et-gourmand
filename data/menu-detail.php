@@ -67,6 +67,7 @@ if (!$menu) {
                 <li><?= htmlspecialchars($ligne) ?></li>
             <?php endforeach; ?>
         </ul>
+        
 
         <div class="menu-detail-footer">
             <em class="menu-price">Prix : <?= $menu->getPrix() ?> €/personne / Min : <?= $menu->getNbPersoMin() ?> personnes</em>
@@ -74,6 +75,11 @@ if (!$menu) {
                 <input type="hidden" name="menu_nom" value="<?= htmlspecialchars($menu->getNom()) ?>">
                 <input type="hidden" name="nb_pers" value="1">
                 <input type="hidden" name="menu_id" value="<?= $menu->getId() ?>">
+                <?php if ($menu->getStock() !== null): ?>
+    <span class="menu-stock <?= $menu->getStock() <= 3 ? 'stock-low' : '' ?>">
+        <?= $menu->getStock() > 0 ? $menu->getStock() . ' restant(s)' : 'Épuisé' ?>
+    </span>
+<?php endif; ?>
 
                 <div class="nb-person-menu">
                     <span>NB.<br>PERSONNES</span>

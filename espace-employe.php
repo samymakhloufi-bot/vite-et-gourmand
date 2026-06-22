@@ -4,7 +4,7 @@ require_once './login.php';
 require_once './classes/Repository/CommandeRepository.php';
 require_once './classes/Repository/MenuRepository.php';
 
-if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'employe'])) {
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['employe'])) {
     header('Location: ' . BASE_URL . '/index.php');
     exit();
 }

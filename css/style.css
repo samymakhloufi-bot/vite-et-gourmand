@@ -154,7 +154,7 @@ h2{
 }
 
 h3, legend{
-        font-family: var(--font-display);
+    font-family: var(--font-display);
     font-size: 0.92rem;
     font-weight: 900;
     color: var(--text);
@@ -874,20 +874,19 @@ fieldset{
 }
 
 .contact-form legend, .contact-form label, .contact-form input,
-.contact-form textarea, .contact-form button, .auth-wrapper legend,
+.contact-form textarea, .contact-form button,
 .auth-wrapper label, .auth-wrapper input, .auth-wrapper button, .client-wrapper input,
-.client-type label, .sub-wrapper label,  .btn-reset, #sub-form input,
+.client-type label, .btn-reset, #sub-form input,
 .livraison textarea, .detail-facturation button{
     margin: 0.5rem;
 }
 
-.contact-form h3, .auth-form legend, .client-wrapper h3, .sub-wrapper h3, .form-commande h3{
+.contact-form h3, .auth-form legend, .client-wrapper h3, .form-commande h3, .reset-password-form h3{
     background-color: var(--bordeaux);
     color: var(--beige);
     text-transform: uppercase;
     padding: 0.75rem;
     font-family: var(--font-body);
-    margin: 0;
     width: 100%;
 }
 
@@ -985,7 +984,6 @@ textarea{
 .contact-form{
     background-color: #fff;
     box-shadow: var(--shadow-box);
-    padding-top: 0.5rem;
 }
 
 .personal-info-contact{

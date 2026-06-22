@@ -28,6 +28,7 @@ class UserRepository{
     public function findByRememberToken(string $token): ?User{
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE remember_token = ?");
         $stmt->execute([$token]);
+        $data = $stmt ->fetch(PDO::FETCH_ASSOC);
         return $this->hydrate($stmt->fetch());
         }
 

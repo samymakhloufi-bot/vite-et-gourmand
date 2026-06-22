@@ -19,7 +19,6 @@
 
                             <?php if($_SESSION['role'] === 'admin') : ?>
                                 <li> <a href="<?= BASE_URL ?>/espace-admin.php" class="<?php echo $activePage ==='espace admin' ? 'nav-active' : '' ;?>">Espace Admin</a></li>
-                                <li> <a href="<?= BASE_URL ?>/espace-employe.php" class="<?php echo $activePage ==='espace employe' ? 'nav-active' : '' ;?>">Espace Employé</a></li>
 
                             <?php elseif ($_SESSION['role'] === 'employe') : ?>
                                 <li> <a href="<?= BASE_URL ?>/espace-employe.php" class="<?php echo $activePage ==='espace employe' ? 'nav-active' : '' ;?>">Espace Employé</a></li>
