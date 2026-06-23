@@ -37,12 +37,14 @@ class MenuRepository {
     public function findById(int $id): ?Menu {
         $stmt = $this->pdo->prepare("SELECT * FROM menu WHERE Id_menu = ?");
         $stmt->execute([$id]);
+        $data = $stmt ->fetch(PDO::FETCH_ASSOC);
         return $this->hydrate($stmt->fetch());
     }
 
     public function findByLink(string $link): ?Menu {
         $stmt = $this->pdo->prepare("SELECT * FROM menu WHERE link = ? AND actif = 1 ");
         $stmt->execute([$link]);
+        $data = $stmt ->fetch(PDO::FETCH_ASSOC);
         return $this->hydrate($stmt->fetch());
     }
 

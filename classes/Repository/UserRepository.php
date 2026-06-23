@@ -8,28 +8,30 @@ class UserRepository{
         $this->pdo = $pdo;
     }
 
-    private function hydrate(?array $data): ?User{
-        if(!$data) return null;
-        return new User($data);
-    }
+    private function hydrate(array|false|null $data): ?User{
+    if(!$data) return null;
+    return new User($data);
+}
 
     public function findById(int $id): ?User{
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id_user = ?");
         $stmt->execute([$id]);
-        return $this->hydrate($stmt->fetch());
+        $data = $stmt ->fetch(PDO::FETCH_ASSOC);
+        return $this->hydrate($data);
     }
 
     public function findByEmail(string $email): ?User{
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
-        return $this->hydrate($stmt->fetch());
+        $data = $stmt ->fetch(PDO::FETCH_ASSOC);
+        return $this->hydrate($data);
         }
 
     public function findByRememberToken(string $token): ?User{
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE remember_token = ?");
         $stmt->execute([$token]);
         $data = $stmt ->fetch(PDO::FETCH_ASSOC);
-        return $this->hydrate($stmt->fetch());
+        return $this->hydrate($data);
         }
 
     public function save(User $user): void{
