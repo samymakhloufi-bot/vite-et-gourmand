@@ -8,28 +8,30 @@ class UserRepository{
         $this->pdo = $pdo;
     }
 
-    private function hydrate(?array $data): ?User{
-        if(!$data) return null;
-        return new User($data);
-    }
+    private function hydrate(array|false|null $data): ?User{
+    if(!$data) return null;
+    return new User($data);
+}
 
     public function findById(int $id): ?User{
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id_user = ?");
         $stmt->execute([$id]);
-        return $this->hydrate($stmt->fetch());
+        $data = $stmt ->fetch(PDO::FETCH_ASSOC);
+        return $this->hydrate($data);
     }
 
     public function findByEmail(string $email): ?User{
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
-        return $this->hydrate($stmt->fetch());
+        $data = $stmt ->fetch(PDO::FETCH_ASSOC);
+        return $this->hydrate($data);
         }
 
     public function findByRememberToken(string $token): ?User{
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE remember_token = ?");
         $stmt->execute([$token]);
         $data = $stmt ->fetch(PDO::FETCH_ASSOC);
-        return $this->hydrate($stmt->fetch());
+        return $this->hydrate($data);
         }
 
     public function save(User $user): void{
@@ -64,5 +66,20 @@ class UserRepository{
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
         $stmt->execute([$email]);
         return (bool)$stmt->fetchColumn();
+    }
+
+    public function findAllEmployes(): array {
+        $stmt = $this->pdo->query("SELECT id_user, nom, prenom, email, actif FROM users WHERE role = 'employe'");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function createEmploye(string $nom, string $prenom, string $email, string $hashedPassword): void {
+        $stmt = $this->pdo->prepare("INSERT INTO users(nom, prenom, email, password, role) VALUES(?,?,?,?,'employe')");
+        $stmt->execute([$nom, $prenom, $email, $hashedPassword]);
+    }
+
+    public function toggleActif(int $id_user, int $actif): void {
+        $stmt = $this->pdo->prepare("UPDATE users SET actif = ? WHERE id_user = ? AND role = 'employe'");
+        $stmt->execute([$actif, $id_user]);
     }
 }

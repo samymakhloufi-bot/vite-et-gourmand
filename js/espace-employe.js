@@ -241,6 +241,23 @@ function toggleActifMenu(btn) {
     });
 }
 
+/*-----------------------------
+    UPLOAD IMG DYNAMIQUE
+------------------------------*/
+document.querySelectorAll('input[type="file"][id^="upload-"]').forEach(input => {
+    input.addEventListener('change', function() {
+        const menuId = this.id.replace('upload-', '');
+        const preview = this.closest('.img-row').querySelector('.img-preview');
+        const file = this.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = e => preview.src = e.target.result;
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
 /*----------------------------------
     MODÉRATION AVIS
 ----------------------------------*/
