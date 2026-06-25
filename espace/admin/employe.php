@@ -1,34 +1,28 @@
 <?php
 
-//Initialisation $employe
-$stmt_employes = $pdo->query("SELECT id_user, nom, prenom, email, actif FROM users WHERE role ='employe' ");
-$employes = $stmt_employes->fetchAll();
+require_once __DIR__ . '/../../classes/Repository/UserRepository.php';
+$userRepository = new UserRepository($pdo);
 
-//Modération compte
+// Récupération employés
+$employes = $userRepository->findAllEmployes();
+
+// Modération compte
 if(isset($_POST['toggle-employe'])){
-    $stmt = $pdo->prepare("UPDATE users SET actif = ? WHERE id_user = ? AND role ='employe' ");
-    $stmt -> execute([$_POST['actif'], $_POST['id_user']]);
-
-    header('Location:' . BASE_URL . '/espace-admin.php?tab=employe');
-    exit();
+    $userRepository->toggleActif((int)$_POST['id_user'], (int)$_POST['actif']);
+    $employes = $userRepository->findAllEmployes();
 }
 
-//Mise à jour table
-$stmt_employes = $pdo->query("SELECT id_user, nom, prenom, email, actif FROM users WHERE role ='employe' ");
-$employes = $stmt_employes->fetchAll();
-    
-//Création compte
+// Création compte
 if(isset($_POST['create-employe'])){
     $mdp_hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-    $stmt = $pdo->prepare("INSERT INTO users(nom,prenom, email,password,role)
-                    VALUES(?,?,?,?,'employe')");
-    $stmt ->execute([$_POST['nom'],$_POST['prenom'],$_POST['email'],$mdp_hashed]);
-    
-    
-    header('Location:' . BASE_URL . '/espace-admin.php?tab=employe');
-    exit();
-    }
+    $userRepository->createEmploye(
+        $_POST['nom'],
+        $_POST['prenom'],
+        $_POST['email'],
+        $mdp_hashed
+    );
+    $employes = $userRepository->findAllEmployes();
+}
 ?>
 
 <div id="create-employe-panel" >

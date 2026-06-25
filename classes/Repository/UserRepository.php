@@ -67,4 +67,19 @@ class UserRepository{
         $stmt->execute([$email]);
         return (bool)$stmt->fetchColumn();
     }
+
+    public function findAllEmployes(): array {
+        $stmt = $this->pdo->query("SELECT id_user, nom, prenom, email, actif FROM users WHERE role = 'employe'");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function createEmploye(string $nom, string $prenom, string $email, string $hashedPassword): void {
+        $stmt = $this->pdo->prepare("INSERT INTO users(nom, prenom, email, password, role) VALUES(?,?,?,?,'employe')");
+        $stmt->execute([$nom, $prenom, $email, $hashedPassword]);
+    }
+
+    public function toggleActif(int $id_user, int $actif): void {
+        $stmt = $this->pdo->prepare("UPDATE users SET actif = ? WHERE id_user = ? AND role = 'employe'");
+        $stmt->execute([$actif, $id_user]);
+    }
 }

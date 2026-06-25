@@ -23,13 +23,15 @@ if (isset($_FILES['img_menu']) && $_FILES['img_menu']['error'] === 0) {
     }
 
     // Nom de fichier unique
-    $nom_fichier = 'menu_' . $menu_id . '_' . time() . '.png';
+    $nom_original = pathinfo($_FILES['img_menu']['name'], PATHINFO_FILENAME);
+    $nom_sanitize = preg_replace('/[^a-zA-Z0-9_-]/', '_', $nom_original);
+    $nom_fichier  = $nom_sanitize . '_' . time() . '.png';
     $destination = __DIR__ . '/../Images/' . $nom_fichier;
 
     if (move_uploaded_file($_FILES['img_menu']['tmp_name'], $destination)) {
-        // Mettre à jour img_desktop et img_mobile en BDD
-        $stmt = $pdo->prepare("UPDATE menu SET img_desktop = ?, img_mobile = ? WHERE Id_menu = ?");
-        $stmt->execute([$nom_fichier, $nom_fichier, $menu_id]);
+        // Mettre à jour img_menu en BDD
+        $stmt = $pdo->prepare("UPDATE menu SET img_menu = ? WHERE Id_menu = ?");
+        $stmt->execute([$nom_fichier, $menu_id]);
 
         header('location: '. BASE_URL .'/espace-employe.php?section=menus-plat&success=1');
         exit;

@@ -22,8 +22,7 @@ if (!$menu) {
     <article class="menu-detail">
         <div class="menu-detail-header">
             <picture>
-                <source media="(min-width:750px)" srcset="../Images/<?= $menu->getImgDesktopUrl() ?>">
-                <img src="../Images/<?= $menu->getImgMobileUrl() ?>" alt="Photo du menu <?= htmlspecialchars($menu->getNom()) ?>" class="menu-detail-img">
+                <img src="../Images/<?= $menu->getImgMenuUrl() ?>" alt="Photo du menu <?= htmlspecialchars($menu->getNom()) ?>" class="menu-detail-img">
             </picture>
             <div class="menu-detail-headline">
                 <h2><?= htmlspecialchars($menu->getNom()) ?></h2>

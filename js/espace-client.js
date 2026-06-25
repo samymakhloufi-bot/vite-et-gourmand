@@ -9,23 +9,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (buttons.length > 0) {
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
-                const targetId = btn.dataset.target;
-                const targetElement = document.getElementById(targetId);
+            const targetId = btn.dataset.target;
+            const targetElement = document.getElementById(targetId);
 
-                if (targetElement) {
-                    document.querySelectorAll('.account-panel').forEach(section => {
-                        section.classList.remove('active');
-                    });
+            if (targetElement) {
+                document.querySelectorAll('.account-panel').forEach(section => {
+                    section.classList.remove('active');
+                });
 
-                    targetElement.classList.add('active');
+            targetElement.classList.add('active');
 
-                    buttons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                } else {
-                    console.error("Cible non trouvée pour l'ID :", targetId);
-                }
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Mettre à jour l'URL sans recharger
+            history.pushState(null, '', `?tab=${targetId}`);
+        } else {
+            console.error("Cible non trouvée pour l'ID :", targetId);
+        }
             });
         });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get('tab');
+        if (tab) {
+            const targetBtn = document.querySelector(`[data-target="${tab}"]`);
+            const targetPanel = document.getElementById(tab);
+            if (targetBtn && targetPanel) {
+                document.querySelectorAll('.account-panel').forEach(s => s.classList.remove('active'));
+                document.querySelectorAll('[data-target]').forEach(b => b.classList.remove('active'));
+                targetPanel.classList.add('active');
+                targetBtn.classList.add('active');
+            }
+        }
     }
 
 /*-------------------

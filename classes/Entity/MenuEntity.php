@@ -6,8 +6,7 @@ class Menu {
     private float $prix_menu;
     private int $nb_perso_min;
     private string $description;
-    private ?string $img_desktop;
-    private ?string $img_mobile;
+    private ?string $img_menu;
     private ?string $img_uploaded;
     private ?int $quantite_restante;
     private int $actif;
@@ -32,8 +31,7 @@ class Menu {
         $this->nb_perso_min      = (int)$data['nb_perso_min'];
         $this->description       = $data['description'] ?? '';
         $this->quantite_restante = isset($data['quantite_restante']) ? (int)$data['quantite_restante'] : null;
-        $this->img_desktop       = $data['img_desktop'] ?? null;
-        $this->img_mobile        = $data['img_mobile'] ?? null;
+        $this->img_menu       = $data['img_menu'] ?? null;
         $this->img_uploaded      = $data['img_uploaded'] ?? null;
         $this->conditions        = $data['conditions'] ?? null;
         $this->regime            = $data['regime'] ?? null;
@@ -55,8 +53,7 @@ class Menu {
     public function getPrix(): float         { return $this->prix_menu; }
     public function getNbPersoMin(): int     { return $this->nb_perso_min; }
     public function getDescription(): string { return $this->description; }
-    public function getImgDesktop(): ?string  { return $this->img_desktop; }
-    public function getImgMobile(): ?string   { return $this->img_mobile; }
+    public function getImgMenu(): ?string  { return $this->img_menu; }
     public function getImgUploaded(): ?string { return $this->img_uploaded; }
     public function getStock(): ?int         { return $this->quantite_restante; }
     public function isActif(): bool          { return $this->actif === 1; }
@@ -91,13 +88,9 @@ class Menu {
         return round($prix, 2);
     }
 
-    public function getImgDesktopUrl(): string{
-        $img = $this ->img_desktop ?? '';
+    public function getImgMenuUrl(): string{
+        $img = $this ->img_menu ?? '';
         return pathinfo($img, PATHINFO_EXTENSION) ? $img : $img .'.png';
     }
 
-    public function getImgMobileUrl(): string{
-        $img = $this ->img_mobile ?? '';
-        return pathinfo($img, PATHINFO_EXTENSION) ? $img : $img .'.png';
-    }
     }
