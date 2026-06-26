@@ -33,7 +33,7 @@ $avis = $stmtAvis ->fetchAll();
                         <div class="card-overlay-right"></div>
                         <picture class="img-gout">
                             <source media="(min-width:600px)" srcset="./Images/Goût.png">
-                            <img src='Images/Goût.png' alt="Steak grillé - engagement de nos produits de qualité">
+                            <img src='Images/Goût.png' alt="Steak grillé">
                         </picture>
                     </div>
         
@@ -76,7 +76,7 @@ $avis = $stmtAvis ->fetchAll();
                     <h3>Menus Éclats de Fêtes (classique):</h3>
                     <p>Le prestige des grands classiques de Noël sublimé par la truffe et le foie gras.</p>
                     <span> À PARTIR DE 45,90€/ PERSONNE</span>
-                    <a href="./data/menu-detail.php?id=EclatF" arial-label="Ouvre la fênetre du Menu Éclats de Fêtes en détails">Détails du Menu</a>
+                    <a href="./data/menu-detail.php?id=EclatF" aria-label="Détails du Menu Éclats de Fêtes en détails">Détails du Menu</a>
                 </article>
 
                 <article class="menu-card--dark"> 
@@ -87,7 +87,7 @@ $avis = $stmtAvis ->fetchAll();
                     <h3>Menus Renouveau (classique):</h3>
                     <p>La tradition pascale célébrée à travers la tendreté d'un agneau de sept heures.</p>
                     <span> À PARTIR DE 45,90€/ PERSONNE</span>
-                    <a href="./data/menu-detail.php?id=Renouveau" arial-label="Ouvre la fênetre du Menu Renouveau en Détails">Détails du Menu</a>
+                    <a href="./data/menu-detail.php?id=Renouveau" aria-label="Détails du Menu Renouveau en Détails">Détails du Menu</a>
                 </article>
 
                 <article class="menu-card--light"> 
@@ -98,7 +98,7 @@ $avis = $stmtAvis ->fetchAll();
                     <h3>Menus Amour Éternel (Vegan):</h3>
                     <p>Une célébration haute en couleurs et en saveurs pour un mariage éthique et chic.</p>
                     <span> À PARTIR DE 45,90€/ PERSONNE</span>
-                    <a href="./data/menu-detail.php?id=AmourE" arial-label="Ouvre la fênetre du Menu Amour Éternel en détails">Détails du Menu</a>
+                    <a href="./data/menu-detail.php?id=AmourE" aria-label="Détails Menu Amour Éternel en détails">Détails du Menu</a>
                 </article>
 
             </section>

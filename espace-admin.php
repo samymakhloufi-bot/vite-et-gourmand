@@ -50,7 +50,7 @@ $horaires = [];
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2><em> ADMINISTRATEUR </em></h2></div>
+            <h1><em> ADMINISTRATEUR </em></h1></div>
         </div>
 
         <main class="main-espace">

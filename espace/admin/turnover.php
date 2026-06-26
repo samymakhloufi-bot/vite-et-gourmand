@@ -55,7 +55,7 @@ $menus_distincts = $collection->distinct('menu_titre');
 
 <div class="turnover-container">
 
-    <h2>Chiffre d'affaires</h2>
+    <h1>Chiffre d'affaires</h1>
 
     <!-- Filtres -->
     <form method="GET" action="" class="turnover-filters">

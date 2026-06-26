@@ -18,7 +18,6 @@ if (!$menu) {
 <?php include __DIR__ . '/../includes/header.php'; ?>
 
 <main>
-    <h1 class="hidden-h1">Détails du menu <?= htmlspecialchars($menu->getNom()) ?></h1>
     <article class="menu-detail">
         <div class="menu-detail-header">
             <picture>

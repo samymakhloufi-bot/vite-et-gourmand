@@ -78,7 +78,7 @@ if (isset($_POST['commander'])) {
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Ma commande  <em> & livraison </em></h2></div>
+            <h1>Ma commande  <em> & livraison </em></h1></div>
         </div>
 
         <main>

@@ -60,7 +60,7 @@ if (isset($_POST['inscription'])) {
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Rejoignez-nous  <em> & créez votre compte </em></h2></div>
+            <h1>Rejoignez-nous  <em> & créez votre compte </em></h1></div>
         </div>
 
         <main>

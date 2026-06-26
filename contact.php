@@ -65,7 +65,7 @@ if(isset($_POST['submit-contact'])) {
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Parlons de <em> votre événement </em></h2></div>
+            <h1>Parlons de <em> votre événement </em></h1></div>
         </div>
 
         <main>

@@ -29,7 +29,7 @@ $commandes = $commandeRepository->findByUserWithDetails((int) $_SESSION['user_id
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Mon espace <em> & commandes </em></h2></div>
+            <h1>Mon espace <em> & commandes </em></h1></div>
         </div>
 
         

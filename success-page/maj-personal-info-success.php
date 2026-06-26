@@ -14,7 +14,7 @@ require_once '../login.php'
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Bienvenue chez nous<em> & compte créé avec succès </em></h2></div>
+            <h1>Bienvenue chez nous<em> & compte créé avec succès </em></h1></div>
         </div>
 
         <div class="succes-wrapper">

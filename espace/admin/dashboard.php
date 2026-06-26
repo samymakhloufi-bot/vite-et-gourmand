@@ -30,7 +30,7 @@ foreach ($cursor as $doc) {
 
 <div class="dashboard-container">
 
-    <h2>Tableau de bord</h2>
+    <h1>Tableau de bord</h1>
 
     <!-- Bloc stats rapides -->
     <div class="dashboard-stats">

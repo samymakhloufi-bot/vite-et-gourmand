@@ -17,11 +17,10 @@ $nb_pers = 0;
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-                <h2>Nos menus <em>& formules</em></h2>
+                <h1>Nos menus <em>& formules</em></h1>
             </div>
         </div>
     <main>
-        <h1 class="hidden-h1">Nos menus et formules</h1>
         <div class="page-menu-wrapper">
 
             <section class="filters-sidebar">
