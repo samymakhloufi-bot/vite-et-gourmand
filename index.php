@@ -23,7 +23,12 @@ $avis = $stmtAvis ->fetchAll();
         <img src="./Images/baniere_pano.png" class="hero-banner" alt="Bannière Vite & Gourmand avec épices et ingrédients de cuisine">
 
         <main id="main-content" role="main">
-            <h1 class="hidden-h1">Accueil</h1>
+            <div class="nos-menus-banner" id="banner-accueil">
+                <div class="nos-menus-banner_diag"></div>
+                <div class="nos-menus-banner_dark_diag"></div>
+                <div class="nos-menus-banner_text">
+                <h1>Bienvenue sur notre Site</h1></div>
+            </div>
             <section class="history-box">
         
                 <div class="card-gout"> 

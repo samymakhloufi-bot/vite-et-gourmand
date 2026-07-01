@@ -68,19 +68,28 @@ if (!$menu) {
         
 
         <div class="menu-detail-footer">
-            <em class="menu-price">Prix : <?= $menu->getPrix() ?> €/personne / Min : <?= $menu->getNbPersoMin() ?> personnes</em>
+            <div class="menu-condition-footer">
+                <h3>Conditions :</h3>
+                <em class="menu-condition">Prix : <?= $menu->getPrix() ?> €/personne</em>
+                <em class="menu-condition">Min Pers. : <?= $menu->getNbPersoMin() ?> pers.</em>
+            
+                <?php if ($menu->getStock() !== null): ?>
+                    <span class="menu-condition <?= $menu->getStock() <= 3 ? 'stock-low' : '' ?>">
+                    <?= $menu->getStock() > 0 ? $menu->getStock() . ' restant(s)' : 'Épuisé' ?></span>
+                <?php endif; ?>
+
+                <?php if ($menu->getDelaiCommande() !== null): ?>
+                    <span class="menu-condition">Délai de livraison : <?= $menu->getDelaiCommande() ?> jour(s)</span>
+                <?php endif; ?>
+
+            </div>
+
             <form id="form-commande" action="../achat.php" method="POST">
                 <input type="hidden" name="menu_nom" value="<?= htmlspecialchars($menu->getNom()) ?>">
                 <input type="hidden" name="nb_pers" value="1">
                 <input type="hidden" name="menu_id" value="<?= $menu->getId() ?>">
-                <?php if ($menu->getStock() !== null): ?>
-    <span class="menu-stock <?= $menu->getStock() <= 3 ? 'stock-low' : '' ?>">
-        <?= $menu->getStock() > 0 ? $menu->getStock() . ' restant(s)' : 'Épuisé' ?>
-    </span>
-<?php endif; ?>
-
                 <div class="nb-person-menu">
-                    <span>NB.<br>PERSONNES</span>
+                    <span>NOMBRE DE <br>PERSONNES</span>
                     <div class="input-nb-perso">
                         <button type="button" class="counter-btn" onclick="change(this, -1)" aria-label="Diminuer le nombre de personnes">-</button>
                         <input type="number" class="counter-val" name="nb_pers" value="1" min="1">

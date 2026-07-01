@@ -86,7 +86,22 @@ $nb_pers = 0;
                         <h3><?= htmlspecialchars($menu->getNom()) ?></h3>
                         <span><?= $menu->getTheme() ?> - <?= $menu->getRegime() ?></span>
                         <span><?= $menu->getPrix() ?> €/PERS.</span>
+                        
+                        <?php if ($menu->getTheme() === 'casse-croûte' && $menu->getStock() !== null): ?>
+                            <span class="menu-stock <?= $menu->getStock() <= 3 ? 'stock-low' : '' ?>">
+                            <?= $menu->getStock() > 0 
+                            ? $menu->getStock() . ' restant(s)' 
+                            : 'Épuisé' ?>
+                            </span>
+                        <?php endif; ?>
+                        
+
+                        
                         <span><?= $menu->getNbPersoMin() ?> PERS./min</span>
+                        
+                        <?php if ($menu->getDelaiCommande() !== null): ?>
+                            <span class="menu-condition">Délai de livraison : <?= $menu->getDelaiCommande() ?> jour(s)</span>
+                        <?php endif; ?>
                     </div>
                                 
                     <div>
@@ -105,7 +120,13 @@ $nb_pers = 0;
                                     </div>
                                 </div>
                                 <div class="btn-footer-card-menu">
-                                    <button type="submit" class="btn-direct-order">Commander</button>
+                                    <?php $disponible = (int)date('m');
+                                        if(($disponible >= $menu->getMoisDebut()) && ($disponible <= $menu->getMoisFin())): ?>
+                                        <button type="submit" class="btn-direct-order">Commander</button>
+                                    <?php else: ?>
+                                        <button type="submit" class="btn-direct-order" disabled>Indisponible</button>
+                                    <?php endif; ?>
+                                    
                                     <a href="./data/menu-detail.php?id=<?= $menu->getLink() ?>" class="btn-details">Détails</a>
                                 </div>
                             </div>

@@ -13,15 +13,49 @@ if(isset($_POST['toggle-employe'])){
 }
 
 // Création compte
+
 if(isset($_POST['create-employe'])){
-    $mdp_hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $userRepository->createEmploye(
-        $_POST['nom'],
-        $_POST['prenom'],
-        $_POST['email'],
-        $mdp_hashed
-    );
-    $employes = $userRepository->findAllEmployes();
+    if($userRepository->emailExists($_POST['email'])){
+        $error_employe = "Cet email est déjà utilisé.";
+    } else {
+        $mdp_hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $userRepository->createEmploye(
+            $_POST['nom'],
+            $_POST['prenom'],
+            $_POST['email'],
+            $mdp_hashed
+        );
+
+        // Mail de notification
+        require_once __DIR__ . '/../../vendor/autoload.php';
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'samymakhloufi@gmail.com';
+            $mail->Password   = MAIL_PASS;
+            $mail->SMTPSecure = 'tls';
+            $mail->Port       = 587;
+            $mail->CharSet    = 'UTF-8';
+            $mail->setFrom('samymakhloufi@gmail.com', 'Vite et Gourmand');
+            $mail->addAddress($_POST['email']);
+            $mail->Subject = 'Bienvenue dans l\'équipe Vite & Gourmand';
+            $mail->isHTML(true);
+            $mail->Body = "
+                <p>Bonjour " . htmlspecialchars($_POST['prenom']) . ",</p>
+                <p>Un compte employé vient d'être créé pour vous sur l'application Vite & Gourmand.</p>
+                <p>Pour obtenir votre mot de passe, merci de vous rapprocher de votre administrateur.</p>
+                <p>À très bientôt,<br>L'équipe Vite & Gourmand</p>
+            ";
+            $mail->send();
+        } catch (Exception $e) {
+            error_log('Mail employé error : ' . $e->getMessage());
+        }
+
+        $employes = $userRepository->findAllEmployes();
+        $success_employe = "Compte employé créé avec succès.";
+    }
 }
 ?>
 

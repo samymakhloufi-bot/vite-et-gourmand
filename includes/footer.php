@@ -34,11 +34,10 @@
                 $informations = $stmt_info->fetch();
                 ?>
 
-                <address>
-                    <address>
+                    
                 <p><?= $informations['adresse'] ?? '42 Rue du Pas-Saint-Georges, 33000 Bordeaux' ?></p>
-            </address>
-                </address>
+                
+                
 
 
                 <ul>

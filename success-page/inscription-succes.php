@@ -2,7 +2,7 @@
 require_once '../login.php'
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <?php include '../includes/head.php'; ?>
 
     <body>

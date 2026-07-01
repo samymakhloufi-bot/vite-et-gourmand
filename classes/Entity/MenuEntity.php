@@ -22,6 +22,9 @@ class Menu {
     private ?string $dessert;
     private ?string $dessert_description;
     private ?string $allergene;
+    private ?int $mois_debut;
+    private ?int $mois_fin;
+    private ?int $delai_commande;
 
 
     public function __construct(array $data) {
@@ -45,6 +48,9 @@ class Menu {
         $this->dessert           = $data['dessert']?? null;
         $this->dessert_description = $data['dessert_description']?? null;
         $this->allergene         = $data['allergene']?? null;
+        $this->mois_debut         = $data['mois_debut'] ??  null;
+        $this->mois_fin           = $data['mois_fin'] ?? null;
+        $this->delai_commande      = $data['delai_commande_jours'] ?? null;
     
         }
 
@@ -69,6 +75,9 @@ class Menu {
     public function getDessertDescription(): ?string     { return $this->dessert_description;}
     public function getBoisson(): ?string     { return $this->boisson;}
     public function getAllergene(): ?string     { return $this->allergene;}
+    public function getMoisDebut(): ?int     { return $this->mois_debut; }
+    public function getMoisFin(): ?int     { return $this->mois_fin; }
+    public function getDelaiCommande(): ?int     { return $this->delai_commande; }
 
 
     public function hasStock(): bool {

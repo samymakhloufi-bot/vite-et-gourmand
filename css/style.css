@@ -367,6 +367,11 @@ button >*{
     object-position: center;
 }
 
+#banner-accueil{
+    align-items: center;
+    justify-items: center;
+}
+
 /*-----------------------
     6. Box Goût + Passion
 -------------------------*/
@@ -1216,6 +1221,23 @@ textarea{
     height: 7rem;
 }
 
+.info-menu h3{
+    font-size: 1rem;
+    font-weight: 700;
+    color: black;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.info-menu span {
+    display: flex;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--bordeaux);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
 .nb-person, .nb-person-menu{
     display: flex;
     border: 1px solid var(--bordeaux-dark-dark);
@@ -1481,6 +1503,21 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 .order-menu-btn{
     display: flex;
     justify-content: center;
+}
+
+.menu-detail-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.menu-condition-footer{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
 }
 
 /*------------------------

@@ -212,18 +212,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `nom`, `prenom`, `email`, `password`, `tel`, `code_postal`, `adresse`, `ville`, `complement_adresse`, `created_at`, `role`, `actif`, `remember_token`, `reset_token`, `reset_token_expiry`) VALUES
-(55, 'Nom_admin', 'Prénom_admin', 'admin@vite-et-gourmand.fr', '$2y$10$j.UcB3mTfgkgABklHECaz.bWXp2gS2H2z2KPYn6dZy6zf5HoshOji', '01.01.01.01.01', '99999', 'rue de l\'adminstrateur', 'Administrateur', NULL, '2026-06-22 11:27:26', 'admin', 1, '94ec2a93ac81312e53f550a916aea2603da45038f08e635bf4f6a0cc7c4155b8', NULL, NULL),
-(56, 'Nom_employé', 'Prénom_employé', 'employe@vite-et-gourmand.fr', '$2y$10$PzpLB0Ad0YaqV309I/ftieoP9R85rI5JZK1LkTu/6nHuyqUvH52CO', NULL, NULL, NULL, NULL, NULL, '2026-06-22 11:28:42', 'employe', 1, NULL, NULL, NULL),
-(57, 'Nom_user', 'Prénom_user', 'user@vite-et-gourmand.fr', '$2y$10$F1vqYg0D15spzk4TlokmFeRbzAC9086WqVlwmohC1mLFgYAkasbrW', '02.02.02.02.02', '99999', 'chez l\'utilisateur', 'User', NULL, '2026-06-22 11:30:36', 'user', 1, NULL, NULL, NULL),
-(58, 'Employé_Nom', 'Employé_Prénom', 'employe1@vite-et-gourmand.fr', '$2y$10$77oO3CH0Ni034x.FTROM1epBTvxZOJlSeDG8KC23PR1F1mUWLwEAu', NULL, NULL, NULL, NULL, NULL, '2026-06-25 07:56:15', 'employe', 1, NULL, NULL, NULL),
-(59, 'Employé_2', 'Employé_Nom2', 'employe2@vite-et-gourmand.fr', '$2y$10$Xs6Fa9uO9YzeZsnXTF4OBuHPh5gvwiWNlCGiYiAJOSeSZVSTLLfpy', NULL, NULL, NULL, NULL, NULL, '2026-06-25 08:00:36', 'employe', 1, NULL, NULL, NULL),
-(60, 'Employe_3', 'Employé_Prénom3', 'employe3@vite-et-gourmand.fr', '$2y$10$BqlipGAy3vw4IIZZGtKgN.WWf4IX1NQ2yz5MOnas0nfTt0EiUF8k2', NULL, NULL, NULL, NULL, NULL, '2026-06-25 08:32:46', 'employe', 0, NULL, NULL, NULL),
-(62, 'Employé_4', '4_Employé', 'employe4@vite-et-gourmand.fr', '$2y$10$x/UZJYR1j1ltBydjaj71iu4Rm0tfrwUxBfCyn1.IBfM0YH0aIuSQu', NULL, NULL, NULL, NULL, NULL, '2026-06-25 08:33:52', 'employe', 1, NULL, NULL, NULL),
-(63, 'Employé_5', '5_Employé', 'employe5@vite-et-gourmand.fr', '$2y$10$MJZSFpDQnavJa4k3SCq8W.7v.OOHV/z8TigpOzp31as599sFn7JE.', NULL, NULL, NULL, NULL, NULL, '2026-06-25 08:41:17', 'employe', 0, NULL, NULL, NULL),
-(65, 'Employé_6', '6_Employé', 'employe6@vite-et-gourmand.fr', '$2y$10$ROqYM5Ne6rnqy5o6.nh1..HA/iXgOB7XZ55ZvSH00xNs7rPCzKFiG', NULL, NULL, NULL, NULL, NULL, '2026-06-25 08:44:02', 'employe', 1, NULL, NULL, NULL),
-(66, 'Employé_7', '7_Employe', 'employe7@vite-et-gourmand.fr', '$2y$10$WRkg5/LWwtiZwYSuvPSuAOnJausW2ntKkqINldrTWWF63IbVlhRLG', NULL, NULL, NULL, NULL, NULL, '2026-06-25 08:45:17', 'employe', 1, NULL, NULL, NULL),
-(68, 'Employé_8', '8_Employé', 'employe8@vite-et-gourmand.fr', '$2y$10$rYqbv1P2Kp0p.U9K1w20fee1maGFyd9LgqlpJzB8M7I6IyDXgNY/q', NULL, NULL, NULL, NULL, NULL, '2026-06-25 08:46:53', 'employe', 0, NULL, NULL, NULL),
-(72, 'Employé_9', '9_Employé', 'employe9@vite-et-gourmand.fr', '$2y$10$eByF/.fUV0/oEjFUfqgYwu9VgcECflujez5b1p4DcqA6wLiWnUJ2C', NULL, NULL, NULL, NULL, NULL, '2026-06-25 09:03:08', 'employe', 0, NULL, NULL, NULL);
+(1, 'Nom_admin', 'Prénom_admin', 'admin@vite-et-gourmand.fr', '$2y$10$j.UcB3mTfgkgABklHECaz.bWXp2gS2H2z2KPYn6dZy6zf5HoshOji', '01.01.01.01.01', '99999', 'rue de l\'adminstrateur', 'Administrateur', NULL, '2026-06-22 11:27:26', 'admin', 1, '94ec2a93ac81312e53f550a916aea2603da45038f08e635bf4f6a0cc7c4155b8', NULL, NULL),
+(2, 'Nom_employé', 'Prénom_employé', 'employe@vite-et-gourmand.fr', '$2y$10$PzpLB0Ad0YaqV309I/ftieoP9R85rI5JZK1LkTu/6nHuyqUvH52CO', NULL, NULL, NULL, NULL, NULL, '2026-06-22 11:28:42', 'employe', 1, NULL, NULL, NULL),
+(3, 'Nom_user', 'Prénom_user', 'user@vite-et-gourmand.fr', '$2y$10$F1vqYg0D15spzk4TlokmFeRbzAC9086WqVlwmohC1mLFgYAkasbrW', '02.02.02.02.02', '99999', 'chez l\'utilisateur', 'User', NULL, '2026-06-22 11:30:36', 'user', 1, NULL, NULL, NULL),
 
 --
 -- Indexes for dumped tables
