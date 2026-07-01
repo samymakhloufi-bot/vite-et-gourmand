@@ -17,20 +17,27 @@ foreach ($avis as $a) {
 
 // CA du mois depuis MongoDB
 require_once __DIR__ . '/../../includes/mongodb.php';
-$debut_mois = new MongoDB\BSON\UTCDateTime(
-    (new DateTime('first day of this month 00:00:00'))->getTimestamp() * 1000
-);
-$cursor = $mongoDB->selectCollection('commandes_stats')->find([
-    'date' => ['$gte' => $debut_mois]
+    $debut_mois_ts = (new DateTime('first day of this month 00:00:00'))->getTimestamp() * 1000;
+
+$result = mongoRequest('find', [
+    'filter' => [
+        'date' => [
+            '$gte' => [
+                '$date' => ['$numberLong' => (string)$debut_mois_ts]
+            ]
+        ]
+    ]
 ]);
-foreach ($cursor as $doc) {
+
+foreach ($result['documents'] ?? [] as $doc) {
     $ca_mois += (float)$doc['montant_total'];
 }
+
 ?>
 
 <div class="dashboard-container">
 
-    <h1>Tableau de bord</h1>
+    <h2>Tableau de bord</h2>
 
     <!-- Bloc stats rapides -->
     <div class="dashboard-stats">
@@ -88,6 +95,7 @@ foreach ($cursor as $doc) {
                         </tbody>
                     </table>
                 </div>
+                <a href="<?= BASE_URL ?>/espace-employe.php" class="btn-voir-tout">Gérer les commandes →</a>
             <?php endif; ?>
         </div>
 
@@ -139,6 +147,7 @@ foreach ($cursor as $doc) {
                         </tbody>
                     </table>
                 </div>
+                    <a href="<?= BASE_URL ?>/espace-employe.php" class="btn-voir-tout">Gérer les commandes →</a>
             <?php endif; ?>
         </div>
         
@@ -150,6 +159,7 @@ foreach ($cursor as $doc) {
                 <p class="empty-msg">Aucun avis en attente de modération.</p>
             <?php else: ?>
                 <p>Vous avez <strong><?= $nb_avis_attente ?></strong> avis en attente de modération.</p>
+                <a href="<?= BASE_URL ?>/espace-employe.php" class="btn-voir-tout">Modérer les avis →</a>
             <?php endif; ?>
         </div>
     </div>

@@ -1836,7 +1836,6 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     width: 100%;
     padding: 0.5rem;
     background-color: #fff;
-    border-radius: 0.35rem;
     border: 1.5px solid var(--bordeaux);
 }
 
@@ -2770,7 +2769,11 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
     margin : 0.5rem 0.75rem 0.5rem 0;
 }
 
-.personal-info,.personal-info-contact{
+.personal-info{
+    display : grid;
+    grid-template-columns: 1fr;
+}
+.personal-info-contact{
     display : grid;
     grid-template-columns: 1fr;
     margin-bottom: 1rem;
