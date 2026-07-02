@@ -2,7 +2,7 @@
 require_once '../login.php'
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <?php include '../includes/head.php'; ?>
 
     <body>
@@ -14,7 +14,7 @@ require_once '../login.php'
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Merci pour<em> votre commande </em></h2></div>
+            <h1>Merci pour<em> votre commande </em></h1></div>
         </div>
 
         <div class="succes-wrapper">

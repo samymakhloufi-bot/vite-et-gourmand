@@ -17,7 +17,7 @@ session_start();
                 <div class="nos-menus-banner_diag"></div>
                 <div class="nos-menus-banner_dark_diag"></div>
                 <div class="nos-menus-banner_text">
-                <h2>Conditions Générales de <em>Ventes</em></h2></div>
+                <h1>Conditions Générales de <em>Ventes</em></h1></div>
             </div>
 
             <div class="information-wrapper">

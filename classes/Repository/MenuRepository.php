@@ -9,14 +9,15 @@ class MenuRepository {
         $this->pdo = $pdo;
     }
 
-    private function hydrate(?array $data): ?Menu {
-        if (!$data) return null;
-        return new Menu($data);
-    }
+    private function hydrate(array|false|null $data): ?Menu{
+    if(!$data) return null;
+    return new Menu($data);
+}
 
-    private function hydrateAll(array $rows): array {
-        return array_map(fn($row) => new Menu($row), $rows);
-    }
+    private function hydrateAll(array|false|null $rows): array {
+    if(!$rows) return [];
+    return array_map(fn($row) => new Menu($row), $rows);
+}
 
     public function findAll(bool $actifOnly = true): array {
         $sql = "SELECT * FROM menu";
@@ -37,13 +38,15 @@ class MenuRepository {
     public function findById(int $id): ?Menu {
         $stmt = $this->pdo->prepare("SELECT * FROM menu WHERE Id_menu = ?");
         $stmt->execute([$id]);
-        return $this->hydrate($stmt->fetch());
+        $data = $stmt ->fetch(PDO::FETCH_ASSOC);
+        return $this->hydrate($data);
     }
 
     public function findByLink(string $link): ?Menu {
         $stmt = $this->pdo->prepare("SELECT * FROM menu WHERE link = ? AND actif = 1 ");
         $stmt->execute([$link]);
-        return $this->hydrate($stmt->fetch());
+        $data = $stmt ->fetch(PDO::FETCH_ASSOC);
+        return $this->hydrate($data);
     }
 
     public function findByFilters(array $filters): array {

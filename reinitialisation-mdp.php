@@ -66,7 +66,7 @@ if(isset($_POST['reset-password'])) {
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Réinitialisation de votre <em> mot de passe </em></h2></div>
+            <h1>Réinitialisation de votre <em> mot de passe </em></h1></div>
         </div>
         
         <main>

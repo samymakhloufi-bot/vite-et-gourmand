@@ -53,7 +53,7 @@
                                         
                                         <div class="info-row">
                                             <label class="info-label">TOTAL :</label>
-                                            <span class="info-val"><?= htmlspecialchars($commande['prix']) ?></span>
+                                            <span class="info-val"><?= htmlspecialchars($commande['prix']) ?>€</span>
                                         </div>
                                         
                                         <div class="info-row">

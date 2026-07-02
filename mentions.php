@@ -16,7 +16,7 @@ require_once './login.php';
                 <div class="nos-menus-banner_diag"></div>
                 <div class="nos-menus-banner_dark_diag"></div>
                 <div class="nos-menus-banner_text">
-                <h2>Mentions <em>LÉGALES</em></h2></div>
+                <h1>Mentions <em>LÉGALES</em></h1></div>
             </div>
 
             <div class="information-wrapper">

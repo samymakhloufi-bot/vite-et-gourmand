@@ -17,11 +17,10 @@ $nb_pers = 0;
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-                <h2>Nos menus <em>& formules</em></h2>
+                <h1>Nos menus <em>& formules</em></h1>
             </div>
         </div>
     <main>
-        <h1 class="hidden-h1">Nos menus et formules</h1>
         <div class="page-menu-wrapper">
 
             <section class="filters-sidebar">
@@ -80,15 +79,29 @@ $nb_pers = 0;
                     data-nb-max="<?= $menu->getNbPersoMin() ?>">
                                 
                     <picture>
-                        <source media="(min-width:750px)" srcset="./Images/<?= $menu->getImgDesktopUrl() ?>">
-                        <img src="./Images/img/<?= $menu->getImgMobileUrl() ?>" alt="<?= htmlspecialchars($menu->getNom()) ?>">
+                        <img src="./Images/<?= $menu->getImgMenuUrl() ?>" alt="<?= htmlspecialchars($menu->getNom()) ?>">
                     </picture>
                                 
                     <div class="info-menu">
                         <h3><?= htmlspecialchars($menu->getNom()) ?></h3>
                         <span><?= $menu->getTheme() ?> - <?= $menu->getRegime() ?></span>
                         <span><?= $menu->getPrix() ?> €/PERS.</span>
+                        
+                        <?php if ($menu->getTheme() === 'casse-croûte' && $menu->getStock() !== null): ?>
+                            <span class="menu-stock <?= $menu->getStock() <= 3 ? 'stock-low' : '' ?>">
+                            <?= $menu->getStock() > 0 
+                            ? $menu->getStock() . ' restant(s)' 
+                            : 'Épuisé' ?>
+                            </span>
+                        <?php endif; ?>
+                        
+
+                        
                         <span><?= $menu->getNbPersoMin() ?> PERS./min</span>
+                        
+                        <?php if ($menu->getDelaiCommande() !== null): ?>
+                            <span class="menu-condition">Délai de livraison : <?= $menu->getDelaiCommande() ?> jour(s)</span>
+                        <?php endif; ?>
                     </div>
                                 
                     <div>
@@ -107,7 +120,13 @@ $nb_pers = 0;
                                     </div>
                                 </div>
                                 <div class="btn-footer-card-menu">
-                                    <button type="submit" class="btn-direct-order">Commander</button>
+                                    <?php $disponible = (int)date('m');
+                                        if(($disponible >= $menu->getMoisDebut()) && ($disponible <= $menu->getMoisFin())): ?>
+                                        <button type="submit" class="btn-direct-order">Commander</button>
+                                    <?php else: ?>
+                                        <button type="submit" class="btn-direct-order" disabled>Indisponible</button>
+                                    <?php endif; ?>
+                                    
                                     <a href="./data/menu-detail.php?id=<?= $menu->getLink() ?>" class="btn-details">Détails</a>
                                 </div>
                             </div>

@@ -38,7 +38,7 @@ $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Mon espace <em> employé </em></h2></div>
+            <h1>Mon espace <em> employé </em></h1></div>
         </div>
 
         <main>

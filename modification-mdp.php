@@ -46,7 +46,7 @@ $activePage = 'Changement de mot de passe';
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Nouveau <em>Mot de Passe </em></h2></div>
+            <h1>Nouveau <em>Mot de Passe </em></h1></div>
         </div>
             <section class="auth-wrapper">
                 <div class="msg-password">

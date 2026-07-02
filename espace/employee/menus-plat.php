@@ -12,7 +12,7 @@
 </div>
 <div id="menus-list">
     <?php foreach ($menus as $menu): 
-        $img = $menu['img_desktop'];
+        $img = $menu['img_menu'];
         $src = str_contains($img, '.') ? $img : $img . '.png';
     ?>
     <div class="menu-card" data-nom="<?= strtolower(htmlspecialchars($menu['menu_nom'])) ?>">

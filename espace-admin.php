@@ -1,6 +1,6 @@
 <?php $activePage = 'espace admin'; 
 
-$activeTab = $_GET['tab'] ?? 'dashboard';
+$activeTab = $_GET['tab'] ?? 'dashboard-wrapper';
 
 require_once './login.php';
 if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin'])) {
@@ -50,7 +50,7 @@ $horaires = [];
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2><em> ADMINISTRATEUR </em></h2></div>
+            <h1><em> ADMINISTRATEUR </em></h1></div>
         </div>
 
         <main class="main-espace">
@@ -59,39 +59,40 @@ $horaires = [];
                 
                 <div class="sidebar-espace">
 
-                    <button type="button" class="btn-dashboard <?= $activeTab ==='dashboard' ? 'active' : ''?>" data-target="dashboard-wrapper" aria-selected="Tableau de Bord">Tableau de Bord</button>
-                    <button type="button" class="btn-employee <?= $activeTab ==='employe' ? 'active' : ''?>" data-target="employee-wrapper" aria-selected="Employés">Employés</button>
-                    <button type="button" class="btn-turnover <?= $activeTab ==='turnover' ? 'active' : ''?>" data-target="turnover-wrapper" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button><button type="button" class="btn-commande" data-target="commandes-wrapper" aria-selected="commandes">Les Commandes</button>
-                    <button type="button" class="btn-menus" data-target="menus-plat" aria-selected="Menus et plats">Menus & Plats</button>
-                    <button type="button" class="btn-avis" data-target="moderation-avis" aria-selected="Modération Avis">Modération Avis</button>
-                    <button type="button" class="btn-horaires" data-target="horaires" aria-selected="Horaires">Horaires</button>
+                    <button type="button" class="btn-dashboard <?= $activeTab ==='dashboard-wrapper' ? 'active' : ''?>" data-target="dashboard-wrapper" aria-selected="Tableau de Bord">Tableau de Bord</button>
+                    <button type="button" class="btn-employee <?= $activeTab ==='employee-wrapper' ? 'active' : ''?>" data-target="employee-wrapper" aria-selected="Employés">Employés</button>
+                    <button type="button" class="btn-turnover <?= $activeTab ==='turnover-wrapper' ? 'active' : ''?>" data-target="turnover-wrapper" aria-selected="Chiffre d'affaires">Chiffre d'affaires</button>
+                    <button type="button" class="btn-commande <?= $activeTab ==='commande-wrapper' ? 'active' : ''?>" data-target="commandes-wrapper" aria-selected="commandes">Les Commandes</button>
+                    <button type="button" class="btn-menus <?= $activeTab ==='menus' ? 'active' : ''?>" data-target="menus-plat" aria-selected="Menus et plats">Menus & Plats</button>
+                    <button type="button" class="btn-avis <?= $activeTab ==='avis' ? 'active' : ''?>" data-target="moderation-avis" aria-selected="Modération Avis">Modération Avis</button>
+                    <button type="button" class="btn-horaires <?= $activeTab ==='horaires' ? 'active' : ''?>" data-target="horaires" aria-selected="Horaires">Horaires</button>
                 </div>
 
-                <section id="dashboard-wrapper" class="account-panel <?= $activeTab ==='dashboard' ? 'active' : ''?>">
+                <section id="dashboard-wrapper" class="account-panel <?= $activeTab ==='dashboard-wrapper' ? 'active' : ''?>">
                         <?php include './espace/admin/dashboard.php' ?>
                 </section>
                 
-                <section id="employee-wrapper" class="account-panel <?= $activeTab ==='employe' ? 'active' : ''?>">
+                <section id="employee-wrapper" class="account-panel <?= $activeTab ==='employee-wrapper' ? 'active' : ''?>">
                         <?php include './espace/admin/employe.php' ?>
                 </section>
                 
-                <section id="turnover-wrapper" class="account-panel <?= $activeTab ==='turnover' ? 'active' : ''?>">
+                <section id="turnover-wrapper" class="account-panel <?= $activeTab ==='turnover-wrapper' ? 'active' : ''?>">
                         <?php include './espace/admin/turnover.php' ?>
                 </section>
 
-                <section id="commandes-wrapper" class="account-panel active">
+                <section id="commandes-wrapper" class="account-panel <?= $activeTab ==='commande-wrapper' ? 'active' : ''?>">
                     <?php include './espace/employee/commande.php' ?>
                 </section>
 
-                <section id="menus-plat" class="account-panel">
+                <section id="menus-plat" class="account-panel <?= $activeTab ==='menus-plat' ? 'active' : ''?>">
                         <?php include './espace/employee/menus-plat.php' ?>
                 </section>
 
-                <section id="moderation-avis" class="account-panel">
+                <section id="moderation-avis" class="account-panel <?= $activeTab ==='moderation-avis' ? 'active' : ''?>">
                         <?php include './espace/employee/avis.php' ?>
                 </section>
                 
-                <section id="horaires" class="account-panel">
+                <section id="horaires" class="account-panel <?= $activeTab ==='horaires' ? 'active' : ''?>">
                     <?php include './espace/employee/horaires.php' ?>
                 </section>
             </div>

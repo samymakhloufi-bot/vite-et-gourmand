@@ -78,7 +78,7 @@ if (isset($_POST['commander'])) {
             <div class="nos-menus-banner_diag"></div>
             <div class="nos-menus-banner_dark_diag"></div>
             <div class="nos-menus-banner_text">
-            <h2>Ma commande  <em> & livraison </em></h2></div>
+            <h1>Ma commande  <em> & livraison </em></h1></div>
         </div>
 
         <main>
@@ -147,9 +147,10 @@ if (isset($_POST['commander'])) {
                 
                         <fieldset class="livraison">
                             <h3>LIVRAISON</h3>
-                            <div >
+                            <div>
                                 <label for="date">Date de livraison :</label>
-                                <input type="date" id="date" name="date" required>
+                                <input type="date" id="date" name="date" required data-delai="<?= $menu->getDelaiCommande() ?>">
+                                <span id="dateError" style="color: red; display: none;">La date doit être ≥ aujourd'hui + X jours</span>
                             </div>
 
                             <div>

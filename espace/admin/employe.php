@@ -1,34 +1,62 @@
 <?php
 
-//Initialisation $employe
-$stmt_employes = $pdo->query("SELECT id_user, nom, prenom, email, actif FROM users WHERE role ='employe' ");
-$employes = $stmt_employes->fetchAll();
+require_once __DIR__ . '/../../classes/Repository/UserRepository.php';
+$userRepository = new UserRepository($pdo);
 
-//Modération compte
+// Récupération employés
+$employes = $userRepository->findAllEmployes();
+
+// Modération compte
 if(isset($_POST['toggle-employe'])){
-    $stmt = $pdo->prepare("UPDATE users SET actif = ? WHERE id_user = ? AND role ='employe' ");
-    $stmt -> execute([$_POST['actif'], $_POST['id_user']]);
-
-    header('Location:' . BASE_URL . '/espace-admin.php?tab=employe');
-    exit();
+    $userRepository->toggleActif((int)$_POST['id_user'], (int)$_POST['actif']);
+    $employes = $userRepository->findAllEmployes();
 }
 
-//Mise à jour table
-$stmt_employes = $pdo->query("SELECT id_user, nom, prenom, email, actif FROM users WHERE role ='employe' ");
-$employes = $stmt_employes->fetchAll();
-    
-//Création compte
-if(isset($_POST['create-employe'])){
-    $mdp_hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
+// Création compte
 
-    $stmt = $pdo->prepare("INSERT INTO users(nom,prenom, email,password,role)
-                    VALUES(?,?,?,?,'employe')");
-    $stmt ->execute([$_POST['nom'],$_POST['prenom'],$_POST['email'],$mdp_hashed]);
-    
-    
-    header('Location:' . BASE_URL . '/espace-admin.php?tab=employe');
-    exit();
+if(isset($_POST['create-employe'])){
+    if($userRepository->emailExists($_POST['email'])){
+        $error_employe = "Cet email est déjà utilisé.";
+    } else {
+        $mdp_hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $userRepository->createEmploye(
+            $_POST['nom'],
+            $_POST['prenom'],
+            $_POST['email'],
+            $mdp_hashed
+        );
+
+        // Mail de notification
+        require_once __DIR__ . '/../../vendor/autoload.php';
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'samymakhloufi@gmail.com';
+            $mail->Password   = MAIL_PASS;
+            $mail->SMTPSecure = 'tls';
+            $mail->Port       = 587;
+            $mail->CharSet    = 'UTF-8';
+            $mail->setFrom('samymakhloufi@gmail.com', 'Vite et Gourmand');
+            $mail->addAddress($_POST['email']);
+            $mail->Subject = 'Bienvenue dans l\'équipe Vite & Gourmand';
+            $mail->isHTML(true);
+            $mail->Body = "
+                <p>Bonjour " . htmlspecialchars($_POST['prenom']) . ",</p>
+                <p>Un compte employé vient d'être créé pour vous sur l'application Vite & Gourmand.</p>
+                <p>Pour obtenir votre mot de passe, merci de vous rapprocher de votre administrateur.</p>
+                <p>À très bientôt,<br>L'équipe Vite & Gourmand</p>
+            ";
+            $mail->send();
+        } catch (Exception $e) {
+            error_log('Mail employé error : ' . $e->getMessage());
+        }
+
+        $employes = $userRepository->findAllEmployes();
+        $success_employe = "Compte employé créé avec succès.";
     }
+}
 ?>
 
 <div id="create-employe-panel" >

@@ -9,7 +9,7 @@
                 </div>
                 
                 <nav class="nav-menu">
-                    <button aria-label="Ouvrir le menu"  class="burger-btn"> ☰ </button>
+                    <button aria-label="Ouvrir le menu"  class="burger-btn" aria-expanded="false" aria-controls="nav-list"> ☰ </button>
                     <ul class="nav-list"> 
                         <li> <a href="<?= BASE_URL ?>/index.php" class="<?php echo $activePage ==='Accueil' ? 'nav-active' : '' ;?>" >Accueil</a></li>
                         <li> <a href="<?= BASE_URL ?>/nos-menus.php" class="<?php echo $activePage ==='Nos Menus' ? 'nav-active' : '' ;?>">Nos Menus</a></li>

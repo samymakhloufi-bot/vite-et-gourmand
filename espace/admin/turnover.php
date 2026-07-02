@@ -2,14 +2,12 @@
 
 require_once __DIR__ . '/../../includes/mongodb.php';
 
-$collection = $mongoDB->selectCollection('commandes_stats');
-
 // Récupération filtres
 $filtre_menu  = $_GET['filtre_menu'] ?? '';
 $date_debut   = $_GET['date_debut'] ?? '';
 $date_fin     = $_GET['date_fin'] ?? '';
 
-// Construction du filtre MongoDB
+// Construction du filtre
 $filtre = [];
 
 if (!empty($filtre_menu)) {
@@ -19,19 +17,20 @@ if (!empty($filtre_menu)) {
 if (!empty($date_debut) || !empty($date_fin)) {
     $filtre['date'] = [];
     if (!empty($date_debut)) {
-        $filtre['date']['$gte'] = new MongoDB\BSON\UTCDateTime(
-            (new DateTime($date_debut))->getTimestamp() * 1000
-        );
+        $filtre['date']['$gte'] = [
+            '$date' => ['$numberLong' => (string)((new DateTime($date_debut))->getTimestamp() * 1000)]
+        ];
     }
     if (!empty($date_fin)) {
-        $filtre['date']['$lte'] = new MongoDB\BSON\UTCDateTime(
-            (new DateTime($date_fin . ' 23:59:59'))->getTimestamp() * 1000
-        );
+        $filtre['date']['$lte'] = [
+            '$date' => ['$numberLong' => (string)((new DateTime($date_fin . ' 23:59:59'))->getTimestamp() * 1000)]
+        ];
     }
 }
 
 // Récupération des documents
-$documents = $collection->find($filtre)->toArray();
+$result = mongoRequest('find', ['filter' => $filtre]);
+$documents = $result['documents'] ?? [];
 
 // Calculs
 $ca_total = 0;
@@ -50,16 +49,16 @@ foreach ($documents as $doc) {
 }
 
 // Liste menus distincts pour le filtre
-$menus_distincts = $collection->distinct('menu_titre');
+$result_distincts = mongoRequest('distinct', ['key' => 'menu_titre', 'query' => []]);
+$menus_distincts = $result_distincts['values'] ?? [];
 ?>
 
 <div class="turnover-container">
 
-    <h2>Chiffre d'affaires</h2>
+    <h1>Chiffre d'affaires</h1>
 
-    <!-- Filtres -->
     <form method="GET" action="" class="turnover-filters">
-        <input type="hidden" name="tab" value="turnover">
+        <input type="hidden" name="tab" value="turnover-wrapper">
         
         <div>
             <label for="filtre_menu">Menu :</label>
@@ -87,22 +86,20 @@ $menus_distincts = $collection->distinct('menu_titre');
         </div>
 
         <button type="submit">Filtrer</button>
-        <a href="espace-admin.php">Réinitialiser</a>
+        <a href="?tab=turnover-wrapper">Réinitialiser</a>
     </form>
 
-    <!-- CA Total -->
     <div class="ca-total">
         <span>CA total</span>
         <strong><?= number_format($ca_total, 2, ',', ' ') ?> €</strong>
     </div>
 
-    <!-- Tableau par menu -->
     <table class="turnover-table">
         <thead>
             <tr>
-                <th>Menu</th>
-                <th>Nb commandes</th>
-                <th>CA généré</th>
+                <th scope="col">Menu</th>
+                <th scope="col">Nb commandes</th>
+                <th scope="col">CA généré</th>
             </tr>
         </thead>
         <tbody>
@@ -116,7 +113,6 @@ $menus_distincts = $collection->distinct('menu_titre');
         </tbody>
     </table>
 
-    <!-- Graphique -->
     <canvas id="chartCommandes"></canvas>
 </div>
 

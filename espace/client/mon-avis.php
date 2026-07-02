@@ -1,7 +1,7 @@
 
 <span class="toast" id="toast-avis"></span>
 
-<h2>Votre avis compte pour nous !</h2>
+<h1>Votre avis compte pour nous !</h1>
 
 <form action="<?= BASE_URL ?>/traitement/submit-avis.php" method="post" id="form-avis">
     <textarea name="contenu" placeholder=" Donner votre avis ...." required></textarea>
