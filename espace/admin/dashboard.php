@@ -29,6 +29,7 @@ $result = mongoRequest('find', [
     ]
 ]);
 
+
 foreach ($result['documents'] ?? [] as $doc) {
     $ca_mois += (float)$doc['montant_total'];
 }
