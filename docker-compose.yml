@@ -11,9 +11,11 @@ services:
       - .:/var/www/html
     depends_on:
       - db
+      - mongo
 
   db:
     image: mysql:8.0
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_ai_ci
     ports:
       - "3307:3306"
     environment:
@@ -21,9 +23,24 @@ services:
       MYSQL_DATABASE: vite_gourmand
       MYSQL_USER: vite_user
       MYSQL_PASSWORD: vite_pass
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     volumes:
       - db_data:/var/lib/mysql
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - mongo_data:/data/db
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -37,3 +54,4 @@ services:
 
 volumes:
   db_data:
+  mongo_data:

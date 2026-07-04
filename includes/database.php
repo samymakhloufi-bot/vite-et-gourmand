@@ -19,7 +19,7 @@ class Database {
             $env = parse_ini_file($envFile);
             try {
                 self::$instance = new PDO(
-                    "mysql:host={$env['DB_HOST']};dbname={$env['DB_NAME']};charset=utf8",
+                    "mysql:host={$env['DB_HOST']};dbname={$env['DB_NAME']};charset=utf8mb4",
                     $env['DB_USERNAME'],
                     $env['DB_PASSWORD']
                 );
