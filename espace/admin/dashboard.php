@@ -86,7 +86,6 @@ foreach ($cursor as $doc) {
                         </tbody>
                     </table>
                 </div>
-                <a href="<?= BASE_URL ?>/espace-employe.php" class="btn-voir-tout">Gérer les commandes →</a>
             <?php endif; ?>
         </div>
 
