@@ -1,41 +1,35 @@
 <?php
 
 require_once __DIR__ . '/../../includes/mongodb.php';
+$collection = getMongoCollection();
 
-// Récupération filtres
+// 1. Récupération des filtres
 $filtre_menu  = $_GET['filtre_menu'] ?? '';
 $date_debut   = $_GET['date_debut'] ?? '';
 $date_fin     = $_GET['date_fin'] ?? '';
 
-// Construction du filtre
-$filtre = [];
-
+// 2. Construction du filtre MongoDB
+$filter = [];
 if (!empty($filtre_menu)) {
-    $filtre['menu_titre'] = $filtre_menu;
+    $filter['menu_titre'] = $filtre_menu;
 }
-
 if (!empty($date_debut) || !empty($date_fin)) {
-    $filtre['date'] = [];
+    $filter['date'] = [];
     if (!empty($date_debut)) {
-        $filtre['date']['$gte'] = [
-            '$date' => ['$numberLong' => (string)((new DateTime($date_debut))->getTimestamp() * 1000)]
-        ];
+        $filter['date']['$gte'] = new MongoDB\BSON\UTCDateTime(strtotime($date_debut) * 1000);
     }
     if (!empty($date_fin)) {
-        $filtre['date']['$lte'] = [
-            '$date' => ['$numberLong' => (string)((new DateTime($date_fin . ' 23:59:59'))->getTimestamp() * 1000)]
-        ];
+        $filter['date']['$lte'] = new MongoDB\BSON\UTCDateTime(strtotime($date_fin . ' 23:59:59') * 1000);
     }
 }
 
-// Récupération des documents
-$result = mongoRequest('find', ['filter' => $filtre]);
-$documents = $result['documents'] ?? [];
+// 3. Exécution de la requête
+$cursor = $collection->find($filter);
+$documents = iterator_to_array($cursor);
 
-// Calculs
+// 4. Calculs
 $ca_total = 0;
 $stats_par_menu = [];
-
 foreach ($documents as $doc) {
     $titre = $doc['menu_titre'];
     $montant = (float)$doc['montant_total'];
@@ -48,9 +42,8 @@ foreach ($documents as $doc) {
     $stats_par_menu[$titre]['ca'] += $montant;
 }
 
-// Liste menus distincts pour le filtre
-$result_distincts = mongoRequest('distinct', ['key' => 'menu_titre', 'query' => []]);
-$menus_distincts = $result_distincts['values'] ?? [];
+// 5. Liste des menus distincts
+$menus_distincts = $collection->distinct('menu_titre');
 ?>
 
 <div class="turnover-container">

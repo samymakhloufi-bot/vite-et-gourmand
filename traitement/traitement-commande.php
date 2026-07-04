@@ -28,23 +28,20 @@ $commandeRepository->createDetail(
 $pdo->commit();
 // Log MongoDB
 try {
-    mongoRequest('insertOne', [
-        'document' => [
-            'commande_id'      => (int)$id_commande,
-            'menu_id'          => (int)$menu_id,
-            'menu_titre'       => $menu_nom,
-            'montant_total'    => (float)$prix_total,
-            'nombre_personnes' => (int)$nb_pers,
-            'reduction'        => (float)$reduction,
-            'frais_livraison'  => (float)$frais_livraison,
-            'statut'           => 'en_attente',
-            'date'             => [
-                '$date' => ['$numberLong' => (string)(time() * 1000)]
-            ],
-        ]
+    $collection = getMongoCollection();
+    $collection->insertOne([
+        'commande_id'      => (int)$id_commande,
+        'menu_id'          => (int)$menu_id,
+        'menu_titre'       => $menu_nom,
+        'montant_total'    => (float)$prix_total,
+        'nombre_personnes' => (int)$nb_pers,
+        'reduction'        => (float)$reduction,
+        'frais_livraison'  => (float)$frais_livraison,
+        'statut'           => 'en_attente',
+        'date'             => new MongoDB\BSON\UTCDateTime()  // ⬅️ Format natif MongoDB
     ]);
 } catch (Exception $e) {
-    error_log('MongoDB log error : ' . $e->getMessage());
+    error_log('MongoDB insert error: ' . $e->getMessage());
 }
 
 // Mail + redirection

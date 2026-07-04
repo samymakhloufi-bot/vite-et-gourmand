@@ -1,5 +1,7 @@
 <?php $activePage = 'espace admin'; 
 
+require_once __DIR__ . '/includes/mongodb.php';
+
 $activeTab = $_GET['tab'] ?? 'dashboard-wrapper';
 
 require_once './login.php';

@@ -1,4 +1,5 @@
 <?php
+
 // Calculs pour le dashboard
 $nb_attente = 0;
 $nb_retour_materiel = 0;
@@ -15,25 +16,14 @@ foreach ($avis as $a) {
     if ($a['statut_avis'] === 'en_attente') $nb_avis_attente++;
 }
 
-// CA du mois depuis MongoDB
-require_once __DIR__ . '/../../includes/mongodb.php';
-    $debut_mois_ts = (new DateTime('first day of this month 00:00:00'))->getTimestamp() * 1000;
+$collection = getMongoCollection();
+$debut_mois = new MongoDB\BSON\UTCDateTime(strtotime('first day of this month 00:00:00') * 1000);
+$filter = ['date' => ['$gte' => $debut_mois]];
+$cursor = $collection->find($filter);
 
-$result = mongoRequest('find', [
-    'filter' => [
-        'date' => [
-            '$gte' => [
-                '$date' => ['$numberLong' => (string)$debut_mois_ts]
-            ]
-        ]
-    ]
-]);
-
-
-foreach ($result['documents'] ?? [] as $doc) {
+foreach ($cursor as $doc) {
     $ca_mois += (float)$doc['montant_total'];
 }
-
 ?>
 
 <div class="dashboard-container">
