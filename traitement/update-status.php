@@ -1,9 +1,8 @@
 <?php 
-
-
 header('Content-Type: application/json');
 require_once '../login.php';
 require_once '../vendor/autoload.php';
+require_once __DIR__ . '/../classes/Repository/StatsRepository.php';
 
 if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['employe', 'admin'])) {
     echo json_encode(['success' => false]);
@@ -23,38 +22,26 @@ if (!in_array($statut, $statuts_autorises)) {
     echo json_encode(['success' => false]);
     exit;
 }
-try{
+
+try {
     $stmt = $pdo->prepare("UPDATE commande SET statut = ? WHERE Id_commande = ?");
     $stmt->execute([$statut, $id_commande]);
 
-    echo json_encode(['success' => true]);
-
-    //sync mongoDB
-    $stmt = $pdo->prepare("UPDATE commande SET statut = ? WHERE Id_commande = ?");
-    $stmt->execute([$statut, $id_commande]);
-    
-    // Sync MongoDB
     try {
-        require_once __DIR__ . '/../includes/mongodb.php';
-        $mongoDB->selectCollection('commandes_stats')->updateOne(
-            ['commande_id' => $id_commande],
-            ['$set' => ['statut' => $statut]]
-        );
+        $statsRepository = new StatsRepository($pdo);
+        $statsRepository->updateStatut($id_commande, $statut);
     } catch (Exception $e) {
-        error_log('MongoDB sync error : ' . $e->getMessage());
+        error_log('commandes_stats sync error : ' . $e->getMessage());
     }
 
-echo json_encode(['success' => true]);
-
-    $userStmt = $pdo -> prepare("SELECT u.nom, u.prenom, u.email 
+    $userStmt = $pdo->prepare("SELECT u.nom, u.prenom, u.email 
                                 FROM users u
                                 JOIN commande c ON u.Id_user = c.Id_user
                                 WHERE c.Id_commande = ?");
-    $userStmt -> execute([$id_commande]);
+    $userStmt->execute([$id_commande]);
     $userInfo = $userStmt->fetch();
 
-    //Mail selon statut 
-    try{
+    try {
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
@@ -66,12 +53,9 @@ echo json_encode(['success' => true]);
         $mail->CharSet    = 'UTF-8';
         $mail->isHTML(true);
         $mail->setFrom('samymakhloufi@gmail.com');
-        $mail->addAddress($userInfo['email'], $userInfo['prenom'].' '. $userInfo['nom']);
-        
+        $mail->addAddress($userInfo['email'], $userInfo['prenom'] . ' ' . $userInfo['nom']);
 
-
-        //cmd accepte
-        if($statut === 'accepte'){
+        if ($statut === 'accepte') {
             $mail->Subject = "Votre commande a été acceptée.";
             $mail->Body = "<p>Bonjour {$userInfo['prenom']} {$userInfo['nom']},</p>
                             <p>Nous avons le plaisir de vous informer que votre commande <strong>#$id_commande</strong> a été <strong>acceptée</strong> par notre équipe.</p>
@@ -79,10 +63,7 @@ echo json_encode(['success' => true]);
                             <p>Pour toute question : <a href='mailto:contact@vite-et-gourmand.fr'>contact@vite-et-gourmand.fr</a> — 05 56 44 12 89</p>
                             <p>Cordialement,<br><strong>L'équipe Vite & Gourmand</strong></p>";
             $mail->send();
-        }
-
-        //cmd en cours de livraison
-        elseif($statut === 'en_cours_de_livraison'){
+        } elseif ($statut === 'en_cours_de_livraison') {
             $mail->Subject = "Votre commande #$id_commande est en cours de livraison";
             $mail->Body = "<p>Bonjour {$userInfo['prenom']} {$userInfo['nom']},</p>
                             <p>Bonne nouvelle ! Votre commande <strong>#$id_commande</strong> est actuellement <strong>en cours de livraison</strong>.</p>
@@ -90,10 +71,7 @@ echo json_encode(['success' => true]);
                             <p>Pour toute urgence : <a href='mailto:contact@vite-et-gourmand.fr'>contact@vite-et-gourmand.fr</a> — 05 56 44 12 89</p>
                             <p>Cordialement,<br><strong>L'équipe Vite & Gourmand</strong></p>";
             $mail->send();
-        }
-
-        //cmd terminee
-        elseif($statut === 'terminee'){
+        } elseif ($statut === 'terminee') {
             $mail->Subject = "Votre avis compte pour nous.";
             $mail->Body = "<p>Bonjour {$userInfo['prenom']} {$userInfo['nom']},</p>
                             <p>Votre commande <strong>#$id_commande</strong> est désormais <strong>terminée</strong>. Nous espérons que votre événement s'est déroulé à merveille !</p>
@@ -107,10 +85,7 @@ echo json_encode(['success' => true]);
                             <p>Merci de votre confiance et à très bientôt !</p>
                             <p>Cordialement,<br><strong>L'équipe Vite & Gourmand</strong></p>";
             $mail->send();
-        }
-
-        //cmd annulee
-        elseif($statut === 'annulee'){
+        } elseif ($statut === 'annulee') {
             $mail->Subject = "Annulation de votre commande";
             $mail->Body = "<p>Bonjour {$userInfo['prenom']} {$userInfo['nom']},</p>
                             <p>Nous vous informons que votre commande <strong>#$id_commande</strong> a été <strong>annulée</strong> par notre équipe.</p>
@@ -122,10 +97,7 @@ echo json_encode(['success' => true]);
                             <p>Nous espérons pouvoir vous accueillir à nouveau très bientôt.</p>
                             <p>Cordialement,<br><strong>L'équipe Vite & Gourmand</strong></p>";
             $mail->send();
-        }
-
-        //cmd en attente retour materiel
-        elseif($statut === 'en_attente_retour_materiel'){
+        } elseif ($statut === 'en_attente_retour_materiel') {
             $mail->Subject = "Retour du matériel prêté ";
             $mail->Body = "<p>Bonjour {$userInfo['prenom']} {$userInfo['nom']},</p>
                             <p>Suite à votre prestation, du matériel vous a été prêté par Vite & Gourmand.</p>
@@ -139,11 +111,12 @@ echo json_encode(['success' => true]);
                             <p>Cordialement,<br><strong>L'équipe Vite & Gourmand</strong></p>";
             $mail->send();
         }
-    }catch(Exception $e){
-        error_log('Erreur mail: '. $e->getMessage());
+    } catch (Exception $e) {
+        error_log('Erreur mail: ' . $e->getMessage());
     }
 
+    echo json_encode(['success' => true]);
 
-}catch(Exception $e){
-    json_encode(['Error'=> $e->getMessage()]);
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 }

@@ -2648,27 +2648,52 @@ input[type="number"].counter-val::-webkit-outer-spin-button{
 }
 
 .ca-total {
+    background: #7D241A;
+    color: #FFFDF7;
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
     display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    background: var(--bordeaux);
-    color: var(--creme);
-    border-radius: 0.75rem;
-    padding: 1rem 1.25rem;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .ca-total span {
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    letter-spacing: 0.05rem;
     opacity: 0.85;
 }
 
 .ca-total strong {
-    font-family: var(--font-display);
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+}
+
+.ca-previsionnel {
+    background: transparent;
+    color: #7D241A;
+    border: 2px dashed #7D241A;
+    position: relative;
+    padding : 0.5rem;
+}
+
+.ca-previsionnel strong {
+    opacity: 0.85;
+}
+
+.ca-previsionnel::after {
+    content: "à confirmer";
+    position: absolute;
+    top: -0.6rem;
+    right: 1rem;
+    background: var(--beige);
+    padding: 0 0.5rem;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.7rem;
+    color: #7D241A;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .turnover-table-wrapper {

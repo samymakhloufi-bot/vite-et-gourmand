@@ -2,8 +2,6 @@ FROM php:8.3-apache
 
 RUN apt-get update && apt-get install -y \
     libssl-dev \
-    && pecl install mongodb-1.19.0 \
-    && docker-php-ext-enable mongodb \
     && docker-php-ext-install pdo pdo_mysql mysqli
 
 RUN a2enmod rewrite

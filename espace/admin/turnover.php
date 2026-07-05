@@ -1,39 +1,39 @@
 <?php
-
-require_once __DIR__ . '/../../includes/mongodb.php';
-$collection = getMongoCollection();
+require_once __DIR__ . '/../../classes/Repository/StatsRepository.php';
 
 // 1. Récupération des filtres
 $filtre_menu  = $_GET['filtre_menu'] ?? '';
 $date_debut   = $_GET['date_debut'] ?? '';
 $date_fin     = $_GET['date_fin'] ?? '';
 
-// 2. Construction du filtre MongoDB
-$filter = [];
-if (!empty($filtre_menu)) {
-    $filter['menu_titre'] = $filtre_menu;
-}
-if (!empty($date_debut) || !empty($date_fin)) {
-    $filter['date'] = [];
-    if (!empty($date_debut)) {
-        $filter['date']['$gte'] = new MongoDB\BSON\UTCDateTime(strtotime($date_debut) * 1000);
-    }
-    if (!empty($date_fin)) {
-        $filter['date']['$lte'] = new MongoDB\BSON\UTCDateTime(strtotime($date_fin . ' 23:59:59') * 1000);
-    }
-}
+$statsRepository = new StatsRepository($pdo);
 
-// 3. Exécution de la requête
-$cursor = $collection->find($filter);
-$documents = iterator_to_array($cursor);
+$documents = $statsRepository->findAll([
+    'menu_titre' => $filtre_menu,
+    'date_debut' => $date_debut,
+    'date_fin'   => $date_fin,
+]);
 
-// 4. Calculs
-$ca_total = 0;
+$menus_distincts = $statsRepository->getMenusDistincts();
+
+$statuts_exclus = ['annulee'];
+
+// 2. Calculs + séparation CA réalisé et prévisionnel
+$ca_realise = 0;
+$ca_previsionnel = 0;
 $stats_par_menu = [];
+
 foreach ($documents as $doc) {
+    if (in_array($doc['statut'], $statuts_exclus)) continue;
+
     $titre = $doc['menu_titre'];
     $montant = (float)$doc['montant_total'];
-    $ca_total += $montant;
+
+    if ($doc['statut'] === 'terminee') {
+        $ca_realise += $montant;
+    } else {
+        $ca_previsionnel += $montant;
+    }
 
     if (!isset($stats_par_menu[$titre])) {
         $stats_par_menu[$titre] = ['nb_commandes' => 0, 'ca' => 0];
@@ -42,13 +42,12 @@ foreach ($documents as $doc) {
     $stats_par_menu[$titre]['ca'] += $montant;
 }
 
-// 5. Liste des menus distincts
-$menus_distincts = $collection->distinct('menu_titre');
+$ca_total = $ca_realise + $ca_previsionnel;
 ?>
 
 <div class="turnover-container">
 
-    <h1>Chiffre d'affaires</h1>
+    <h2>Chiffre d'affaires</h2>
 
     <form method="GET" action="" class="turnover-filters">
         <input type="hidden" name="tab" value="turnover-wrapper">
@@ -83,9 +82,14 @@ $menus_distincts = $collection->distinct('menu_titre');
     </form>
 
     <div class="ca-total">
-        <span>CA total</span>
-        <strong><?= number_format($ca_total, 2, ',', ' ') ?> €</strong>
-    </div>
+    <span>CA réalisé</span>
+    <strong><?= number_format($ca_realise, 2, ',', ' ') ?> €</strong>
+</div>
+
+<div class="ca-previsionnel">
+    <span>CA prévisionnel</span>
+    <strong><?= number_format($ca_previsionnel, 2, ',', ' ') ?> €</strong>
+</div>
 
     <table class="turnover-table">
         <thead>

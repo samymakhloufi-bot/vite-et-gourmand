@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../../classes/Repository/StatsRepository.php';
 // Calculs pour le dashboard
 $nb_attente = 0;
 $nb_retour_materiel = 0;
@@ -16,14 +16,12 @@ foreach ($avis as $a) {
     if ($a['statut_avis'] === 'en_attente') $nb_avis_attente++;
 }
 
-$collection = getMongoCollection();
-$debut_mois = new MongoDB\BSON\UTCDateTime(strtotime('first day of this month 00:00:00') * 1000);
-$filter = ['date' => ['$gte' => $debut_mois]];
-$cursor = $collection->find($filter);
 
-foreach ($cursor as $doc) {
-    $ca_mois += (float)$doc['montant_total'];
-}
+
+$statsRepository = new StatsRepository($pdo);
+$debut_mois = date('Y-m-01 00:00:00');
+$ca_mois = $statsRepository->getCATotalDepuis($debut_mois);
+
 ?>
 
 <div class="dashboard-container">

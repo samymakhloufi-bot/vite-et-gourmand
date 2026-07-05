@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ .'/../classes/Repository/CommandeRepository.php';
-    require_once __DIR__ . '/../includes/mongodb.php';
+require_once __DIR__ .'/../classes/Repository/StatsRepository.php';
 
 $commandeRepository = new CommandeRepository($pdo);
 
@@ -26,22 +26,20 @@ $commandeRepository->createDetail(
 );
 
 $pdo->commit();
-// Log MongoDB
+
+$statsRepository = new StatsRepository($pdo);
 try {
-    $collection = getMongoCollection();
-    $collection->insertOne([
-        'commande_id'      => (int)$id_commande,
-        'menu_id'          => (int)$menu_id,
-        'menu_titre'       => $menu_nom,
-        'montant_total'    => (float)$prix_total,
-        'nombre_personnes' => (int)$nb_pers,
-        'reduction'        => (float)$reduction,
-        'frais_livraison'  => (float)$frais_livraison,
-        'statut'           => 'en_attente',
-        'date'             => new MongoDB\BSON\UTCDateTime()  // ⬅️ Format natif MongoDB
-    ]);
+    $statsRepository->create(
+        (int)$id_commande,
+        (int)$menu_id,
+        $menu_nom,
+        (float)$prix_total,
+        (int)$nb_pers,
+        (float)$reduction,
+        (float)$frais_livraison
+    );
 } catch (Exception $e) {
-    error_log('MongoDB insert error: ' . $e->getMessage());
+    error_log('commandes_stats insert error: ' . $e->getMessage());
 }
 
 // Mail + redirection
