@@ -1,5 +1,5 @@
 <?php $activePage= 'Conditions Générales de Vente'; 
-session_start();
+require_once './login.php';
 ?>
 <!DOCTYPE html>
 
