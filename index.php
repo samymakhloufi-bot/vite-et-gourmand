@@ -1,7 +1,5 @@
 <?php $activePage = 'Accueil'; 
-
-require_once __DIR__ . '/login.php';
-require_once __DIR__ . '/classes/Repository/MenuRepository.php';
+include './login.php';
 
 $stmtAvis = $pdo -> prepare("SELECT a.contenu, a.note, u.nom, u.prenom
                             FROM avis a
@@ -77,8 +75,7 @@ $avis = $stmtAvis ->fetchAll();
             
                 <article class="menu-card--light"> 
                     <picture>
-                        <source media="(min-width:750px)" srcset="./Images/EclatF-max.png">
-                        <img src="Images/EclatF-min.png" alt="Menu Éclats de Fêtes">
+                        <img src="Images/EclatF.png" alt="Menu Éclats de Fêtes">
                     </picture>
                     <h3>Menus Éclats de Fêtes (classique):</h3>
                     <p>Le prestige des grands classiques de Noël sublimé par la truffe et le foie gras.</p>
@@ -88,7 +85,7 @@ $avis = $stmtAvis ->fetchAll();
 
                 <article class="menu-card--dark"> 
                     <picture>
-                        <img src="./Images/<?= $menu->getImgMenuUrl() ?>" alt="<?= htmlspecialchars($menu->getNom()) ?>">
+                        <img src="Images/Renouveau.png" alt="Menu Renouveau"> 
                     </picture>
                     <h3>Menus Renouveau (classique):</h3>
                     <p>La tradition pascale célébrée à travers la tendreté d'un agneau de sept heures.</p>
@@ -98,8 +95,7 @@ $avis = $stmtAvis ->fetchAll();
 
                 <article class="menu-card--light"> 
                     <picture>
-                        <source media="(min-width:750px)" srcset="./Images/AmourE-max.png">
-                        <img src="Images/AmourE-min.png" alt="Menu Amour Éternel"> 
+                        <img src="Images/AmourE.png" alt="Menu Amour Éternel"> 
                     </picture>
                     <h3>Menus Amour Éternel (Vegan):</h3>
                     <p>Une célébration haute en couleurs et en saveurs pour un mariage éthique et chic.</p>
