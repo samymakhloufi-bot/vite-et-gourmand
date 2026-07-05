@@ -1,5 +1,7 @@
 <?php $activePage = 'Accueil'; 
-include './login.php';
+
+require_once __DIR__ . '/login.php';
+require_once __DIR__ . '/classes/Repository/MenuRepository.php';
 
 $stmtAvis = $pdo -> prepare("SELECT a.contenu, a.note, u.nom, u.prenom
                             FROM avis a
@@ -86,8 +88,7 @@ $avis = $stmtAvis ->fetchAll();
 
                 <article class="menu-card--dark"> 
                     <picture>
-                        <source media="(min-width:750px)" srcset="./Images/Renouveau-max.png">
-                        <img src="Images/Renouveau-min.png" alt="Menu Renouveau"> 
+                        <img src="./Images/<?= $menu->getImgMenuUrl() ?>" alt="<?= htmlspecialchars($menu->getNom()) ?>">
                     </picture>
                     <h3>Menus Renouveau (classique):</h3>
                     <p>La tradition pascale célébrée à travers la tendreté d'un agneau de sept heures.</p>
