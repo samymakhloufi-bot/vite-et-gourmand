@@ -138,7 +138,7 @@ if (isset($_POST['inscription'])) {
                             <div>
                                 <label for="password">Mot de passe :</label>
                                 <div class="password-wrapper-sub">
-                                    <input type="password" id="password" name="password" required >
+                                    <input type="password" id="password" name="password" minlength="10" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+!@#$%^&amp;*(),.?:|&lt;&gt;_-]).{10,}$" required >
                                     
                                         <button type="button" id="toggle-password" class="btn-eye">
                                             <!-- Oeil ouvert -->

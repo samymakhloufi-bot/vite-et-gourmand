@@ -25,6 +25,7 @@ const form = document.getElementById('form-inscription');
 if (form && passwordInput) {
     form.addEventListener('submit', (e) => {
         if (!passwordRegex.test(passwordInput.value)) {
+            e.preventDefault();
             alert("Le mot de passe doit contenir au moins 10 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial (!@#$%^&*(),.?':{}|<>).");
         }
     });
