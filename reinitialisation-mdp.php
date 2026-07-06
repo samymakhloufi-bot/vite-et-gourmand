@@ -32,7 +32,8 @@ if(isset($_POST['reset-password'])) {
             $mail->setFrom('samymakhloufi@gmail.com', 'Vite et Gourmand');
             $mail->addAddress($email);
             $mail->Subject = 'Réinitialisation de votre mot de passe';
-            $reset_link = getenv('APP_DOMAIN') . "/modification-mdp.php?token=" . $token;
+            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+            $reset_link = $protocol . $_SERVER['HTTP_HOST'] . "/modification-mdp.php?token=" . $token;
             $mail->isHTML(true);
             $mail->Body ="
                 <p>Bonjour,</p>
