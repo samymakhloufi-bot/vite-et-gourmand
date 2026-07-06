@@ -44,7 +44,7 @@ if(isset($_POST['submit-contact'])) {
             $mail->send();
             $message = "Votre message a été envoyé avec succès.";
             $message_type = 'success';
-            header('Location: /success-page/contactsucces.php');
+            header('Location: /success-page/contact-succes.php');
             exit();
         } catch (Exception $e) {
             $message = "Erreur lors de l'envoi de l'email : ";
