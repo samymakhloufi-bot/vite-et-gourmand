@@ -45,25 +45,10 @@ require_once '../login.php'
         </div>
 
     </main>
-    
-    <script>
-
-        // Compte à rebours
-        let tempsRestant = 15;
-        const compteRebours = document.getElementById('compte-rebours');
-
-        const interval = setInterval(() => {
-            tempsRestant--;
-            compteRebours.textContent = tempsRestant;
-
-            if (tempsRestant <= 0) {
-                clearInterval(interval);
-                window.location.href = '../connexion.php';
-            }
-        },1000);
-    </script>
 
 </body>
 
     <?php include '../includes/footer.php'; ?>
+
+    <script src="./js/succes.js"></script>
 </html>

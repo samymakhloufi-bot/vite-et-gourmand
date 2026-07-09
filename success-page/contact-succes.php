@@ -1,24 +1,23 @@
 <?php $activePage = 'Demande envoyée'; 
-
-session_start();
-
+require_once '../login.php'
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
-    <?php include '../includes/head.php'; ?>
+    <?php include __DIR__ . '/../includes/head.php'; ?>
 
     <body>
-    <?php include '../includes/header.php'; ?>
+    <?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <main>
+        <main>
         
-        <div class="nos-menus-banner">
-            <div class="nos-menus-banner_diag"></div>
-            <div class="nos-menus-banner_dark_diag"></div>
-            <div class="nos-menus-banner_text">
-            <h1>Demande<em> envoyée</em></h1></div>
-        </div>
+            <div class="nos-menus-banner">
+                <div class="nos-menus-banner_diag"></div>
+                <div class="nos-menus-banner_dark_diag"></div>
+                <div class="nos-menus-banner_text">
+                    <h1>Demande<em> envoyée</em></h1>
+                </div>
+            </div>
 
         <div class="sub-wrapper succes-wrapper">
 
@@ -41,32 +40,17 @@ session_start();
                     <p class="succes-counter">Redirection dans <span id="compte-rebours">15</span> secondes</p>
                     
                     <div class="succes-btn">
-                        <a href="connexion.php" class="btn-submit">Se connecter</a>
-                        <a href="index.php" class="btn-outline">Retour à l'accueil</a>
+                        <a href="../connexion.php" class="btn-submit">Se connecter</a>
+                        <a href="../index.php" class="btn-outline">Retour à l'accueil</a>
                     </div>
             </div>
         </div>
 
-    </main>
-    
-    <script>
+        </main>
 
-        // Compte à rebours
-        let tempsRestant = 15;
-        const compteRebours = document.getElementById('compte-rebours');
-
-        const interval = setInterval(() => {
-            tempsRestant--;
-            compteRebours.textContent = tempsRestant;
-
-            if (tempsRestant <= 0) {
-                clearInterval(interval);
-                window.location.href = '../index.php';
-            }
-        },1000);
-    </script>
-
-</body>
+    </body>
 
     <?php include '../includes/footer.php'; ?>
+
+    <script src="./js/succes.js"></script>
 </html>
