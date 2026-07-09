@@ -1,13 +1,14 @@
-// Compte à rebours
-let tempsRestant = 15;
-const compteRebours = document.getElementById('compte-rebours');
+document.addEventListener('DOMContentLoaded', function() {
+    let tempsRestant = 15;
+    const compteRebours = document.getElementById('compte-rebours');
 
-const interval = setInterval(() => {
-    tempsRestant--;
-    compteRebours.textContent = tempsRestant;
+    const interval = setInterval(() => {
+        tempsRestant--;
+        compteRebours.textContent = tempsRestant;
 
-    if (tempsRestant <= 0) {
-        clearInterval(interval);
-        window.location.href = '../espace-client.php';
-    }
-},1000);
+        if (tempsRestant <= 0) {
+            clearInterval(interval);
+            window.location.href = '../espace-client.php';
+        }
+    }, 1000);
+});

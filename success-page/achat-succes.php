@@ -48,5 +48,5 @@ require_once '../login.php'
 </body>
 
     <?php include '../includes/footer.php'; ?>
-    <script src="./js/succes.js"></script>
+    <script src="../js/succes.js"></script>
 </html>
