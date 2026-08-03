@@ -1,14 +1,11 @@
 <?php $activePage = 'Accueil'; 
 include './login.php';
+include './classes/Repository/AvisRepository.php';
 
-$stmtAvis = $pdo -> prepare("SELECT a.contenu, a.note, u.nom, u.prenom
-                            FROM avis a
-                            JOIN users u ON a.Id_user = u.id_user
-                            WHERE a.statut_avis ='valide'
-                            ORDER BY a.note DESC, a.created_at DESC
-                            LIMIT 3");
-$stmtAvis -> execute();
-$avis = $stmtAvis ->fetchAll();
+
+$avisRepository = new AvisRepository($pdo);
+$avis = $avisRepository->findAvisByStatut('valide');
+$avis = array_slice($avis, 0, 3);
 
 ?>
 <!DOCTYPE html>
@@ -138,10 +135,10 @@ $avis = $stmtAvis ->fetchAll();
                     <?php foreach ($avis as $a):?>
                     <article class="review-card">
                         <div class="review-header">
-                            <h3 class="review-author" aria-label="auteur de l'avis"><?= htmlspecialchars($a['prenom'])?><?=htmlspecialchars(substr($a['nom'], 0,1)) ?></h3> 
-                            <p class="review-stars" aria-label="5 étoiles sur 5"><?= str_repeat('★', ($a['note'])). str_repeat('☆', 5 -$a['note'])?></p>
+                            <h3 class="review-author" aria-label="auteur de l'avis"><?= htmlspecialchars($a->getPrenomUserAvis())?><?=htmlspecialchars(substr($a->getNomUserAvis(), 0,1)) ?></h3> 
+                            <p class="review-stars" aria-label="5 étoiles sur 5"><?= str_repeat('★', ($a->getNoteAvis())). str_repeat('☆', 5 -$a->getNoteAvis())?></p>
                         </div>
-                        <p class="review-text" aria-label="avis"><?= htmlspecialchars($a['contenu']) ?></p>
+                        <p class="review-text" aria-label="avis"><?= htmlspecialchars($a->getContenuAvis()) ?></p>
                     </article>
                     <?php endforeach; ?>
                 </div>

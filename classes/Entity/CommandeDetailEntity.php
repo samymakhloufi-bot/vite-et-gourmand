@@ -30,5 +30,4 @@ class CommandeDetail{
     public function hasReduction(): bool {
         return $this->reduction > 0;
     }
-
-    }
+}

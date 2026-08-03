@@ -15,7 +15,7 @@ class User{
     private int $actif;
 
     public function __construct(array $data) {
-        $this -> id_user = (int)$data['id_user'];
+        $this -> id_user = (int)$data['Id_user'];
         $this ->nom          = $data['nom'];
         $this ->prenom       = $data['prenom'];
         $this ->email        = $data['email'];

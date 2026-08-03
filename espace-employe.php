@@ -2,7 +2,10 @@
 
 require_once './login.php';
 require_once './classes/Repository/CommandeRepository.php';
+require_once './classes/Repository/CommandeDetailsRepository.php';
+require_once './classes/Repository/UserRepository.php';
 require_once './classes/Repository/MenuRepository.php';
+require_once './classes/Repository/AvisRepository.php';
 
 if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['employe'])) {
     header('Location: ' . BASE_URL . '/index.php');
@@ -11,6 +14,8 @@ if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['employe'])) {
 
 $commandeRepository = new CommandeRepository($pdo);
 $menuRepository     = new MenuRepository($pdo);
+$avisRepository     = new AvisRepository($pdo);
+
 
 // Commandes
 $commandes = $commandeRepository->findAllWithDetails();
