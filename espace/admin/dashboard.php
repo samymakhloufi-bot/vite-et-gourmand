@@ -135,7 +135,6 @@ $ca_mois = $statsRepository->getCATotalDepuis($debut_mois);
                         </tbody>
                     </table>
                 </div>
-                    <a href="<?= BASE_URL ?>/espace-employe.php" class="btn-voir-tout">Gérer les commandes →</a>
             <?php endif; ?>
         </div>
         
@@ -147,7 +146,6 @@ $ca_mois = $statsRepository->getCATotalDepuis($debut_mois);
                 <p class="empty-msg">Aucun avis en attente de modération.</p>
             <?php else: ?>
                 <p>Vous avez <strong><?= $nb_avis_attente ?></strong> avis en attente de modération.</p>
-                <a href="<?= BASE_URL ?>/espace-employe.php" class="btn-voir-tout">Modérer les avis →</a>
             <?php endif; ?>
         </div>
     </div>
