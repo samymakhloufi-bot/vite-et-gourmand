@@ -1,5 +1,6 @@
 <?php
-// classes/Repository/StatsRepository.php
+
+use MongoDB\Collection;
 
 class StatsRepository {
     private PDO $pdo;
