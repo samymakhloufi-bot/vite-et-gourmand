@@ -2,7 +2,9 @@
 header('Content-Type: application/json');
 require_once '../login.php';
 require_once '../vendor/autoload.php';
+require_once __DIR__ . '/../classes/Repository/CommandeRepository.php';
 require_once __DIR__ . '/../classes/Repository/StatsRepository.php';
+require_once __DIR__ . '/../includes/mongodb.php';
 
 if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['employe', 'admin'])) {
     echo json_encode(['success' => false]);
@@ -28,10 +30,17 @@ try {
     $stmt->execute([$statut, $id_commande]);
 
     try {
-        $statsRepository = new StatsRepository($pdo);
-        $statsRepository->updateStatut($id_commande, $statut);
+        $commandeRepository = new CommandeRepository($pdo);
+        $statsRepository = new StatsRepository($mongoCollection);
+        $commandeStats = $commandeRepository->findStatsDataById($id_commande);
+
+        if (!$commandeStats) {
+            throw new RuntimeException("Commande SQL #{$id_commande} introuvable.");
+        }
+
+        $statsRepository->synchroniserCommande($commandeStats);
     } catch (Exception $e) {
-        error_log('commandes_stats sync error : ' . $e->getMessage());
+        error_log('Synchronisation MongoDB du statut impossible : ' . $e->getMessage());
     }
 
     $userStmt = $pdo->prepare("SELECT u.nom, u.prenom, u.email 

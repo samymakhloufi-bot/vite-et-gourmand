@@ -2,6 +2,7 @@
 
 require_once __DIR__ .'/../classes/Repository/CommandeRepository.php';
 require_once __DIR__ .'/../classes/Repository/StatsRepository.php';
+require_once __DIR__ .'/../includes/mongodb.php';
 
 $commandeRepository = new CommandeRepository($pdo);
 
@@ -27,19 +28,19 @@ $commandeRepository->createDetail(
 
 $pdo->commit();
 
-$statsRepository = new StatsRepository($pdo);
+$pdo->commit();
+
 try {
-    $statsRepository->create(
-        (int)$id_commande,
-        (int)$menu_id,
-        $menu_nom,
-        (float)$prix_total,
-        (int)$nb_pers,
-        (float)$reduction,
-        (float)$frais_livraison
-    );
+    $statsRepository = new StatsRepository($mongoCollection);
+    $commandeStats = $commandeRepository->findStatsDataById((int)$id_commande);
+
+    if (!$commandeStats) {
+        throw new RuntimeException("Commande SQL #{$id_commande} introuvable.");
+    }
+
+    $statsRepository->synchroniserCommande($commandeStats);
 } catch (Exception $e) {
-    error_log('commandes_stats insert error: ' . $e->getMessage());
+    error_log('Synchronisation MongoDB de la commande impossible : ' . $e->getMessage());
 }
 
 // Mail + redirection

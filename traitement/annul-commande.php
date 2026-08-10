@@ -2,6 +2,9 @@
 
 header('Content-Type: application/json');
 require_once '../login.php';
+require_once __DIR__ . '/../classes/Repository/CommandeRepository.php';
+require_once __DIR__ . '/../classes/Repository/StatsRepository.php';
+require_once __DIR__ . '/../includes/mongodb.php';
 
 if(!isset($_SESSION['user_id'])) {
     echo json_encode(['error' => 'non connecté']);
@@ -37,6 +40,20 @@ try{
     $cancel = $pdo -> prepare("UPDATE commande SET statut ='annulee' WHERE Id_commande = ?");
     $cancel -> execute([$id_commande]);
 
+    try {
+        $commandeRepository = new CommandeRepository($pdo);
+        $statsRepository = new StatsRepository($mongoCollection);
+        $commandeStats = $commandeRepository->findStatsDataById($id_commande);
+
+        if (!$commandeStats) {
+            throw new RuntimeException("Commande SQL #{$id_commande} introuvable.");
+        }
+
+        $statsRepository->synchroniserCommande($commandeStats);
+    } catch (Exception $e) {
+        error_log('Synchronisation MongoDB de l\'annulation impossible : ' . $e->getMessage());
+    }
+    
     require_once '../vendor/autoload.php';
     $mail = new PHPMailer\PHPMailer\PHPMailer(true);
     try{

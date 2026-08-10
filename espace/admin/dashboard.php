@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../../classes/Repository/StatsRepository.php';
+require_once __DIR__ . '/../../includes/mongodb.php';
+
 // Calculs pour le dashboard
 $nb_attente = 0;
 $nb_retour_materiel = 0;
@@ -16,9 +18,7 @@ foreach ($avis as $a) {
     if ($a['statut_avis'] === 'en_attente') $nb_avis_attente++;
 }
 
-
-
-$statsRepository = new StatsRepository($pdo);
+$statsRepository = new StatsRepository($mongoCollection);
 $debut_mois = date('Y-m-01 00:00:00');
 $ca_mois = $statsRepository->getCATotalDepuis($debut_mois);
 

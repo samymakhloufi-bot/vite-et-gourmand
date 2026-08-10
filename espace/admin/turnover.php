@@ -1,12 +1,14 @@
 <?php
+
 require_once __DIR__ . '/../../classes/Repository/StatsRepository.php';
+require_once __DIR__ . '/../../includes/mongodb.php';
 
 // 1. Récupération des filtres
 $filtre_menu  = $_GET['filtre_menu'] ?? '';
 $date_debut   = $_GET['date_debut'] ?? '';
 $date_fin     = $_GET['date_fin'] ?? '';
 
-$statsRepository = new StatsRepository($pdo);
+$statsRepository = new StatsRepository($mongoCollection);
 
 $documents = $statsRepository->findAll([
     'menu_titre' => $filtre_menu,

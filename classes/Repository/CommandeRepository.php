@@ -42,6 +42,29 @@ class CommandeRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function findStatsDataById(int $commandeId): ?array {
+        $stmt = $this->pdo->prepare(
+            "SELECT
+                c.Id_commande AS commande_id,
+                cd.Id_menu AS menu_id,
+                m.menu_nom AS menu_titre,
+                cd.prix_total AS montant_total,
+                cd.quantite AS nombre_personnes,
+                cd.reduction,
+                c.frais_livraison,
+                c.statut,
+                c.date_commande AS date
+            FROM commande c
+            INNER JOIN commande_detail cd ON cd.Id_commande = c.Id_commande
+            INNER JOIN menu m ON m.Id_menu = cd.Id_menu
+            WHERE c.Id_commande = :commande_id"
+        );
+        $stmt->execute(['commande_id' => $commandeId]);
+        $commande = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $commande ?: null;
+    }
+
     public function findAll(): array {
         $stmt = $this->pdo->query("SELECT c.*, u.nom, u.prenom, m.menu_nom, cd.prix, cd.quantite
             FROM commande c
