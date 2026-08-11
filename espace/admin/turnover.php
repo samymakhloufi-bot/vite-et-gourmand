@@ -8,8 +8,9 @@ $filtre_menu  = $_GET['filtre_menu'] ?? '';
 $date_debut   = $_GET['date_debut'] ?? '';
 $date_fin     = $_GET['date_fin'] ?? '';
 
-$statsRepository = new StatsRepository($mongoCollection);
-
+$statsRepository = new StatsRepository(
+    MongoConnection::getStatsCollection());
+    
 $documents = $statsRepository->findAll([
     'menu_titre' => $filtre_menu,
     'date_debut' => $date_debut,

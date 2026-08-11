@@ -28,10 +28,9 @@ $commandeRepository->createDetail(
 
 $pdo->commit();
 
-$pdo->commit();
-
 try {
-    $statsRepository = new StatsRepository($mongoCollection);
+    $statsRepository = new StatsRepository(
+        MongoConnection::getStatsCollection());
     $commandeStats = $commandeRepository->findStatsDataById((int)$id_commande);
 
     if (!$commandeStats) {

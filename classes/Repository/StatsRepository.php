@@ -2,6 +2,7 @@
 
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
+
 class StatsRepository {
     private Collection $collection;
 

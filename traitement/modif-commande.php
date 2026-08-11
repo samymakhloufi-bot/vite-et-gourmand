@@ -76,7 +76,8 @@ try {
 
     try {
         $commandeRepository = new CommandeRepository($pdo);
-        $statsRepository = new StatsRepository($mongoCollection);
+        $statsRepository = new StatsRepository(
+            MongoConnection::getStatsCollection());
         $commandeStats = $commandeRepository->findStatsDataById($id_commande);
 
         if (!$commandeStats) {
