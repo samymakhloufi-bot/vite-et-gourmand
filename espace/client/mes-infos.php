@@ -1,6 +1,7 @@
 
 
                     <form action="<?= BASE_URL ?>/traitement/modif-info-perso.php" method="post" id="form-update-account">
+                        <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <fieldset>
                             
                             <div class="personal-info">

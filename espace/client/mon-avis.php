@@ -4,6 +4,7 @@
 <h1>Votre avis compte pour nous !</h1>
 
 <form action="<?= BASE_URL ?>/traitement/submit-avis.php" method="post" id="form-avis">
+    <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
     <textarea name="contenu" placeholder=" Donner votre avis ...." required></textarea>
 
     <div class="star-rating">

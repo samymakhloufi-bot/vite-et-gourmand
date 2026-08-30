@@ -7,6 +7,8 @@ if(!isset($_SESSION['user_id'])) {
     exit();
 }
 
+csrf_require();
+
 if(isset($_POST['contenu'])){
 
     $contenu = trim($_POST['contenu']);

@@ -20,6 +20,8 @@ if (!isset($_COOKIE['maps-consent']) || $_COOKIE['maps-consent'] !== 'true') {
     exit;
 }
 
+csrf_require();
+
 /*----------------------------
     Calcul frais de livraison
 -----------------------------*/

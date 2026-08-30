@@ -9,6 +9,10 @@ if(!isset($_SESSION['user_id'])) {
 
 //mise à jour infos
 if(isset($_POST['update-account'])) {
+    if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+        header('Location: ' . BASE_URL . '/espace-client.php?error=csrf');
+        exit();
+    }
     $stmt_update = $pdo -> prepare("UPDATE users SET 
         nom = ?,
         prenom = ?,

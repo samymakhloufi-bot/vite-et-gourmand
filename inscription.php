@@ -8,68 +8,72 @@ $activePage = 'Inscription';
 $userRepository = new UserRepository($pdo);
 
 if (isset($_POST['inscription'])) {
-    $name        = trim($_POST['name']);
-    $firstname   = trim($_POST['firstname']);
-    $phone       = trim($_POST['tel']);
-    $address     = trim($_POST['address']);
-    $city        = trim($_POST['city']);
-    $postal_code = trim($_POST['postal_code']);
-    $email       = trim($_POST['email']);
-    $password    = trim($_POST['password']);
-
-    if ($userRepository->emailExists($email)) {
-        $message = "Cet email est déjà utilisé. Veuillez en choisir un autre.";
+    if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+        $message = "Votre session a expiré, veuillez réessayer.";
     } else {
-        $mdp_hashed = password_hash($password, PASSWORD_DEFAULT);
-        $userRepository->create($name, $firstname, $phone, $address, $city, $postal_code, $email, $mdp_hashed);
+        $name        = trim($_POST['name']);
+        $firstname   = trim($_POST['firstname']);
+        $phone       = trim($_POST['tel']);
+        $address     = trim($_POST['address']);
+        $city        = trim($_POST['city']);
+        $postal_code = trim($_POST['postal_code']);
+        $email       = trim($_POST['email']);
+        $password    = trim($_POST['password']);
 
-        // Mail de bienvenue
-        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-        try {
-            $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
-            $mail->SMTPAuth   = true;
-            $mail->Username   = 'samymakhloufi@gmail.com';
-            $mail->Password   = MAIL_PASS;
-            $mail->SMTPSecure = 'tls';
-            $mail->Port       = 587;
-            $mail->CharSet    = 'UTF-8';
-            $mail->setFrom('samymakhloufi@gmail.com', 'Vite et Gourmand');
-            $mail->addAddress($email);
-            $mail->Subject = 'Bienvenue chez Vite&Gourmand 🍽️ Votre compte est activé';
-            $mail->isHTML(true);
-            $mail->Body = "<div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;'>
-        <h2 style='color: #d9534f;'>Bonjour " . htmlspecialchars($firstname) . ",</h2>
-        <p>Toute l'équipe de <strong>Vite & Gourmand</strong> est ravie de vous compter parmi ses nouveaux clients ! Votre compte a bien été créé avec succès.</p>
-        <p>Que ce soit pour un déjeuner sur le pouce, un repas de famille ou un événement professionnel, nous mettons tout en œuvre pour vous régaler avec des plats savoureux, cuisinés avec soin et livrés en un clin d'œil.</p>
+        if ($userRepository->emailExists($email)) {
+            $message = "Cet email est déjà utilisé. Veuillez en choisir un autre.";
+        } else {
+            $mdp_hashed = password_hash($password, PASSWORD_DEFAULT);
+            $userRepository->create($name, $firstname, $phone, $address, $city, $postal_code, $email, $mdp_hashed);
+
+            // Mail de bienvenue
+            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'samymakhloufi@gmail.com';
+                $mail->Password   = MAIL_PASS;
+                $mail->SMTPSecure = 'tls';
+                $mail->Port       = 587;
+                $mail->CharSet    = 'UTF-8';
+                $mail->setFrom('samymakhloufi@gmail.com', 'Vite et Gourmand');
+                $mail->addAddress($email);
+                $mail->Subject = 'Bienvenue chez Vite&Gourmand 🍽️ Votre compte est activé';
+                $mail->isHTML(true);
+                $mail->Body = "<div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;'>
+            <h2 style='color: #d9534f;'>Bonjour " . htmlspecialchars($firstname) . ",</h2>
+            <p>Toute l'équipe de <strong>Vite & Gourmand</strong> est ravie de vous compter parmi ses nouveaux clients ! Votre compte a bien été créé avec succès.</p>
+            <p>Que ce soit pour un déjeuner sur le pouce, un repas de famille ou un événement professionnel, nous mettons tout en œuvre pour vous régaler avec des plats savoureux, cuisinés avec soin et livrés en un clin d'œil.</p>
         
-        <h3 style='color: #5bc0de;'>🚀 Vos avantages en un coup d'œil :</h3>
-        <ul>
-            <li><strong>Commandes simplifiées :</strong> Enregistrez vos adresses et vos préférences pour commander encore plus vite.</li>
-            <li><strong>Historique clair :</strong> Retrouvez toutes vos factures et vos anciens menus en un clic.</li>
-            <li><strong>Offres exclusives :</strong> Soyez le premier informé de nos nouvelles cartes saisonnières et de nos promotions.</li>
-        </ul>
+            <h3 style='color: #5bc0de;'>🚀 Vos avantages en un coup d'œil :</h3>
+            <ul>
+                <li><strong>Commandes simplifiées :</strong> Enregistrez vos adresses et vos préférences pour commander encore plus vite.</li>
+                <li><strong>Historique clair :</strong> Retrouvez toutes vos factures et vos anciens menus en un clic.</li>
+                <li><strong>Offres exclusives :</strong> Soyez le premier informé de nos nouvelles cartes saisonnières et de nos promotions.</li>
+            </ul>
         
-        <h3 style='color: #f0ad4e;'>🎁 Un petit cadeau de bienvenue</h3>
-        <p>Pour fêter votre arrivée, profitez de <strong>10% de réduction</strong> sur votre toute première commande avec le code : <strong style='font-size: 1.2em; color: #d9534f;'>BIENVENUE10</strong> <em>(valable pendant 30 jours)</em>.</p>
+            <h3 style='color: #f0ad4e;'>🎁 Un petit cadeau de bienvenue</h3>
+            <p>Pour fêter votre arrivée, profitez de <strong>10% de réduction</strong> sur votre toute première commande avec le code : <strong style='font-size: 1.2em; color: #d9534f;'>BIENVENUE10</strong> <em>(valable pendant 30 jours)</em>.</p>
         
-        <hr style='border: 0; border-top: 1px solid #eee; margin: 20px 0;'>
+            <hr style='border: 0; border-top: 1px solid #eee; margin: 20px 0;'>
         
-        <div style='background-color: #f9f9f9; padding: 15px; border-left: 4px solid #5bc0de; margin-bottom: 20px;'>
-            <strong>Besoin d'aide ou d'un devis sur-mesure ?</strong><br>
-            Notre équipe reste à votre entière disposition pour adapter nos menus à vos envies ou vos contraintes alimentaires. N'hésitez pas à nous contacter directement depuis votre espace client.
+            <div style='background-color: #f9f9f9; padding: 15px; border-left: 4px solid #5bc0de; margin-bottom: 20px;'>
+                <strong>Besoin d'aide ou d'un devis sur-mesure ?</strong><br>
+                Notre équipe reste à votre entière disposition pour adapter nos menus à vos envies ou vos contraintes alimentaires. N'hésitez pas à nous contacter directement depuis votre espace client.
+            </div>
+        
+            <p>À très vite pour votre prochaine dégustation !</p>
+            <p><strong>L'équipe de Vite & Gourmand</strong><br>
+            <a href='https://www.viteetgourmand.fr' style='color: #d9534f; text-decoration: none;'>Visiter notre application</a></p>
         </div>
-        
-        <p>À très vite pour votre prochaine dégustation !</p>
-        <p><strong>L'équipe de Vite & Gourmand</strong><br>
-        <a href='https://www.viteetgourmand.fr' style='color: #d9534f; text-decoration: none;'>Visiter notre application</a></p>
-    </div>
-    ";
-            $mail->send();
-        } catch (Exception $e) {}
+        ";
+                $mail->send();
+            } catch (Exception $e) {}
 
-        header('Location: '. BASE_URL .'/success-page/inscription-succes.php');
-        exit();
+            header('Location: '. BASE_URL .'/success-page/inscription-succes.php');
+            exit();
+        }
     }
 }
 ?>
@@ -96,6 +100,7 @@ if (isset($_POST['inscription'])) {
                 <section class="contact-form">
                     
                     <form action="" method="post" id="form-inscription">
+                        <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <fieldset>
                             <h3>Inscription</h3>
                             <div>

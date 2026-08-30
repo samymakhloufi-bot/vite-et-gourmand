@@ -10,6 +10,8 @@ if(!isset($_SESSION['user_id'])) {
     exit();
 }
 
+csrf_require();
+
 $data = json_decode(file_get_contents('php://input'), true);
 $id_commande = (int)$data['id_commande'];
 $datetime = $data['date_livraison'] . ' ' . $data['heure_livraison'] . ':00';

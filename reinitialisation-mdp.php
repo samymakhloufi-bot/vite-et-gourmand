@@ -5,6 +5,10 @@ $message = '';
 $message_type = '';
 
 if(isset($_POST['reset-password'])) {
+    if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+        $message = "Votre session a expiré, veuillez réessayer.";
+        $message_type = 'erreur';
+    } else {
     $email = trim($_POST['email']);
 
     $check = $pdo -> prepare("SELECT id_user FROM users WHERE email = ? AND actif = 1");
@@ -53,6 +57,7 @@ if(isset($_POST['reset-password'])) {
         $message = "Si ce mail existe, vous recevrez les instructions pour réinitialiser votre mot de passe.";
         $message_type = "success";
     }
+    }   
 }
 ?>
 <!DOCTYPE html>
@@ -74,6 +79,7 @@ if(isset($_POST['reset-password'])) {
             <section class="auth-wrapper">
                 <div class="auth-form">
                     <form action="./reinitialisation-mdp.php" method="post" class="reset-password-form">
+                        <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <fieldset>
                             <h3>Vous recevrez un lien par e-mail pour créer un nouveau mot de passe.</h3>
                             <div class="auth-fields">

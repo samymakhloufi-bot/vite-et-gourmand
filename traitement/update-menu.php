@@ -7,6 +7,8 @@ if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['employe', 'admin
     exit;
 }
 
+csrf_require();
+
 $data = json_decode(file_get_contents('php://input'), true);
 $id   = (int) $data['id'];
 

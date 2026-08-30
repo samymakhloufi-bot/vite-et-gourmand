@@ -8,6 +8,10 @@ $employes = $userRepository->findAllEmployes();
 
 // Modération compte
 if(isset($_POST['toggle-employe'])){
+    if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+        header('Location: ' . BASE_URL . '/espace-admin.php?error=csrf');
+        exit();
+    }
     $userRepository->toggleActif((int)$_POST['id_user'], (int)$_POST['actif']);
     $employes = $userRepository->findAllEmployes();
 }
@@ -16,15 +20,18 @@ if(isset($_POST['toggle-employe'])){
 
 if(isset($_POST['create-employe'])){
     if($userRepository->emailExists($_POST['email'])){
-        $error_employe = "Cet email est déjà utilisé.";
-    } else {
-        $mdp_hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $userRepository->createEmploye(
-            $_POST['nom'],
-            $_POST['prenom'],
-            $_POST['email'],
-            $mdp_hashed
-        );
+        if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+            $error_employe = "Votre session a expiré, veuillez réessayer.";
+        } elseif ($userRepository->emailExists($_POST['email'])){
+            $error_employe = "Cet email est déjà utilisé.";
+        } else {
+            $mdp_hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $userRepository->createEmploye(
+                $_POST['nom'],
+                $_POST['prenom'],
+                $_POST['email'],
+                $mdp_hashed
+            );
 
         // Mail de notification
         require_once __DIR__ . '/../../vendor/autoload.php';
@@ -55,6 +62,7 @@ if(isset($_POST['create-employe'])){
 
         $employes = $userRepository->findAllEmployes();
         $success_employe = "Compte employé créé avec succès.";
+    }
     }
 }
 ?>
@@ -104,6 +112,7 @@ if(isset($_POST['create-employe'])){
             <div class="badge-employe-<?= $employe['actif']?>"> 
                 <?= $employe['actif'] ? ' 🟢 Actif' : ' ⚫ Désactivé' ?></div>
             <form method="post" action="">
+                <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                 <input type="hidden" name="id_user" value="<?=$employe['id_user']?>">
                 <input type="hidden" name="actif" value="<?=$employe['actif'] ? 0 :1 ?>">
                 <button type="submit" class ="btn-manage-employe" name="toggle-employe"><?= $employe['actif'] ? 'Désactiver' : 'Activer' ?></button>

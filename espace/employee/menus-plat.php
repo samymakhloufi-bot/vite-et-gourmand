@@ -96,6 +96,7 @@
                 <div class="img-row">
                     <img src="<?= BASE_URL ?>/Images/<?= $src ?>" alt="" class="img-preview">
                     <form action="<?= BASE_URL ?>/traitement/upload-img-menu.php" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <input type="hidden" name="menu_id" value="<?= $menu['Id_menu'] ?>">
                         <input type="file" name="img_menu" accept=".png" style="display:none" id="upload-<?= $menu['Id_menu'] ?>">
                         <label for="upload-<?= $menu['Id_menu'] ?>" class="btn-sm">Modifier</label>

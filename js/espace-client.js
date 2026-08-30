@@ -146,7 +146,8 @@ function saveCmd(idCommande, btn){
         method : 'POST',
         headers : {
             'Content-Type' : 'application/json',
-            'X-Requested-With' : 'XMLHttpRequest'
+            'X-Requested-With' : 'XMLHttpRequest',
+            'X-CSRF-Token' : CSRF_TOKEN
         },
         body: JSON.stringify(data)
     })
@@ -178,7 +179,8 @@ function cancelCmd(idCommande, btn){
     fetch(BASE_URL +'/traitement/annul-commande.php' ,{
         method : 'POST',
         headers : {
-            'Content-Type' : 'application/json',},
+            'Content-Type' : 'application/json',
+            'X-CSRF-Token' : CSRF_TOKEN},
         body: JSON.stringify({id_commande: idCommande})
     })
 

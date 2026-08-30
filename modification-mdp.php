@@ -16,6 +16,10 @@ if($token) {
 }
 
 if(isset($_POST['nouveau-mdp']) && $token_valide) {
+    if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+        $message = "Votre session a expiré, veuillez recommencer.";
+        $message_type = 'erreur';
+    } else {
     $mdp = $_POST['password'];
     $mdp_confirm = $_POST['password-confirm'];
 
@@ -31,6 +35,7 @@ if(isset($_POST['nouveau-mdp']) && $token_valide) {
         $stmt -> execute([$mdp_hashed, $token]);
         header('Location: connexion.php?status=mdp-modifie');
         exit();
+    }
     }
 }
 
@@ -54,6 +59,7 @@ $activePage = 'Changement de mot de passe';
                         <p class="message-erreur">Ce lien est invalide ou expiré : </br> <a href="reinitialisation-mdp.php" class="new_link"> Demander un nouveau lien.</a></p>
                         <?php else:?>
                         <form action="./modification-mdp.php?token=<?php echo htmlspecialchars($token); ?>" method="post">
+                             <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                             <fieldset>
                                 <legend>Réinitialisation Mot de passe</legend>
                                 <?php if ($message) : ?>

@@ -83,7 +83,7 @@ function saveStatut(id, btn) {
 
     fetch(BASE_URL +'/traitement/update-status.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token' : CSRF_TOKEN },
         body: JSON.stringify({ id_commande: id, statut })
     })
     .then(res => res.json())
@@ -93,7 +93,13 @@ function saveStatut(id, btn) {
             btn.textContent = 'Enregistré';
             if (toast) { toast.textContent = 'Statut mis à jour'; toast.style.color = '#1D9E75'; }
             const card = btn.closest('.client-card');
-            if (card) card.dataset.statut = statut;
+            if (card) {
+                card.dataset.statut = statut;
+                const badge = card.querySelector('.order-statut')
+                if (badge) {
+                    badge.className = 'order-statut order-statut--' + statut;
+                    badge.textContent = select.options[select.selectedIndex].text;
+                }
         } else {
             btn.style.background = '#E24B4A';
             btn.textContent = 'Erreur';
@@ -103,6 +109,7 @@ function saveStatut(id, btn) {
             btn.textContent = 'Enregistrer';
             if (toast) toast.textContent = '';
         }, 2000);
+        }
     });
 }
 
@@ -176,7 +183,7 @@ function saveMenu(id, btn) {
 
     fetch(BASE_URL + '/traitement/update-menu.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token' : CSRF_TOKEN },
         body: JSON.stringify(data)
     })
     .then(res => res.json())
@@ -212,7 +219,7 @@ function toggleActifMenu(btn) {
 
     fetch(BASE_URL + '/traitement/toggle-menu.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token' : CSRF_TOKEN },
         body: JSON.stringify({ id, actif: nouvelEtat })
     })
     .then(res => res.json())
@@ -265,7 +272,7 @@ document.querySelectorAll('input[type="file"][id^="upload-"]').forEach(input => 
 function actionAvis(id, action) {
     fetch(BASE_URL + '/traitement/valider-avis.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token' : CSRF_TOKEN },
         body: JSON.stringify({ Id_avis: id, action })
     })
     .then(res => res.json())

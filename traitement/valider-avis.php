@@ -6,6 +6,8 @@ if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'] , ['admin', 'empl
     exit();
 }
 
+csrf_require();
+
 $data = json_decode(file_get_contents('php://input'),true);
 $id = (int) $data['Id_avis'];
 $action = $data['action'];

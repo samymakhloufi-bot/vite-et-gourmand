@@ -33,7 +33,8 @@ function calculerFrais(ville){
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-Token' : CSRF_TOKEN
         },
         body: 'adresse=' + encodeURIComponent(ville + ', France')
     })

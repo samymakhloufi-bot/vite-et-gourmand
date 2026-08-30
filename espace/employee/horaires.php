@@ -4,6 +4,10 @@ $stmt_h = $pdo->query("SELECT * FROM horaires ORDER BY Id_horaire ASC");
 $horaires = $stmt_h->fetchAll();
 
 if (isset($_POST['save-horaires'])) {
+    if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+        header('Location: ' . BASE_URL . '/espace-employe.php?section=horaires&error=csrf');
+        exit();
+    }
     foreach ($horaires as $h) {
         $id     = $h['Id_horaire'];
         $ferme  = isset($_POST['ferme_' . $id]) ? 1 : 0;
@@ -29,6 +33,7 @@ if (isset($_POST['save-horaires'])) {
 <?php endif; ?>
 
 <form method="post" action="?section=horaires">
+    <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
     <div class="card">
         <table class="horaires-table">
             <thead>

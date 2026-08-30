@@ -32,6 +32,10 @@ $distanceKM      = (float)($_POST['distance_km'] ?? 0);
 $prix_total  = ($menu_prix * $nb_pers) * (1 - $reduction) + $frais_livraison;
 
 if (isset($_POST['commander'])) {
+    if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+        header('Location: ' . BASE_URL . '/achat.php?error=csrf');
+        exit();
+    }
     $nom              = trim($_POST['nom']);
     $prenom           = trim($_POST['prenom']);
     $adresse_de_livraison = trim($_POST['address-livraison-precis']);

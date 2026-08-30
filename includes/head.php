@@ -8,6 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <script>const BASE_URL = '<?= BASE_URL ?>';</script>
+
+        <script> const CSRF_TOKEN = '<?= csrf_token() ?>';</script>
         
         <script>const GOOGLE_MAPS_API_KEY = '<?= GOOGLE_MAPS_KEY ?>';</script>
         

@@ -7,32 +7,36 @@ $fromCommande = isset($_GET['redirect']) && $_GET['redirect'] == 'nos-menus.php'
 $message = '';
 
 if (isset($_POST['se-connecter'])) {
-    $email    = trim($_POST['email-login']);
-    $password = trim($_POST['password-login']);
-
-    $user = $userRepository->findByEmail($email);
-
-    if ($user && password_verify($password, $user->getPassword())) {
-        $_SESSION['user_id'] = $user->getId();
-        $_SESSION['role']    = $user->getRole();
-
-        if (isset($_POST['remember-me'])) {
-            $token = bin2hex(random_bytes(32));
-            $userRepository->updateRememberToken($user->getId(), $token);
-            setcookie('remember_token', $token, time() + (30 * 24 * 60 * 60), "/");
-        }
-
-        if ($user->getRole() === 'admin') {
-            header('Location: ' . BASE_URL . '/espace-admin.php');
-        } elseif ($user->getRole() === 'employe') {
-            header('Location: ' . BASE_URL . '/espace-employe.php');
-        } else {
-            $redirect = $_GET['redirect'] ?? $_POST['redirect'] ?? 'index.php';
-            header('Location: ' . BASE_URL . '/' . $redirect);
-        }
-        exit();
+    if (!csrf_verify($_POST['csrf_token'] ?? NULL)) {
+        $message = "Votre session a expuiré, veuillez réessayeer.";
     } else {
-        $message = "Email ou mot de passe incorrect.";
+        $email    = trim($_POST['email-login']);
+        $password = trim($_POST['password-login']);
+
+        $user = $userRepository->findByEmail($email);
+
+        if ($user && password_verify($password, $user->getPassword())) {
+            $_SESSION['user_id'] = $user->getId();
+            $_SESSION['role']    = $user->getRole();
+
+            if (isset($_POST['remember-me'])) {
+                $token = bin2hex(random_bytes(32));
+                $userRepository->updateRememberToken($user->getId(), $token);
+                setcookie('remember_token', $token, time() + (30 * 24 * 60 * 60), "/");
+            }
+
+            if ($user->getRole() === 'admin') {
+                header('Location: ' . BASE_URL . '/espace-admin.php');
+            } elseif ($user->getRole() === 'employe') {
+                header('Location: ' . BASE_URL . '/espace-employe.php');
+            } else {
+                $redirect = $_GET['redirect'] ?? $_POST['redirect'] ?? 'index.php';
+                header('Location: ' . BASE_URL . '/' . $redirect);
+            }
+            exit();
+        } else {
+            $message = "Email ou mot de passe incorrect.";
+        }
     }
 }
 ?>

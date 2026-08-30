@@ -2,6 +2,8 @@
 if(session_status() === PHP_SESSION_NONE){
     session_start();
 }
+
+require_once __DIR__ . '/includes/csrf.php';
 $envFile = file_exists(__DIR__ . '/.env.docker') 
     ? __DIR__ . '/.env.docker'
     : __DIR__ . '/.env';

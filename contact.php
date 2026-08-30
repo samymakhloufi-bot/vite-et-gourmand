@@ -7,16 +7,20 @@ $message = '';
 $message_type = '';
 
 if(isset($_POST['submit-contact'])) {
-    $email = trim($_POST['email']);
-    $nom = trim($_POST['nom']);
-    $prenom = trim($_POST['prenom']);
-    $telephone = trim($_POST['telephone']);
-    $contenu = trim($_POST['demande']);
-    $ville = trim($_POST['ville']);
-    $adresse = trim($_POST['adresse']);
-    $complement_adresse = trim($_POST['complement-adresse']);
-    $code_postal = trim($_POST['code-postal']);
-    $type = $_POST['type-client'] ?? 'non spécifié';
+    if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+        header('Location: ' . BASE_URL . '/contact.php?error=csrf');
+        exit();
+    } else {
+        $email = trim($_POST['email']);
+        $nom = trim($_POST['nom']);
+        $prenom = trim($_POST['prenom']);
+        $telephone = trim($_POST['telephone']);
+        $contenu = trim($_POST['demande']);
+        $ville = trim($_POST['ville']);
+        $adresse = trim($_POST['adresse']);
+        $complement_adresse = trim($_POST['complement-adresse']);
+        $code_postal = trim($_POST['code-postal']);
+        $type = $_POST['type-client'] ?? 'non spécifié';
 
 
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
@@ -35,11 +39,11 @@ if(isset($_POST['submit-contact'])) {
             $mail->Subject = 'Demande de contact';
             $mail->isHTML(true);
             $mail->Body ="De : $nom $prenom <br>
-                        Email : $email <br>
-                        Téléphone : $telephone <br>
-                        Type de client : $type <br>
-                        Adresse : $adresse, $complement_adresse, $code_postal, $ville <br><br>
-                        Message : <br> $contenu";
+                    Email : $email <br>
+                    Téléphone : $telephone <br>
+                    Type de client : $type <br>
+                    Adresse : $adresse, $complement_adresse, $code_postal, $ville <br><br>
+                    Message : <br> $contenu";
 
             $mail->send();
             $message = "Votre message a été envoyé avec succès.";
@@ -49,8 +53,9 @@ if(isset($_POST['submit-contact'])) {
         } catch (Exception $e) {
             $message = "Erreur lors de l'envoi de l'email : ";
             $message_type = 'erreur';
-        } 
-    }
+        }
+    }    
+}
 ?>
 
 <!DOCTYPE html>
@@ -73,6 +78,7 @@ if(isset($_POST['submit-contact'])) {
 
                 <section class="contact-form">
                     <form action="" method="post" class="contact-form-inner">
+                        <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <h3>Vos coordonnées</h3>
                         <fieldset>
                             <div class="client-type">
