@@ -37,7 +37,7 @@
                             <span class="id-avis">Avis #<?= htmlspecialchars($a['Id_avis']) ?></span>
                         </div>
                     </div>
-                    <span class="avis-badge <?= $badgeClass ?>"><?= $badgeLabel ?></span>
+                    <span class="avis-badge-<?= $badgeClass ?>"><?= $badgeLabel ?></span>
                 </div>
 
                 <div class="avis-stars" aria-label="<?= $note ?> étoiles sur 5">

@@ -91,6 +91,7 @@ if (isset($_POST['commander'])) {
                 
     
                     <form action="" method="post" id="form-commande">
+                        <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <input type="hidden" name="menu_id"    value="<?= $menu_id ?>">
                         <input type="hidden" name="menu_nom"  value="<?= htmlspecialchars($menu_nom) ?>">
                         <input type="hidden" name="nb_pers" value="<?= $nb_pers ?>">

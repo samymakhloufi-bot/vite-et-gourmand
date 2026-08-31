@@ -8,7 +8,7 @@ $message = '';
 
 if (isset($_POST['se-connecter'])) {
     if (!csrf_verify($_POST['csrf_token'] ?? NULL)) {
-        $message = "Votre session a expuiré, veuillez réessayeer.";
+        $message = "Votre session a expiré, veuillez réessayeer.";
     } else {
         $email    = trim($_POST['email-login']);
         $password = trim($_POST['password-login']);
@@ -68,6 +68,8 @@ if (isset($_POST['se-connecter'])) {
 
                 <div class="auth-form"> 
                     <form action="<?= BASE_URL ?>/connexion.php" method="post" id="form-login">
+
+                        <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <input type="hidden" name="redirect" value="<?= htmlspecialchars($_GET['redirect'] ?? ''); ?>">
                         <fieldset>
                             <legend>Se Connecter</legend>

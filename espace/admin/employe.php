@@ -72,6 +72,7 @@ if(isset($_POST['create-employe'])){
     <h3>Création d'un compte pour employé : </h3>
     
     <form action="" method="post"  id="form-employe-account">
+        <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
         <fieldset>
             <div class="info-employe">
                 <label for="email-employe">Email : </label>    
