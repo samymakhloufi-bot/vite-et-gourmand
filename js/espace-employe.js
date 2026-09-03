@@ -291,7 +291,7 @@ function actionAvis(id, action) {
 
             item.querySelectorAll('.btn-valider, .btn-refuser').forEach(b => b.classList.remove('active'));
             if (action === 'valide') item.querySelector('.btn-valider')?.classList.add('active');
-            if (action === 'refuse') item.querySelector('.btn-refuser')?.classList.add('active');
+            if (action === 'refuser') item.querySelector('.btn-refuser')?.classList.add('active');
 
             updateCompteur();
         }

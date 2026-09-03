@@ -1,5 +1,6 @@
 <?php 
 require_once './login.php';
+require_once __DIR__ . '/includes/password.php';
 
 $message = '';
 $message_type = '';

@@ -2,6 +2,7 @@
 require_once './login.php';
 require_once './vendor/autoload.php';
 require_once './classes/Repository/UserRepository.php';
+require_once __DIR__ . '/includes/password.php';
 
 $message = "";
 $activePage = 'Inscription';

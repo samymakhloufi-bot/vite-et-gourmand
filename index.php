@@ -135,7 +135,7 @@ $avis = array_slice($avis, 0, 3);
                     <?php foreach ($avis as $a):?>
                     <article class="review-card">
                         <div class="review-header">
-                            <span class="avis-avatar"><?= htmlspecialchars(mb_strtoupper(mb_substr($a->getPrenomUserAvis() ?: $a['nom'], 0, 1))) ?></span>
+                            <span class="avis-avatar"><?= htmlspecialchars(mb_strtoupper(mb_substr($a->getPrenomUserAvis() ?: $a->getNomUserAvis(), 0, 1))) ?></span>
                             <h3 class="review-author" aria-label="auteur de l'avis"><?= htmlspecialchars($a->getPrenomUserAvis())?><?=htmlspecialchars(substr($a->getNomUserAvis(), 0,1)) ?></h3> 
                         </div>
                         <div class="review-note">
