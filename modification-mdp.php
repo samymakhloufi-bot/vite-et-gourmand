@@ -1,19 +1,20 @@
 <?php 
 require_once './login.php';
 require_once __DIR__ . '/includes/password.php';
+require_once __DIR__.'/classes/Repository/UserRepository.php';
+
 
 $message = '';
 $message_type = '';
 $token_valide = false;
 $token = $_GET['token'] ?? '';
-if($token) {
-    $stmt = $pdo -> prepare("SELECT id_user FROM users WHERE reset_token = ? AND reset_token_expiry > NOW()");
-    $stmt ->execute([$token]);
-    $check = $stmt-> fetch();
+$userRepository = new UserRepository($pdo);
 
-    if($check){
-        $token_valide = true;
-    };
+if (!is_string($token) || !preg_match('/^[a-f0-9]{64}$/', $token)) {
+    $token = '';
+} else {
+    $user = $userRepository->findByResetToken($token);
+    $token_valide = $user !== null;
 }
 
 if(isset($_POST['nouveau-mdp']) && $token_valide) {
@@ -21,8 +22,8 @@ if(isset($_POST['nouveau-mdp']) && $token_valide) {
         $message = "Votre session a expiré, veuillez recommencer.";
         $message_type = 'erreur';
     } else {
-    $mdp = $_POST['password'];
-    $mdp_confirm = $_POST['password-confirm'];
+    $mdp = $_POST['password'] ?? '';
+    $mdp_confirm = $_POST['password-confirm'] ?? '';
 
     if (($passwordError = password_validation_error($mdp)) !== null) {
         $message = $passwordError;
@@ -32,10 +33,15 @@ if(isset($_POST['nouveau-mdp']) && $token_valide) {
         $message_type = 'erreur';
     } else {
         $mdp_hashed = password_hash($mdp, PASSWORD_DEFAULT);
-        $stmt = $pdo -> prepare("UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE reset_token = ?");
-        $stmt -> execute([$mdp_hashed, $token]);
-        header('Location: connexion.php?status=mdp-modifie');
-        exit();
+
+        if ($userRepository->resetPassword($token, $mdp_hashed)) {
+            header('Location: connexion.php?status=mdp-modifie');
+            exit();
+        }
+
+        $token_valide = false;
+        $message = "Ce lien est invalide ou expiré.";
+        $message_type = 'erreur';
     }
     }
 }
@@ -60,7 +66,7 @@ $activePage = 'Changement de mot de passe';
                         <p class="message-erreur">Ce lien est invalide ou expiré : </br> <a href="reinitialisation-mdp.php" class="new_link"> Demander un nouveau lien.</a></p>
                         <?php else:?>
                         <form action="./modification-mdp.php?token=<?php echo htmlspecialchars($token); ?>" method="post">
-                             <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
+                            <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                             <fieldset>
                                 <legend>Réinitialisation Mot de passe</legend>
                                 <?php if ($message) : ?>

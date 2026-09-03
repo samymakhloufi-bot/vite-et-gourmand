@@ -1,6 +1,8 @@
 <?php $activePage = 'Réinitialisation de votre Mot de Passe'; 
 require_once __DIR__.'/login.php';
+require_once __DIR__.'/classes/Repository/UserRepository.php';
 
+$userRepository = new UserRepository($pdo);
 $message = '';
 $message_type = '';
 
@@ -9,16 +11,14 @@ if(isset($_POST['reset-password'])) {
         $message = "Votre session a expiré, veuillez réessayer.";
         $message_type = 'erreur';
     } else {
-    $email = trim($_POST['email']);
+        $email = trim($_POST['email'] ?? '');
+        $user = filter_var($email, FILTER_VALIDATE_EMAIL)
+            ? $userRepository->findByEmail($email)
+            : null;
 
-    $check = $pdo -> prepare("SELECT id_user FROM users WHERE email = ? AND actif = 1");
-    $check -> execute([$email]);
-    $user = $check-> fetch();
-    
-    if($user){
-        $token = bin2hex(random_bytes(32));
-        $stmt = $pdo->prepare("UPDATE users SET reset_token = ?, reset_token_expiry = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE id_user = ?");
-        $stmt->execute([$token, $user['id_user']]);
+        if ($user && $user->getActif()) {
+            $token = bin2hex(random_bytes(32));
+            $userRepository->updateResetToken($user->getId(), $token);
 
         require_once './vendor/autoload.php';
 
