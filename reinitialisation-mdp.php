@@ -36,9 +36,7 @@ if(isset($_POST['reset-password'])) {
             $mail->setFrom('samymakhloufi@gmail.com', 'Vite et Gourmand');
             $mail->addAddress($email);
             $mail->Subject = 'Réinitialisation de votre mot de passe';
-            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
-            $reset_link = $protocol . $_SERVER['HTTP_HOST'] . "/modification-mdp.php?token=" . $token;
-            $mail->isHTML(true);
+            $reset_link = BASE_URL . '/modification-mdp.php?token=' . urlencode($token);$mail->isHTML(true);
             $mail->Body ="
                 <p>Bonjour,</p>
                 <p>Vous avez demandé la réinitialisation de votre mot de passe.</p>
@@ -49,10 +47,9 @@ if(isset($_POST['reset-password'])) {
             $mail->send();
             $message = "Un email de réinitialisation a été envoyé à votre adresse.";
             $message_type = 'success';
-        } catch (Exception $e) {
-            $message = "Erreur lors de l'envoi de l'email : ";
-            $message_type = 'erreur';
-        }
+            } catch (Exception $e) {
+                error_log('Erreur envoi réinitialisation : '. $mail->ErrorInfo);
+            }
     } else {
         $message = "Si ce mail existe, vous recevrez les instructions pour réinitialiser votre mot de passe.";
         $message_type = "success";
@@ -82,9 +79,14 @@ if(isset($_POST['reset-password'])) {
                         <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <fieldset>
                             <h3>Vous recevrez un lien par e-mail pour créer un nouveau mot de passe.</h3>
+                            <?php if ($message) : ?>
+                            <p class="message-<?= htmlspecialchars($message_type) ?>" role="alert">
+                                <?= htmlspecialchars($message) ?>
+                            </p>
+                        <?php endif; ?>
                             <div class="auth-fields">
                                 <label for="email">E-mail :</label>
-                                <input type="email" id="email" name="email" placeholder="Veuillez saisir votre mail">
+                                <input type="email" id="email" name="email" placeholder="Veuillez saisir votre mail" required>
                             </div>                
                             <button type="submit" id="btn-reset" name="reset-password">Réinitialiser le mot de passe</button>
                             <a href="./connexion.php" id="return" >Retour à la Connexion</a>

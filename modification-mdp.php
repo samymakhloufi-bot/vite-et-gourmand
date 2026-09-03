@@ -63,7 +63,7 @@ $activePage = 'Changement de mot de passe';
             <section class="auth-wrapper">
                 <div class="msg-password">
                     <?php if(!$token_valide):?>
-                        <p class="message-erreur">Ce lien est invalide ou expiré : </br> <a href="reinitialisation-mdp.php" class="new_link"> Demander un nouveau lien.</a></p>
+                        <p class="message-erreur">Ce lien est invalide ou expiré : <br> <a href="reinitialisation-mdp.php" class="new_link"> Demander un nouveau lien.</a></p>
                         <?php else:?>
                         <form action="./modification-mdp.php?token=<?php echo htmlspecialchars($token); ?>" method="post">
                             <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
@@ -72,14 +72,14 @@ $activePage = 'Changement de mot de passe';
                                 <?php if ($message) : ?>
                                     <p class="message-<?= $message_type?>" role="alert"><?= htmlspecialchars($message); ?></p>
                                 <?php endif; ?>
-                                <div class="reset-password-field"></div>
+                                <div class="reset-password-field">
                                     <div class="first-password">
                                         <label for="password">Nouveau mot de passe</label>
-                                        <input type="password" id="password" name="password" minlength="8"  autocomplete="new-password" required>
+                                        <input type="password" id="password" name="password" minlength="10" maxlength="255"  autocomplete="new-password" required>
                                     </div>
                                         <div class="recall-password">
                                         <label for="password-confirm">Confirmez mot de passe</label>
-                                        <input type="password" id="password-confirm" name="password-confirm" minlength="8" autocomplete="new-password" required>
+                                        <input type="password" id="password-confirm" name="password-confirm" minlength="10" maxlength="255" autocomplete="new-password" required>
                                     </div>
                                 </div>
                                 
