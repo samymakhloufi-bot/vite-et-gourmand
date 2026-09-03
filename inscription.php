@@ -23,6 +23,8 @@ if (isset($_POST['inscription'])) {
 
         if ($userRepository->emailExists($email)) {
             $message = "Cet email est déjà utilisé. Veuillez en choisir un autre.";
+        } elseif (($passwordError = password_validation_error($password)) !== null) {
+            $message = $passwordError;
         } else {
             $mdp_hashed = password_hash($password, PASSWORD_DEFAULT);
             $userRepository->create($name, $firstname, $phone, $address, $city, $postal_code, $email, $mdp_hashed);

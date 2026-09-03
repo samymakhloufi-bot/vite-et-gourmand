@@ -21,7 +21,6 @@ if(isset($_POST['toggle-employe'])){
 // Création compte
 
 if(isset($_POST['create-employe'])){
-    if($userRepository->emailExists($_POST['email'])){
         if (!csrf_verify($_POST['csrf_token'] ?? null)) {
             $error_employe = "Votre session a expiré, veuillez réessayer.";
         } elseif ($userRepository->emailExists($_POST['email'])){
@@ -65,8 +64,8 @@ if(isset($_POST['create-employe'])){
         $employes = $userRepository->findAllEmployes();
         $success_employe = "Compte employé créé avec succès.";
     }
-    }
 }
+
 ?>
 
 <div id="create-employe-panel" >

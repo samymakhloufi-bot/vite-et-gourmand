@@ -24,8 +24,8 @@ if(isset($_POST['nouveau-mdp']) && $token_valide) {
     $mdp = $_POST['password'];
     $mdp_confirm = $_POST['password-confirm'];
 
-    if(strlen($mdp) < 8){
-        $message = "Le mot de passe doit contenir au moins 8 caractères.";
+    if (($passwordError = password_validation_error($mdp)) !== null) {
+        $message = $passwordError;
         $message_type = 'erreur';
     } elseif ($mdp !== $mdp_confirm) {
         $message = "Les mots de passe ne correspondent pas.";
