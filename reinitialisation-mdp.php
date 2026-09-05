@@ -45,14 +45,12 @@ if(isset($_POST['reset-password'])) {
                 <p>Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.</p>";
 
             $mail->send();
-            $message = "Un email de réinitialisation a été envoyé à votre adresse.";
-            $message_type = 'success';
             } catch (Exception $e) {
                 error_log('Erreur envoi réinitialisation : '. $mail->ErrorInfo);
             }
-    } else {
-        $message = "Si ce mail existe, vous recevrez les instructions pour réinitialiser votre mot de passe.";
-        $message_type = "success";
+            
+        $message = "Si cette adresse e-mail correspond à un compte actif, vous recevrez les instructions pour réinitialiser votre mot de passe.";
+        $message_type = 'success';
     }
     }   
 }

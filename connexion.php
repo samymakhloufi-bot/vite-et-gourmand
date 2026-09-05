@@ -5,6 +5,12 @@ require_once __DIR__ . '/classes/Repository/UserRepository.php';
 $userRepository = new UserRepository($pdo);
 $fromCommande = isset($_GET['redirect']) && $_GET['redirect'] == 'nos-menus.php';
 $message = '';
+$message_type = 'erreur';
+
+if (($_GET['status'] ?? '') === 'mdp-modifie') {
+    $message = 'Votre mot de passe a bien été modifié. Vous pouvez maintenant vous connecter.';
+    $message_type = 'success';
+}
 
 if (isset($_POST['se-connecter'])) {
     if (!csrf_verify($_POST['csrf_token'] ?? NULL)) {
@@ -111,7 +117,7 @@ if (isset($_POST['se-connecter'])) {
                             </div>
                             <div class="erreur-div" role="alert" aria-live="assertive">
                                     <?php if ($message):?>
-                                    <p class="message-erreur"><?php echo htmlspecialchars($message); ?></p>
+                                    <p class="message-<?= htmlspecialchars($message_type) ?>"><?php echo htmlspecialchars($message); ?></p>
                                     <?php endif; ?>
                                 </div>
                             <div class="remember">

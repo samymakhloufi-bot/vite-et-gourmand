@@ -2,7 +2,6 @@
 
 require_once './login.php';
 require_once './classes/Repository/CommandeRepository.php';
-require_once './classes/Repository/CommandeDetailsRepository.php';
 require_once './classes/Repository/UserRepository.php';
 require_once './classes/Repository/MenuRepository.php';
 require_once './classes/Repository/AvisRepository.php';
@@ -24,12 +23,7 @@ $commandes = $commandeRepository->findAllWithDetails();
 $menus = $menuRepository->findAllAsArray(false);
 
 // Avis
-$stmt = $pdo->query("SELECT a.*, u.nom, u.prenom 
-    FROM avis a 
-    JOIN users u ON a.Id_user = u.Id_user 
-    WHERE a.statut_avis 
-    ORDER BY a.created_at DESC");
-$avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$avis = $avisRepository->findAllAvis();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

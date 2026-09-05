@@ -1,8 +1,8 @@
 <?php $activePage = 'espace client'; 
 
 require_once './login.php';
-    require_once './classes/Repository/CommandeRepository.php';
-    require_once './classes/Repository/UserRepository.php';
+require_once './classes/Repository/CommandeRepository.php';
+require_once './classes/Repository/UserRepository.php';
 
 
 if(!isset($_SESSION['user_id'])) {

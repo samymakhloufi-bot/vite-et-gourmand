@@ -1,12 +1,21 @@
 <?php $activePage = 'espace admin'; 
 
-$activeTab = $_GET['tab'] ?? 'dashboard-wrapper';
 
 require_once './login.php';
+
+$activeTab = $_GET['tab'] ?? 'dashboard-wrapper';
+
 if(!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin'])) {
     header('Location: ./index.php');
     exit();
 }
+
+require_once './classes/Repository/CommandeRepository.php';
+require_once './classes/Repository/UserRepository.php';
+require_once './classes/Repository/MenuRepository.php';
+require_once './classes/Repository/AvisRepository.php';
+
+
 
 $commandes = [];
 $menus =[];
@@ -14,28 +23,19 @@ $avis =[];
 $horaires = [];
 
 
-// Récupérer les données nécessaires pour chaque section
+$commandeRepository = new CommandeRepository($pdo);
+$menuRepository     = new MenuRepository($pdo);
+$avisRepository     = new AvisRepository($pdo);
 
-        //Commande 
-        $stmt = $pdo -> query("SELECT c.Id_commande, u.nom, m.menu_nom, c.date_commande, c.statut, c.mode_paiement, c.adresse_livraison, cd.prix, cd.quantite, c.date_livraison
-        FROM commande c 
-        JOIN users u ON c.Id_user = u.Id_user 
-        JOIN commande_detail cd ON c.Id_commande = cd.Id_commande
-        JOIN menu m ON cd.Id_menu = m.Id_menu 
-        ORDER BY date_commande DESC");
-        $commandes = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
-        //Menu 
-        $stmt = $pdo -> query("SELECT * FROM menu ORDER BY menu_nom DESC");
-        $menus = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+// Commandes
+$commandes = $commandeRepository->findAllWithDetails();
 
-        //Avis
-        $stmt = $pdo->query("SELECT a.*, u.nom, u.prenom 
-        FROM avis a 
-        JOIN users u ON a.Id_user = u.Id_user 
-        ORDER BY a.created_at DESC");
-        $avis = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+// Menus
+$menus = $menuRepository->findAllAsArray(false);
 
+// Avis
+$avis = $avisRepository->findAllAvis();
 
 ?>
 <!DOCTYPE html>

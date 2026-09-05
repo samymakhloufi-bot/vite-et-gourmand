@@ -14,6 +14,8 @@
     <?php foreach ($menus as $menu): 
         $img = $menu['img_menu'];
         $src = str_contains($img, '.') ? $img : $img . '.png';
+        $stock = $menu['quantite_restante'] !== null
+            ? (int)$menu['quantite_restante']: null;
     ?>
     <div class="menu-card" data-nom="<?= strtolower(htmlspecialchars($menu['menu_nom'])) ?>">
 	    <div class="menu-card-header">
@@ -105,7 +107,7 @@
                 </div>
                 <div class="btn-menus-plat">
                     <button class="btn-save" onclick="saveMenu(<?= $menu['Id_menu'] ?>, this)">Enregistrer</button>
-                    <button class="btn-<?= $menu['actif'] ? 'desactivate' : 'reactivate' ?>" data-actif= "<?= $menu['actif'] ?>"data-id="<?= $menu['Id_menu'] ?>," onclick="toggleActifMenu(this)"><?= $menu['actif'] ? 'Désactiver' : 'Réactiver'?></button>
+                    <button class="btn-<?= $menu['actif'] ? 'desactivate' : 'reactivate' ?>" data-actif= "<?= $menu['actif'] ?>"data-id="<?= $menu['Id_menu'] ?>" onclick="toggleActifMenu(this)"><?= $menu['actif'] ? 'Désactiver' : 'Réactiver'?></button>
 
                     <span class="saved-toast" id="toast-<?= $menu['Id_menu'] ?>"></span>
 

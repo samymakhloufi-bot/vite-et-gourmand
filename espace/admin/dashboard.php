@@ -17,6 +17,7 @@ foreach ($commandes as $cmd) {
 foreach ($avis as $a) {
     if ($a['statut_avis'] === 'en_attente') $nb_avis_attente++;
 }
+
 $statsRepository = new StatsRepository(
     MongoConnection::getStatsCollection());
 $debut_mois = date('Y-m-01 00:00:00');

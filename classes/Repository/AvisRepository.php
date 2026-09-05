@@ -50,4 +50,13 @@ private function hydrateAll(array $rows): array{
             $avis->getIdAvis()
         ]);
     }
+
+    public function findAllAvis(): array{
+        $stmt = $this->pdo->query("SELECT a.*, u.nom, u.prenom 
+        FROM avis a 
+        JOIN users u ON a.Id_user = u.Id_user 
+        WHERE a.statut_avis
+        ORDER BY a.created_at DESC");
+        return $stmt ->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

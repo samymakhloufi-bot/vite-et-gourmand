@@ -1,8 +1,8 @@
 <div class="toolbar-avis">
     <div class="avis-count">
         <?php $count = 0;
-            foreach ($avis as $a){
-                if($a['statut_avis'] ==='en_attente') $count++;} ?> 
+            foreach ($avis as $avi){
+                if($avi['statut_avis'] ==='en_attente') $count++;} ?> 
             <span class="avis-count" id="avis-count"> 
         
             <?= $count?> avis en attente</span>
