@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inscription'])) {
 
                         <p>
                             Ce lien est valable pendant
-                            <strong>1 heure</strong>
+                            <strong>24 heures</strong>
                             et ne peut être utilisé qu'une seule fois.
                         </p>
 
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inscription'])) {
 
                 $mail->AltBody =
                     "Confirmez votre inscription : {$confirmationLink} " .
-                    "(lien valable pendant 1 heure).";
+                    "(lien valable pendant 24 heures).";
 
                 $mail->send();
 

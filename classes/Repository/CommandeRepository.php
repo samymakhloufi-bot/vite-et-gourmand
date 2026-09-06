@@ -108,88 +108,134 @@ class CommandeRepository {
         return (int)$this->pdo->lastInsertId();
     }
 
-    public function updateStatut(int $id, string $statut): void {
-        $stmt = $this->pdo->prepare("UPDATE commande SET statut = ? WHERE Id_commande = ?");
-        $stmt->execute([$statut, $id]);
+public function updateStatut(int $id, string $statut): void
+{
+    try {
+        $this->pdo->beginTransaction();
+
+        $stmtCommande = $this->pdo->prepare(
+            "SELECT statut
+            FROM commande
+            WHERE Id_commande = ?
+            FOR UPDATE"
+        );
+
+        $stmtCommande->execute([$id]);
+        $commande = $stmtCommande->fetch(PDO::FETCH_ASSOC);
+
+        if (!$commande) {
+            throw new RuntimeException('Commande introuvable.');
+        }
+
+        $stmtDetails = $this->pdo->prepare(
+            "SELECT
+                cd.Id_detail,
+                cd.Id_menu,
+                cd.quantite,
+                cd.stock_reserve,
+                m.quantite_restante
+            FROM commande_detail cd
+            INNER JOIN menu m ON m.Id_menu = cd.Id_menu
+            WHERE cd.Id_commande = ?
+            FOR UPDATE"
+        );
+
+        $stmtDetails->execute([$id]);
+        $details = $stmtDetails->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($statut === 'accepte') {
+            foreach ($details as $detail) {
+                if ((int) $detail['stock_reserve'] === 1) {
+                    continue;
+                }
+
+                if ($detail['quantite_restante'] === null) {
+                    continue;
+                }
+
+                $quantite = (int) $detail['quantite'];
+                $stock = (int) $detail['quantite_restante'];
+
+                if ($stock < $quantite) {
+                    throw new RuntimeException(
+                        "Stock insuffisant : {$stock} restant(s) pour {$quantite} demandé(s)."
+                    );
+                }
+
+                $stmtStock = $this->pdo->prepare(
+                    "UPDATE menu
+                    SET quantite_restante = quantite_restante - ?
+                    WHERE Id_menu = ?"
+                );
+
+                $stmtStock->execute([
+                    $quantite,
+                    (int) $detail['Id_menu']
+                ]);
+
+                $stmtReserve = $this->pdo->prepare(
+                    "UPDATE commande_detail
+                    SET stock_reserve = 1
+                    WHERE Id_detail = ?"
+                );
+
+                $stmtReserve->execute([
+                    (int) $detail['Id_detail']
+                ]);
+            }
+        }
+
+        if ($statut === 'annulee') {
+            foreach ($details as $detail) {
+                if ((int) $detail['stock_reserve'] !== 1) {
+                    continue;
+                }
+
+                $stmtStock = $this->pdo->prepare(
+                    "UPDATE menu
+                    SET quantite_restante = quantite_restante + ?
+                    WHERE Id_menu = ?"
+                );
+
+                $stmtStock->execute([
+                    (int) $detail['quantite'],
+                    (int) $detail['Id_menu']
+                ]);
+
+                $stmtReserve = $this->pdo->prepare(
+                    "UPDATE commande_detail
+                    SET stock_reserve = 0
+                    WHERE Id_detail = ?"
+                );
+
+                $stmtReserve->execute([
+                    (int) $detail['Id_detail']
+                ]);
+            }
+        }
+
+        $stmtUpdate = $this->pdo->prepare(
+            "UPDATE commande
+            SET statut = ?
+            WHERE Id_commande = ?"
+        );
+
+        $stmtUpdate->execute([$statut, $id]);
+
+        $this->pdo->commit();
+    } catch (Throwable $e) {
+        if ($this->pdo->inTransaction()) {
+            $this->pdo->rollBack();
+        }
+
+        throw $e;
     }
+}
 
     public function annuler(int $id, string $modeContact, string $motif): void {
-        try{
-            $this->pdo->beginTransaction();
-
-            $stmtCommande = $this->pdo->prepare("SELECT statut FROM commande WHERE Id_commande = ? FOR UPDATE");
-            $stmtCommande->execute([$id]);
-            $commande = $stmtCommande->fetch(PDO::FETCH_ASSOC);
-
-            if (!$commande) {
-                throw new Exception("Commande non trouvée.");
-            }
-
-            $stmtDetails = $this->pdo->prepare("SELECT cd.Id_detail, cd.Id_menu, cd.quantite, cd.stock_reserve, m.quantite_restante 
-                            FROM commande_detail cd
-                            INNER JOIN menu m ON m.Id_menu = cd.Id_menu
-                            WHERE cd.Id_commande = ?
-                            FOR UPDATE");
-            $stmtDetails->execute([$id]);
-            $details = $stmtDetails->fetchAll(PDO::FETCH_ASSOC);
-
-            if($statut == 'accepte'){
-                foreach($details as $detail){
-                    if((int) $detail['stock_reserve'] === 1){
-                        continue;
-                    }
-
-                    if($detail['quantite_restante'] === null){
-                        continue;
-                    }
-
-                    $quantite = (int) $detail['quantite'];
-                    $stock = (int) $detail['quantite_restante'];
-
-                    if($stock < $quantite){
-                        throw new RuntimeException("Stock insuffisant.");
-                    }
-
-                    $stmtStock = $this->pdo->prepare("UPDATE menu SET quantite_restante = quantite_restante - ?
-                    WHERE Id_menu = ?");
-
-                    $stmtStock->execute([$quantite, (int)$detail['Id_menu']]);
-
-                    $stmtReserve = $this->pdo->prepare("UPDATE commande_detail SET stock_reserve = 1
-                    WHERE Id_detail = ?");
-
-                    $stmtReserve->execute((int)$detail['Id_detail']);
-                }
-            }
-
-            if($statut == 'annulee'){
-                foreach($details as $detail){
-                    if((int) $detail['stock_reserve'] === 1){
-                        continue;
-                    }
-                    $stmtStock = $this->pdo->prepare("UPDATE menu SET quantite_restante = quantite_restante +?
-                    WHERE Id_menu = ?");
-
-                    $stmtStock->execute([(int)$detail['quantite'], (int)$detail['Id_menu']]);
-
-                    $stmtReserve = $this->pdo->prepare("UPDATE commande_detail SET stock_reserve = 0
-                    WHERE Id_detail = ?");
-
-                    $stmtReserve->execute((int)$detail['Id_detail']);                    
-                }
-            }
-
-            $stmtUpdate = $this->pdo->prepare("UPDATE commande SET statut = ?
-            WHERE Id_commande = ?");
-            $stmtUpdate->execute([$statut, $id]);
-
-            $this->pdo->commit();
-        } catch (Exception $e) {
-            if($this->pdo->inTransaction()){
-                $this->pdo->rollBack();
-            }
-            throw $e;
-        }
+        $stmt = $this->pdo->prepare("UPDATE commande SET statut = 'annulee', mode_contact = ?, motif_annulation = ? 
+        WHERE Id_commande = ?");
+        $stmt->execute([$modeContact, $motif, $id]);
     }
 
     public function findDetailsByCommande(int $commandeId): array {

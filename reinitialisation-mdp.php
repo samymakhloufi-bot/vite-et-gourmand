@@ -41,7 +41,7 @@ if(isset($_POST['reset-password'])) {
                 <p>Bonjour,</p>
                 <p>Vous avez demandé la réinitialisation de votre mot de passe.</p>
                 <p><a href='$reset_link' style='background:#7D241A;color:#fff;padding:10px 20px;text-decoration:none;border-radius:4px;'>Réinitialiser mon mot de passe</a></p>
-                <p>Ce lien expire dans <strong>1 heure</strong>.</p>
+                <p>Ce lien expire dans <strong>24 heures</strong>.</p>
                 <p>Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.</p>";
 
             $mail->send();

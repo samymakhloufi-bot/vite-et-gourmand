@@ -20,7 +20,8 @@ RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html/Image
 
 RUN echo "default_charset = UTF-8" > /usr/local/etc/php/conf.d/charset.ini
 
-RUN composer install 
+WORKDIR /var/www/html
+RUN composer install --no-interaction --prefer-dist
 
 RUN echo '<Directory /var/www/html>\n\
         Options Indexes FollowSymLinks\n\
