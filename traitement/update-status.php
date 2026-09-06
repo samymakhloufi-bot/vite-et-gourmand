@@ -28,11 +28,10 @@ if (!in_array($statut, $statuts_autorises)) {
 }
 
 try {
-    $stmt = $pdo->prepare("UPDATE commande SET statut = ? WHERE Id_commande = ?");
-    $stmt->execute([$statut, $id_commande]);
+    $commandeRepository = new CommandeRepository($pdo);
+    $commandeRepository->updateStatut($id_commande, $statut);
 
     try {
-        $commandeRepository = new CommandeRepository($pdo);
         $statsRepository = new StatsRepository(
             MongoConnection::getStatsCollection());
         $commandeStats = $commandeRepository->findStatsDataById($id_commande);

@@ -10,6 +10,9 @@ $message_type = 'erreur';
 if (($_GET['status'] ?? '') === 'mdp-modifie') {
     $message = 'Votre mot de passe a bien été modifié. Vous pouvez maintenant vous connecter.';
     $message_type = 'success';
+} elseif (($_GET['status'] ?? '') === 'compte-active') {
+    $message = 'Votre compte a bien été activé. Vous pouvez maintenant vous connecter.';
+    $message_type = 'success';
 }
 
 if (isset($_POST['se-connecter'])) {
@@ -21,7 +24,7 @@ if (isset($_POST['se-connecter'])) {
 
         $user = $userRepository->findByEmail($email);
 
-        if ($user && password_verify($password, $user->getPassword())) {
+        if ($user && $user->getActif() && password_verify($password, $user->getPassword())) {
             $_SESSION['user_id'] = $user->getId();
             $_SESSION['role']    = $user->getRole();
 

@@ -100,6 +100,7 @@ CREATE TABLE `commandes_stats` (
   `montant_total` decimal(10,2) NOT NULL,
   `nombre_personnes` int NOT NULL,
   `reduction` decimal(10,2) DEFAULT '0.00',
+  `stock_reserve` tinyint(1) NOT NULL DEFAULT '0',
   `frais_livraison` decimal(10,2) DEFAULT '0.00',
   `statut` varchar(50) NOT NULL DEFAULT 'en_attente',
   `date` datetime NOT NULL,

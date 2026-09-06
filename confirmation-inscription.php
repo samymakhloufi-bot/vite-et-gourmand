@@ -44,7 +44,6 @@ if (is_string($token) && preg_match('/^[a-f0-9]{64}$/', $token)) {
                     <?php else: ?>
                         <h2>Lien invalide ou expiré</h2>
                         <p>Ce lien de confirmation a déjà été utilisé ou sa durée de validité de 24 heures est dépassée.</p>
-                        <p>Vous pouvez soumettre à nouveau le formulaire d'inscription avec la même adresse pour recevoir un nouveau lien.</p>
                         <div class="succes-btn">
                             <a href="<?= BASE_URL ?>/inscription.php" class="btn-submit">Recommencer l'inscription</a>
                         </div>

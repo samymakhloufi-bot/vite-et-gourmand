@@ -28,7 +28,7 @@ class UserRepository{
         }
 
     public function findByRememberToken(string $token): ?User{
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE remember_token = ?");
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE remember_token = ? AND actif = 1");
         $stmt->execute([$token]);
         $data = $stmt ->fetch(PDO::FETCH_ASSOC);
         return $this->hydrate($data);
@@ -67,7 +67,7 @@ class UserRepository{
         $actif = 0; //compte inactif par défaut
         $tokenHash = hash('sha256', $token);
 
-        $stmt = $this->pdo->prepare("INSERT INTO users(nom,prenom,tel,adresse,ville,code_postal,email,password,role, actif, registration_token,registration_token_expiry)VALUES(?,?,?,?,?,?,?,?,'user',?, ?,DATE_ADD(NOW(), INTERVAL 1 HOUR))");
+        $stmt = $this->pdo->prepare("INSERT INTO users(nom,prenom,tel,adresse,ville,code_postal,email,password,role, actif, registration_token,registration_token_expiry)VALUES(?,?,?,?,?,?,?,?,'user',?, ?,DATE_ADD(NOW(), INTERVAL 24 HOUR))");
         $stmt->execute([$nom, $prenom, $tel, $adresse, $ville,$codePostal,$email,$hashedPassword,$actif,$tokenHash]);
     }
 
@@ -105,7 +105,7 @@ class UserRepository{
 
         $stmt = $this->pdo->prepare(
             "UPDATE users
-            SET reset_token = ?, reset_token_expiry = DATE_ADD(NOW(), INTERVAL 1 HOUR)
+            SET reset_token = ?, reset_token_expiry = DATE_ADD(NOW(), INTERVAL 24 HOUR)
             WHERE id_user = ? AND actif = 1"
         );
         $stmt->execute([$tokenHash, $id]);
