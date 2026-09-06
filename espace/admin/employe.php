@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../classes/Repository/UserRepository.php';
-require_once __DIR__ . '/includes/password.php';
+require_once __DIR__ . '/../../includes/password.php';
 
 $userRepository = new UserRepository($pdo);
 

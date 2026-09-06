@@ -51,6 +51,22 @@
                     <div class="val editable" contenteditable="true" 
                         data-id="<?= $menu['Id_menu'] ?>" data-field="prix"><?= $menu['prix_menu'] ?></div>
                 </div>
+
+                <?php if ($stock !== null): ?>
+                    <div class="field">
+                        <label for="stock-<?= $menu['Id_menu'] ?>">
+                            Stock restant
+                        </label>
+
+                        <div id="stock-<?= $menu['Id_menu'] ?>" class="val editable" contenteditable="true" data-id="<?= $menu['Id_menu'] ?>" data-field="quantite_restante" >
+                            <?= $stock ?>
+                        </div>
+
+                        <span class="menu-stock <?= $stock <= 3 ? 'stock-low' : '' ?>">
+                            <?= $stock > 0 ? $stock . ' restant(s)' : 'Épuisé' ?>
+                        </span>
+                    </div>
+                <?php endif; ?>
                 
                 <div class="field full">
                     <label for="Description du chef">Description chef</label>

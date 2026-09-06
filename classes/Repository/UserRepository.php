@@ -51,7 +51,7 @@ class UserRepository{
     }
 
     public function save(User $user): void{
-        $stmt = $this->pdo->prepare("UPDATE users SET nom = ?, prenom = ?, tel = ?, adresse = ?, ville = ?, code_postal = ? WHERE id_users = ? ");
+        $stmt = $this->pdo->prepare("UPDATE users SET nom = ?, prenom = ?, tel = ?, adresse = ?, ville = ?, code_postal = ? WHERE id_user = ? ");
         $stmt->execute([
             $user->getNom(),
             $user->getPrenom(),
@@ -63,9 +63,24 @@ class UserRepository{
         ]);
     }
 
-    public function create(string $nom, string $prenom, string $tel, string $adresse, string $ville, string $codePostal, string $email, string $hashedPassword): void{
-        $stmt = $this->pdo->prepare("INSERT INTO users(nom,prenom,tel,adresse,ville,code_postal,email,password,role)VALUES(?,?,?,?,?,?,?,?,'user')");
-        $stmt->execute([$nom, $prenom, $tel, $adresse, $ville,$codePostal,$email,$hashedPassword]);
+    public function create(string $nom, string $prenom, string $tel, string $adresse, string $ville, string $codePostal, string $email, string $hashedPassword, string $token): void{
+        $actif = 0; //compte inactif par défaut
+        $tokenHash = hash('sha256', $token);
+
+        $stmt = $this->pdo->prepare("INSERT INTO users(nom,prenom,tel,adresse,ville,code_postal,email,password,role, actif, registration_token,registration_token_expiry)VALUES(?,?,?,?,?,?,?,?,'user',?, ?,DATE_ADD(NOW(), INTERVAL 1 HOUR))");
+        $stmt->execute([$nom, $prenom, $tel, $adresse, $ville,$codePostal,$email,$hashedPassword,$actif,$tokenHash]);
+    }
+
+    public function confirmRegistration(string $token): bool{
+        $tokenHash = hash('sha256', $token);
+
+        $stmt = $this->pdo->prepare("UPDATE users SET actif = 1, registration_token = NULL, registration_token_expiry = NULL 
+                WHERE registration_token = ?
+                AND registration_token_expiry > NOW() 
+                AND actif = 0
+                AND role = 'user'");
+        $stmt->execute([$tokenHash]);
+        return $stmt->rowCount() === 1;
     }
 
     public function updatePassword(int $id, string $hashedPassword):void{

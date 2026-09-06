@@ -27,9 +27,8 @@ require_once '../login.php'
                     </svg>
                 </div>
                 
-                    <h2>Votre inscription a été réussie !</h2>
-                    <p>Votre compte a été créé avec succés. <br>
-                    Vous pouvez maintenant vous connecter à votre compte.</p>
+                    <h2>Votre pré-inscription a été réussie !</h2>
+                    <p>Veuillez confirmer votre adresse email.</p>
                     
                     <div class="succes-progress">
                         <div class="succes-progress-bar" id="bar"></div>

@@ -1,83 +1,187 @@
-<?php 
-require_once './login.php';
-require_once './vendor/autoload.php';
-require_once './classes/Repository/UserRepository.php';
+<?php
+
+require_once __DIR__ . '/login.php';
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/classes/Repository/UserRepository.php';
 require_once __DIR__ . '/includes/password.php';
 
-$message = "";
+$message = '';
 $activePage = 'Inscription';
+
 $userRepository = new UserRepository($pdo);
 
-if (isset($_POST['inscription'])) {
-    if (!csrf_verify($_POST['csrf_token'] ?? null)) {
-        $message = "Votre session a expiré, veuillez réessayer.";
-    } else {
-        $name        = trim($_POST['name']);
-        $firstname   = trim($_POST['firstname']);
-        $phone       = trim($_POST['tel']);
-        $address     = trim($_POST['address']);
-        $city        = trim($_POST['city']);
-        $postal_code = trim($_POST['postal_code']);
-        $email       = trim($_POST['email']);
-        $password    = trim($_POST['password']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inscription'])) {
 
-        if ($userRepository->emailExists($email)) {
-            $message = "Cet email est déjà utilisé. Veuillez en choisir un autre.";
+    if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+        $message = 'Votre session a expiré, veuillez réessayer.';
+    } else {
+        $name = trim($_POST['name'] ?? '');
+        $firstname = trim($_POST['firstname'] ?? '');
+        $phone = trim($_POST['tel'] ?? '');
+        $address = trim($_POST['address'] ?? '');
+        $city = trim($_POST['city'] ?? '');
+        $postalCode = trim($_POST['postal_code'] ?? '');
+        $email = strtolower(trim($_POST['email'] ?? ''));
+        $password = $_POST['password'] ?? '';
+        $passwordConfirm = $_POST['password-confirm'] ?? '';
+
+        if (
+            $name === '' ||
+            $firstname === '' ||
+            $phone === '' ||
+            $address === '' ||
+            $city === '' ||
+            $postalCode === '' ||
+            $email === '' ||
+            $password === ''
+        ) {
+            $message = 'Veuillez remplir tous les champs.';
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $message = 'Veuillez saisir une adresse e-mail valide.';
         } elseif (($passwordError = password_validation_error($password)) !== null) {
             $message = $passwordError;
+        } elseif ($password !== $passwordConfirm) {
+            $message = 'Les mots de passe ne correspondent pas.';
+        } elseif ($userRepository->emailExists($email)) {
+            $message = 'Cette adresse e-mail est déjà utilisée.';
         } else {
-            $mdp_hashed = password_hash($password, PASSWORD_DEFAULT);
-            $userRepository->create($name, $firstname, $phone, $address, $city, $postal_code, $email, $mdp_hashed);
+            // Token brut envoyé dans l’e-mail.
+            $token = bin2hex(random_bytes(32));
 
-            // Mail de bienvenue
-            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+            // Le mot de passe est haché avant son stockage.
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
             try {
+                $userRepository->create(
+                    $name,
+                    $firstname,
+                    $phone,
+                    $address,
+                    $city,
+                    $postalCode,
+                    $email,
+                    $hashedPassword,
+                    $token
+                );
+
+                $confirmationLink =
+                    rtrim(BASE_URL, '/') .
+                    '/confirmation-inscription.php?token=' .
+                    urlencode($token);
+
+                $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+
                 $mail->isSMTP();
-                $mail->Host       = 'smtp.gmail.com';
-                $mail->SMTPAuth   = true;
-                $mail->Username   = 'samymakhloufi@gmail.com';
-                $mail->Password   = MAIL_PASS;
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'samymakhloufi@gmail.com';
+                $mail->Password = MAIL_PASS;
                 $mail->SMTPSecure = 'tls';
-                $mail->Port       = 587;
-                $mail->CharSet    = 'UTF-8';
-                $mail->setFrom('samymakhloufi@gmail.com', 'Vite et Gourmand');
-                $mail->addAddress($email);
-                $mail->Subject = 'Bienvenue chez Vite&Gourmand 🍽️ Votre compte est activé';
+                $mail->Port = 587;
+                $mail->CharSet = 'UTF-8';
+
+                $mail->setFrom(
+                    'samymakhloufi@gmail.com',
+                    'Vite & Gourmand'
+                );
+
+                $mail->addAddress(
+                    $email,
+                    $firstname . ' ' . $name
+                );
+
+                $safeFirstname = htmlspecialchars(
+                    $firstname,
+                    ENT_QUOTES,
+                    'UTF-8'
+                );
+
+                $safeConfirmationLink = htmlspecialchars(
+                    $confirmationLink,
+                    ENT_QUOTES,
+                    'UTF-8'
+                );
+
+                $mail->Subject =
+                    'Confirmez votre inscription chez Vite & Gourmand';
+
                 $mail->isHTML(true);
-                $mail->Body = "<div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;'>
-            <h2 style='color: #d9534f;'>Bonjour " . htmlspecialchars($firstname) . ",</h2>
-            <p>Toute l'équipe de <strong>Vite & Gourmand</strong> est ravie de vous compter parmi ses nouveaux clients ! Votre compte a bien été créé avec succès.</p>
-            <p>Que ce soit pour un déjeuner sur le pouce, un repas de famille ou un événement professionnel, nous mettons tout en œuvre pour vous régaler avec des plats savoureux, cuisinés avec soin et livrés en un clin d'œil.</p>
-        
-            <h3 style='color: #5bc0de;'>Vos avantages en un coup d'œil :</h3>
-            <ul>
-                <li><strong>Commandes simplifiées :</strong> Enregistrez vos adresses et vos préférences pour commander encore plus vite.</li>
-                <li><strong>Historique clair :</strong> Retrouvez toutes vos factures et vos anciens menus en un clic.</li>
-                <li><strong>Offres exclusives :</strong> Soyez le premier informé de nos nouvelles cartes saisonnières et de nos promotions.</li>
-            </ul>
 
-            <hr style='border: 0; border-top: 1px solid #eee; margin: 20px 0;'>
-        
-            <div style='background-color: #f9f9f9; padding: 15px; border-left: 4px solid #5bc0de; margin-bottom: 20px;'>
-                <strong>Besoin d'aide ou d'un devis sur-mesure ?</strong><br>
-                Notre équipe reste à votre entière disposition pour adapter nos menus à vos envies ou vos contraintes alimentaires. N'hésitez pas à nous contacter directement depuis votre espace client.
-            </div>
-        
-            <p>À très vite pour votre prochaine dégustation !</p>
-            <p><strong>L'équipe de Vite & Gourmand</strong><br>
-            <a href='https://www.viteetgourmand.fr' style='color: #d9534f; text-decoration: none;'>Visiter notre application</a></p>
-        </div>
-        ";
+                $mail->Body = "
+                    <div style='font-family: Arial, sans-serif;
+                                line-height: 1.6;
+                                color: #333;
+                                max-width: 600px;
+                                margin: 0 auto;'>
+
+                        <h2 style='color: #7D241A;'>
+                            Bonjour {$safeFirstname},
+                        </h2>
+
+                        <p>
+                            Votre pré-inscription chez
+                            <strong>Vite & Gourmand</strong>
+                            a bien été enregistrée.
+                        </p>
+
+                        <p>
+                            Cliquez sur le bouton suivant pour confirmer
+                            votre adresse e-mail et activer votre compte :
+                        </p>
+
+                        <p style='text-align: center; margin: 30px 0;'>
+                            <a href='{$safeConfirmationLink}'
+                               style='background: #7D241A;
+                                      color: white;
+                                      padding: 12px 22px;
+                                      border-radius: 5px;
+                                      text-decoration: none;'>
+                                Confirmer mon inscription
+                            </a>
+                        </p>
+
+                        <p>
+                            Ce lien est valable pendant
+                            <strong>1 heure</strong>
+                            et ne peut être utilisé qu'une seule fois.
+                        </p>
+
+                        <p>
+                            Si vous n'êtes pas à l'origine de cette demande,
+                            vous pouvez ignorer cet e-mail.
+                        </p>
+
+                        <p>
+                            Cordialement,<br>
+                            <strong>L'équipe Vite & Gourmand</strong>
+                        </p>
+                    </div>
+                ";
+
+                $mail->AltBody =
+                    "Confirmez votre inscription : {$confirmationLink} " .
+                    "(lien valable pendant 1 heure).";
+
                 $mail->send();
-            } catch (Exception $e) {}
 
-            header('Location: '. BASE_URL .'/success-page/inscription-succes.php');
-            exit();
+                header(
+                    'Location: ' .
+                    BASE_URL .
+                    '/success-page/inscription-succes.php'
+                );
+                exit;
+            } catch (Throwable $e) {
+                error_log(
+                    'Erreur inscription : ' . $e->getMessage()
+                );
+
+                $message =
+                    "Impossible de terminer l'inscription pour le moment.";
+            }
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
     
@@ -103,6 +207,9 @@ if (isset($_POST['inscription'])) {
                         <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <fieldset>
                             <h3>Inscription</h3>
+                            <?php if ($message) : ?>
+                                <p class="message-erreur" role="alert"><?= htmlspecialchars($message) ?></p>
+                            <?php endif; ?>
                             <div>
                                 <label for="name">Nom :</label>
                                 <input type="text" id="name" name="name" required>
@@ -130,9 +237,6 @@ if (isset($_POST['inscription'])) {
                             <div>
                                 <label for="postal_code">Code Postal :</label>
                                 <input type="text" id="postal_code" name="postal_code" required maxlength="5" >
-                                <?php if ($message) : ?>
-                                <p class="message-erreur"><?php echo htmlspecialchars($message); ?></p>
-                                <?php endif; ?>
                             </div>
                         
                             <div>
@@ -143,7 +247,7 @@ if (isset($_POST['inscription'])) {
                             <div>
                                 <label for="password">Mot de passe :</label>
                                 <div class="password-wrapper-sub">
-                                    <input type="password" id="password" name="password" required >
+                                    <input type="password" id="password" name="password" minlength="10" maxlength="255" autocomplete="new-password" required>
                                     
                                         <button type="button" id="toggle-password" class="btn-eye">
                                             <!-- Oeil ouvert -->
@@ -155,6 +259,11 @@ if (isset($_POST['inscription'])) {
                                         </button>
                                         
                                 </div>
+                            </div>
+
+                            <div>
+                                <label for="password-confirm">Confirmez le mot de passe :</label>
+                                <input type="password" id="password-confirm" name="password-confirm" minlength="10" maxlength="255" autocomplete="new-password" required>
                             </div>
 
                             

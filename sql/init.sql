@@ -223,17 +223,19 @@ CREATE TABLE `users` (
   `actif` tinyint(1) NOT NULL DEFAULT '1',
   `remember_token` varchar(64) DEFAULT NULL,
   `reset_token` varchar(64) DEFAULT NULL,
-  `reset_token_expiry` datetime DEFAULT NULL
+  `reset_token_expiry` datetime DEFAULT NULL,
+  `registration_token` varchar(64) DEFAULT NULL,
+  `registration_token_expiry` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id_user`, `nom`, `prenom`, `email`, `password`, `tel`, `code_postal`, `adresse`, `ville`, `complement_adresse`, `created_at`, `role`, `actif`, `remember_token`, `reset_token`, `reset_token_expiry`) VALUES
-(1, 'Nom_admin', 'Prénom_admin', 'admin@vite-et-gourmand.fr', '$2y$10$j.UcB3mTfgkgABklHECaz.bWXp2gS2H2z2KPYn6dZy6zf5HoshOji', '01.01.01.01.01', '99999', 'rue de l\'adminstrateur', 'Administrateur', NULL, '2026-06-22 11:27:26', 'admin', 1, '94ec2a93ac81312e53f550a916aea2603da45038f08e635bf4f6a0cc7c4155b8', NULL, NULL),
-(2, 'Nom_employé', 'Prénom_employé', 'employe@vite-et-gourmand.fr', '$2y$10$PzpLB0Ad0YaqV309I/ftieoP9R85rI5JZK1LkTu/6nHuyqUvH52CO', NULL, NULL, NULL, NULL, NULL, '2026-06-22 11:28:42', 'employe', 1, NULL, NULL, NULL),
-(3, 'Nom_user', 'Prénom_user', 'user@vite-et-gourmand.fr', '$2y$10$F1vqYg0D15spzk4TlokmFeRbzAC9086WqVlwmohC1mLFgYAkasbrW', '02.02.02.02.02', '99999', 'chez l\'utilisateur', 'User', NULL, '2026-06-22 11:30:36', 'user', 1, NULL, NULL, NULL);
+INSERT INTO `users` (`id_user`, `nom`, `prenom`, `email`, `password`, `tel`, `code_postal`, `adresse`, `ville`, `complement_adresse`, `created_at`, `role`, `actif`, `remember_token`, `reset_token`, `reset_token_expiry`, `registration_token`, `registration_token_expiry`) VALUES
+(1, 'Nom_admin', 'Prénom_admin', 'admin@vite-et-gourmand.fr', '$2y$10$j.UcB3mTfgkgABklHECaz.bWXp2gS2H2z2KPYn6dZy6zf5HoshOji', '01.01.01.01.01', '99999', 'rue de l\'adminstrateur', 'Administrateur', NULL, '2026-06-22 11:27:26', 'admin', 1, '94ec2a93ac81312e53f550a916aea2603da45038f08e635bf4f6a0cc7c4155b8', NULL, NULL, NULL, NULL),
+(2, 'Nom_employé', 'Prénom_employé', 'employe@vite-et-gourmand.fr', '$2y$10$PzpLB0Ad0YaqV309I/ftieoP9R85rI5JZK1LkTu/6nHuyqUvH52CO', NULL, NULL, NULL, NULL, NULL, '2026-06-22 11:28:42', 'employe', 1, NULL, NULL, NULL, NULL),
+(3, 'Nom_user', 'Prénom_user', 'user@vite-et-gourmand.fr', '$2y$10$F1vqYg0D15spzk4TlokmFeRbzAC9086WqVlwmohC1mLFgYAkasbrW', '02.02.02.02.02', '99999', 'chez l\'utilisateur', 'User', NULL, '2026-06-22 11:30:36', 'user', 1, NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables

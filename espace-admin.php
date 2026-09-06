@@ -99,7 +99,7 @@ $avis = $avisRepository->findAllAvis();
         </main>
 
         <?php include './includes/footer.php' ;?>
-        <script src="./js/espace-client.js"></script>
+        <script src="<?= BASE_URL ?>/js/espace-client.js"></script>
         <script src="<?= BASE_URL ?>/js/espace-admin.js"></script>
         <script src="<?= BASE_URL ?>/js/espace-employe.js"></script>
     </body>
