@@ -232,6 +232,12 @@ if (isset($_POST['commander'])) {
                                     <tr>
                                         <th scope="row"><?= htmlspecialchars($menu_nom) ?></th>
                                         <td><?= $nb_pers ?></td>
+                                        <?php 
+                                            if ($nb_pers < $menu->getNbPersoMin()) {
+                                            header('Location: ' . BASE_URL . '/nos-menus.php?error=quantite');
+                                            exit;
+                                            }
+                                        ?>
                                         <td><?= $menu_prix ?> €</td>
                                     </tr>
                                 <?php if($nb_pers >= $nb_pers_min + 5):?>                                    

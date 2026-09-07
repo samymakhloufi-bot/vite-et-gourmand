@@ -52,4 +52,4 @@ services:
 volumes:
   db_data:
   mongo_data:
-  vendor_data:
+  vendor_data: /var/www/html/vendor

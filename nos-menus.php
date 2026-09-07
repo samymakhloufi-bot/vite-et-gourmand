@@ -73,18 +73,13 @@ $menus = $menuRepository->findAll();
 
             <section class="menu-grid">
                 <?php foreach ($menus as $menu): ?>
-                    
+
                    <?php 
                         $nb_pers = 0;
                         $moisActuel = (int)date('m');
-                        $disponibleSaison =
-                            $moisActuel >= $menu->getMoisDebut() &&
-                            $moisActuel <= $menu->getMoisFin();
+                        $disponibleSaison = $moisActuel >= $menu->getMoisDebut() && $moisActuel <= $menu->getMoisFin();
 
                         $stockDisponible = $menu->getStock() === null || $menu->getStock() >= $menu->getNbPersoMin();
-                        $stockDisponible =
-                            $menu->getStock() === null ||
-                            $menu->getStock() >= $menu->getNbPersoMin();
                     ?>
 
                 <article class="menu-card"

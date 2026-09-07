@@ -15,19 +15,16 @@ radioDiv.forEach(Option => {
 /*--------------------------------------------
     button counter val order
 ---------------------------------------------*/
-function change(btn, dir){
+function change(btn, dir) {
     const input = btn.parentElement.querySelector('.counter-val');
-    const val = parseInt(input.value) + dir;
-    if (val >= 1 && val <= 999) input.value = val;
-}
-const formCommande = document.getElementById('form-commande');
-    if(formCommande){
-        document.getElementById('form-commande').addEventListener('submit', function() {
-    
-        const btn = this.querySelector('.btn-direct-order');
-        btn.disabled = true;
-        btn.innerText = "Envoi en cours...";
-        });
+    const minimum = parseInt(input.min, 10) || 1;
+    const valeur = (parseInt(input.value, 10) || minimum) + dir;
+
+    if (valeur >= minimum) {
+        input.value = valeur;
+    }
+
+    verifierStock(input);
 }
 
 /*--------------------------------------------
@@ -71,17 +68,7 @@ function verifierStock(input) {
     return true;
 }
 
-function change(btn, dir) {
-    const input = btn.parentElement.querySelector('.counter-val');
-    const minimum = parseInt(input.min, 10) || 1;
-    const valeur = (parseInt(input.value, 10) || minimum) + dir;
 
-    if (valeur >= minimum) {
-        input.value = valeur;
-    }
-
-    verifierStock(input);
-}
 
 document.querySelectorAll('.form-menu-order').forEach(form => {
     const input = form.querySelector('input[name="nb_pers"]');

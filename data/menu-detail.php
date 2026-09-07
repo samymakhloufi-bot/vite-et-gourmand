@@ -84,20 +84,28 @@ if (!$menu) {
 
             </div>
 
-            <form id="form-commande" action="../achat.php" method="POST">
+            <form id="form-commande" class="form-menu-order" action="../achat.php" method="POST">
+                
                 <input type="hidden" name="menu_nom" value="<?= htmlspecialchars($menu->getNom()) ?>">
                 <input type="hidden" name="menu_id" value="<?= $menu->getId() ?>">
+                
                 <div class="nb-person-menu">
                     <span>NOMBRE DE <br>PERSONNES</span>
+
                     <div class="input-nb-perso">
                         <button type="button" class="counter-btn" onclick="change(this, -1)" aria-label="Diminuer le nombre de personnes">-</button>
-                        <input type="number" class="counter-val" name="nb_pers" value="1" min="1">
+                        <input type="number" class="counter-val" name="nb_pers" value="<?= $menu->getNbPersoMin() ?>" min="<?= $menu->getNbPersoMin() ?>" <?= $menu->getStock() !== null ? 'max="' . $menu->getStock() . '"' : '' ?> required>
                         <button type="button" class="counter-btn" onclick="change(this, 1)" aria-label="Augmenter le nombre de personnes">+</button>
                     </div>
+
                 </div>
+                
                 <div class="order-menu-btn">
-                    <button type="submit" class="btn-menu-order">Commander</button>
+                     <button type="submit" class="btn-menu-order" <?= $menu->getStock() !== null && $menu->getStock() < $menu->getNbPersoMin() ? 'disabled' : '' ?>>
+                        <?= $menu->getStock() !== null && $menu->getStock() < $menu->getNbPersoMin() ? 'Épuisé' : 'Commander' ?>
+                    </button>
                 </div>
+
             </form>
         </div>
     </article>
