@@ -76,43 +76,74 @@ function toggleCmd(header) {
 /*----------------------------------
     ENREGISTREMENT STATUT COMMANDE
 ----------------------------------*/
-
 function saveStatut(id, btn) {
-    const statut = document.getElementById('sel-' + id).value;
-    const toast  = document.getElementById('toast-' + id);
+    const select = document.getElementById('sel-' + id);
+    const statut = select.value;
+    const toast = document.getElementById('toast-' + id);
+    const card = btn.closest('.client-card');
 
-    fetch(BASE_URL +'/traitement/update-status.php', {
+    fetch(BASE_URL + '/traitement/update-status.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token' : CSRF_TOKEN },
-        body: JSON.stringify({ id_commande: id, statut })
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': CSRF_TOKEN
+        },
+        body: JSON.stringify({
+            id_commande: id,
+            statut: statut
+        })
     })
-    .then(res => res.json())
+    .then(response => response.json())
     .then(data => {
-        if (data.success) {
-            btn.style.background = '#1D9E75';
-            btn.textContent = 'Enregistré';
-            if (toast) { toast.textContent = 'Statut mis à jour'; toast.style.color = '#1D9E75'; }
-            const card = btn.closest('.client-card');
-            if (card) {
-                card.dataset.statut = statut;
-                const badge = card.querySelector('.order-statut')
-                if (badge) {
-                    badge.className = 'order-statut order-statut--' + statut;
-                    badge.textContent = select.options[select.selectedIndex].text;
-                }
-        } else {
-            btn.style.background = '#E24B4A';
-            btn.textContent = 'Erreur';
+        if (!data.success) {
+            throw new Error(
+                data.error || 'Erreur lors de la mise à jour.'
+            );
         }
+
+        btn.style.background = '#1D9E75';
+        btn.textContent = 'Enregistré';
+
+        if (toast) {
+            toast.textContent = 'Statut mis à jour';
+            toast.style.color = '#1D9E75';
+        }
+
+        if (card) {
+            card.dataset.statut = statut;
+
+            const badge = card.querySelector('.order-statut');
+
+            if (badge) {
+                badge.className =
+                    'order-statut order-statut--' + statut;
+
+                badge.textContent =
+                    select.options[select.selectedIndex].text;
+            }
+        }
+
         setTimeout(() => {
             btn.style.background = '';
             btn.textContent = 'Enregistrer';
-            if (toast) toast.textContent = '';
+
+            if (toast) {
+                toast.textContent = '';
+            }
         }, 2000);
+    })
+    .catch(error => {
+        console.error('Erreur saveStatut :', error);
+
+        btn.style.background = '#E24B4A';
+        btn.textContent = 'Erreur';
+
+        if (toast) {
+            toast.textContent = error.message;
+            toast.style.color = '#E24B4A';
         }
     });
 }
-
 /*----------------------------------
     CHECK ANNULATION CMD
 ----------------------------------*/
@@ -143,10 +174,10 @@ function confirmerAnnulation(id) {
         return;
     }
 
-    fetch(BASE_URL + '/traitement/annuler-commande.php', {
+    fetch(BASE_URL + '/traitement/annul-commande.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id_commande: id, mode_contact: mode, motif })
+        body: JSON.stringify({ id_commande: id, mode_contact: mode, motif: motif })
     })
     .then(res => res.json())
     .then(data => {

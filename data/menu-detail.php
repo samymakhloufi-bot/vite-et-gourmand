@@ -86,7 +86,6 @@ if (!$menu) {
 
             <form id="form-commande" action="../achat.php" method="POST">
                 <input type="hidden" name="menu_nom" value="<?= htmlspecialchars($menu->getNom()) ?>">
-                <input type="hidden" name="nb_pers" value="1">
                 <input type="hidden" name="menu_id" value="<?= $menu->getId() ?>">
                 <div class="nb-person-menu">
                     <span>NOMBRE DE <br>PERSONNES</span>

@@ -20,6 +20,17 @@ $nb_pers = (int)($_POST['nb_pers'] ?? $_SESSION['nb_pers'] ?? 1);
 $menuRepository = new MenuRepository($pdo);
 $menu = $menuRepository->findById((int)$menu_id);
 
+if (!$menu) {header('Location: ' . BASE_URL . '/nos-menus.php?error=menu');
+    exit;
+    }
+
+$stock = $menu->getStock();
+
+if ($stock !== null && $nb_pers > $stock) {
+    header('Location: ' . BASE_URL . '/nos-menus.php?error=stock&disponible=' .$stock);
+    exit;
+}
+
 $userRepository = new UserRepository($pdo);
 $user = $userRepository->findById((int)$_SESSION['user_id']);
 

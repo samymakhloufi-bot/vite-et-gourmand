@@ -5,7 +5,8 @@ require_once __DIR__ . '/classes/Repository/MenuRepository.php';
 
 $menuRepository = new MenuRepository($pdo);
 $menus = $menuRepository->findAll();
-$nb_pers = 0;
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -72,6 +73,20 @@ $nb_pers = 0;
 
             <section class="menu-grid">
                 <?php foreach ($menus as $menu): ?>
+                    
+                   <?php 
+                        $nb_pers = 0;
+                        $moisActuel = (int)date('m');
+                        $disponibleSaison =
+                            $moisActuel >= $menu->getMoisDebut() &&
+                            $moisActuel <= $menu->getMoisFin();
+
+                        $stockDisponible = $menu->getStock() === null || $menu->getStock() >= $menu->getNbPersoMin();
+                        $stockDisponible =
+                            $menu->getStock() === null ||
+                            $menu->getStock() >= $menu->getNbPersoMin();
+                    ?>
+
                 <article class="menu-card"
                     data-regime="<?= htmlspecialchars($menu->getRegime()) ?>"
                     data-theme="<?= htmlspecialchars($menu->getTheme()) ?>"
@@ -105,27 +120,29 @@ $nb_pers = 0;
                     </div>
                                 
                     <div>
-                        <form action="./achat.php" method="POST">
+                        <form action="./achat.php" method="POST" class="form-menu-order" data-stock="<?= $menu->getStock() ?? '' ?>">
                             <input type="hidden" name="menu_id" value="<?= $menu->getId() ?>">
                             <input type="hidden" name="menu_nom" value="<?= htmlspecialchars($menu->getNom()) ?>">
-                            <input type="hidden" name="nb_pers" value="<?= $nb_pers ?>">
                                 
                             <div class="menu-card-footer">
                                 <div class="nb-person">
                                     <span>NB.<br>PERSONNES</span>
                                     <div class="input-nb-person">
                                         <button type="button" class="counter-btn" onclick="change(this, -1)" aria-label="Diminuer le nombre de personnes">-</button>
-                                        <input type="number" class="counter-val" name="nb_pers" value="1" min="<?= $menu->getNbPersoMin() ?>">
+                                        <input type="number" class="counter-val" name="nb_pers" value="<?= $menu->getNbPersoMin() ?>" min="<?= $menu->getNbPersoMin() ?? 1 ?>" <?= $menu->getStock() !== null ? 'max="' . $menu->getStock() . '"' : '' ?> required>
                                         <button type="button" class="counter-btn" onclick="change(this, 1)" aria-label="Augmenter le nombre de personnes">+</button>
+                                        <p class="stock-error message-erreur" hidden></p>
                                     </div>
                                 </div>
                                 <div class="btn-footer-card-menu">
-                                    <?php $disponible = (int)date('m');
-                                        if(($disponible >= $menu->getMoisDebut()) && ($disponible <= $menu->getMoisFin())): ?>
-                                        <button type="submit" class="btn-direct-order">Commander</button>
-                                    <?php else: ?>
-                                        <button type="submit" class="btn-direct-order" disabled>Indisponible</button>
-                                    <?php endif; ?>
+                                    <?php 
+                                            if ($disponibleSaison && $stockDisponible): ?>
+                                                <button type="submit" class="btn-direct-order">Commander</button>
+                                            <?php elseif (!$stockDisponible): ?>
+                                                <button type="button" class="btn-direct-order" disabled>Épuisé</button>
+                                            <?php else: ?>
+                                                <button type="button" class="btn-direct-order" disabled>Indisponible</button>
+                                    <?php endif;?>
                                     
                                     <a href="./data/menu-detail.php?id=<?= $menu->getLink() ?>" class="btn-details">Détails</a>
                                 </div>
