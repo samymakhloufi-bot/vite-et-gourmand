@@ -31,6 +31,12 @@ if ($stock !== null && $nb_pers > $stock) {
     exit;
 }
 
+if ($nb_pers < $menu->getNbPersoMin()) {
+    header('Location: ' . BASE_URL . '/nos-menus.php?error=quantite');
+    exit;
+}
+                                        
+
 $userRepository = new UserRepository($pdo);
 $user = $userRepository->findById((int)$_SESSION['user_id']);
 
@@ -232,12 +238,7 @@ if (isset($_POST['commander'])) {
                                     <tr>
                                         <th scope="row"><?= htmlspecialchars($menu_nom) ?></th>
                                         <td><?= $nb_pers ?></td>
-                                        <?php 
-                                            if ($nb_pers < $menu->getNbPersoMin()) {
-                                            header('Location: ' . BASE_URL . '/nos-menus.php?error=quantite');
-                                            exit;
-                                            }
-                                        ?>
+                                        
                                         <td><?= $menu_prix ?> €</td>
                                     </tr>
                                 <?php if($nb_pers >= $nb_pers_min + 5):?>                                    

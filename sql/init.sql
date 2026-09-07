@@ -262,8 +262,7 @@ ALTER TABLE `commande`
 ALTER TABLE `commande_detail`
   ADD PRIMARY KEY (`Id_detail`),
   ADD KEY `Id_commande` (`Id_commande`),
-  ADD KEY `Id_menu` (`Id_menu`),
-  ADD stock_reserve TINYINT(1) NOT NULL DEFAULT '0';
+  ADD KEY `Id_menu` (`Id_menu`);
 
 --
 -- Indexes for table `horaires`
