@@ -52,7 +52,9 @@ function filtrer() {
         if (regime && cardRegime !== regime) visible = false;
 
         // Filtre nb personnes
-        if(!isNaN(personnes) && cardNbMax < personnes) visible = false;
+        if(!isNaN(personnes) && cardNbMax > personnes) visible = false;
+
+        //Filtre prix
         if(!isNaN(prix) && cardPrix > prix) visible = false;
 
         //Filtre prix fouchette

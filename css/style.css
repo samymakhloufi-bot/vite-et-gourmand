@@ -702,7 +702,7 @@ button >*{
     text-decoration: underline;
     background-color: var(--creme);
     color: var(--bordeaux-dark);
-    transition: background 0.5s;
+    transition: background 0.5s; 
     transform: translateY(-1px);
 }
 
