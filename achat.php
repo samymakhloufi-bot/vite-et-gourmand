@@ -4,6 +4,8 @@
     require_once './classes/Repository/MenuRepository.php';
     require_once './classes/Repository/UserRepository.php';
 
+$message = '';
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: ' . BASE_URL . '/connexion.php?redirect=nos-menus.php');
     exit();
@@ -74,16 +76,28 @@ if (isset($_POST['commander'])) {
         exit();
     }
 
-    $datetime_final = $date . ' ' . $heure . ':00';
+    $delaiCommande = (int)$menu->getDelaiCommande();
 
-    try {
-        $pdo->beginTransaction();
-        require_once __DIR__ . '/traitement/traitement-commande.php';
-    } catch (Exception $e) {
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
+    $dateLivraison = DateTimeImmutable::createFromFormat('!Y-m-d', $date);
+
+    $dateMinimum = (new DateTimeImmutable('today'))
+        ->modify("+{$delaiCommande} days");
+
+    if (!$dateLivraison || $dateLivraison < $dateMinimum) {
+        $message = "La date de livraison doit respecter le délai de {$delaiCommande} jour(s) indiqué pour ce menu.";
+    } else {
+        $datetime_final = $date . ' ' . $heure . ':00';
+
+        try {
+            $pdo->beginTransaction();
+            require_once __DIR__ . '/traitement/traitement-commande.php';
+        } catch (Exception $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+
+            $message = "Erreur lors de la transaction : " . $e->getMessage();
         }
-        $message = "Erreur lors de la transaction : " . $e->getMessage();
     }
 }
 ?>
@@ -108,6 +122,12 @@ if (isset($_POST['commander'])) {
                 
     
                     <form action="" method="post" id="form-commande">
+                        
+                        <?php if ($message !== ''): ?>
+                            <p class="message-erreur">
+                                <?= htmlspecialchars($message) ?>
+                            </p>
+                        <?php endif; ?>
                         <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <input type="hidden" name="menu_id"    value="<?= $menu_id ?>">
                         <input type="hidden" name="menu_nom"  value="<?= htmlspecialchars($menu_nom) ?>">

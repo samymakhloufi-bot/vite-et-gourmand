@@ -18,7 +18,8 @@ $datetime = $data['date_livraison'] . ' ' . $data['heure_livraison'] . ':00';
 
 
 //recalcul prix si quantite modif
-$stmt_prix = $pdo -> prepare ("SELECT m.prix_menu, m.nb_perso_min, c.frais_livraison FROM menu m
+$stmt_prix = $pdo -> prepare ("SELECT m.prix_menu, m.nb_perso_min, m.delai_commande_jours, c.frais_livraison 
+    FROM menu m
     JOIN commande_detail cd ON m.Id_menu = cd.Id_menu 
     JOIN commande c ON cd.Id_commande = c.Id_commande
     WHERE cd.Id_commande = ?");
@@ -39,17 +40,23 @@ $frais_livraison = (float)$detail_menu['frais_livraison'];
 $nouveau_prix = ($menu_prix * $quantite) * (1 -$reduction);
 $prix_total = $nouveau_prix + $frais_livraison;
 
-//délai de commande 
-$date_livraison = new DateTime($data['date_livraison']);
-$today = new DateTime();
-$diff = $today ->diff($date_livraison)->days;
+// Délai défini directement dans le menu
+$delaiCommande = (int)$detail_menu['delai_commande_jours'];
 
-$delai_min = $quantite < 10 ? 7 : ($quantite <= 50 ? 14 : 20);
+$dateLivraison = DateTimeImmutable::createFromFormat(
+    '!Y-m-d',
+    $data['date_livraison']
+);
 
-if($diff <$delai_min){
-    echo json_encode(['error' => 'Délai insuffisant : minimum '. $delai_min .' jours pour '. $quantite .' personnes']);
+$dateMinimum = (new DateTimeImmutable('today'))
+    ->modify("+{$delaiCommande} days");
+
+if (!$dateLivraison || $dateLivraison < $dateMinimum) {
+    echo json_encode([
+        'error' => "La date doit respecter le délai de {$delaiCommande} jour(s) indiqué pour ce menu."
+    ]);
     exit;
-    }
+}
 
 try {
     //verif si la cmd appartient bien à l'user

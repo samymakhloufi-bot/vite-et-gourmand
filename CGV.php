@@ -43,9 +43,9 @@ require_once './login.php';
 
                     <span>2.2 DÉLAI DE COMMANDE</span>
                     <ul>
-                        <li><b>Commande standard</b> </b>: Minimum 72h avant la livraison.</li>
-                        <li><b>Événements de plus de 50 personnes </b>: Minimum 10 jours ouvrés avant la livraison.</li>
-                        <li>Les délais sont indicatifs et peuvent varier selon la disponibilité des produits.</li>
+                        <li>Chaque menu possède son propre délai de commande, indiqué sur sa fiche.</li>
+                        <li>La date de livraison choisie doit respecter ce délai, calculé à partir du jour de la commande.</li>
+                        <li>Ce délai est contrôlé lors de la création et de la modification d'une commande.</li>
                     </ul>
 
                 </div>
